@@ -1,10 +1,37 @@
 # Session 1 — AI Foundations & Responsible AI
 
-*The "why" before the "how." Enough theory of AI to use it well, and the responsible-use discipline that runs through the whole bootcamp.*
+**Friday, September 18, 2026 · 1:00 to 4:00 pm · Amphitheater II (S4-102)**
+
+*Opens with a 45-minute quick start (accounts and environment), then the "why" before the "how." Enough theory of AI to use it well, and the responsible-use discipline that runs through the whole bootcamp.*
 
 ## Expected learning outcome
 
 Explain — at an intuition level — what LLMs/ML models are and why they hallucinate, and apply the rules for using AI responsibly in a research (and patient-data) setting.
+
+## Part 0: Quick Start, just enough environment (~45 min)
+
+*Opens day one. Replaces the long Linux session with only what you need to follow the rest of the bootcamp.*
+
+**Outcome:** every account working, a handful of commands run with confidence, and a clear picture of *where* each thing runs (your laptop, the cluster, the cloud, Foundry Connect).
+
+### Accounts and access: checklist
+
+- [ ] Foundry Connect login — <https://viafoundry.umassmed.edu/>
+- [ ] UMass Chan HPC cluster account (**required**) — [request one](https://hpc.umassmed.edu/doc/index.php?title=Accounts)
+- [ ] An AI assistant account (which one, and the approved/enterprise instance for sensitive data)
+- [ ] _TODO: any dataset access / group membership needed_
+
+### Where things run (mental model)
+
+> _TODO: one diagram — laptop ⇄ cluster ⇄ cloud ⇄ Foundry Connect. What lives where, what you touch directly._
+
+### The only CLI you need today
+
+> _TODO: keep to the essentials — `ssh`, `ls`, `cd`, `pwd`, moving/looking at files, and how to start a Foundry Connect run. Link back to the old [Session 1](../session1/session1.md) for anyone who wants the full Linux tutorial._
+
+### Setup verification
+
+> _TODO: a 2-minute "did it work?" task, e.g. log into Foundry Connect and confirm you can see a project._
 
 ## Part A — How AI actually works (intuition, math-light)
 

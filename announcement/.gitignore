@@ -1,0 +1,15 @@
+.DS_Store
+
+# Rendered / exported copies of the announcement
+*.docx
+*.pdf
+*.html
+*.eml
+
+# Recipient and mailing lists must never be committed
+recipients*
+mailing-list*
+*.csv
+
+# Local scratch drafts
+drafts-local/

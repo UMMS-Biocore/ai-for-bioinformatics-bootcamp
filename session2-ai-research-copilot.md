@@ -1,5 +1,7 @@
 # Session 2 — AI as a Research Co-pilot
 
+**Friday, September 25, 2026 · 1:00 to 4:00 pm · Amphitheater II (S4-102)**
+
 *Use AI to speed up the whole research lifecycle — without outsourcing your judgment.*
 
 ## Expected learning outcome

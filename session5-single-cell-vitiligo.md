@@ -1,5 +1,7 @@
 # Session 5 — Single-cell RNA-Seq
 
+**Friday, October 16, 2026 · 1:00 to 4:00 pm · Amphitheater I (S2-102)**
+
 *Resolution ladder, rung 2: one cell at a time. Anchored on the Garber-lab vitiligo study.*
 
 ## Expected learning outcome

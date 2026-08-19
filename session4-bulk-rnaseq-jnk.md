@@ -1,5 +1,7 @@
 # Session 4 — Bulk RNA-Seq
 
+**Friday, October 9, 2026 · 1:00 to 4:00 pm · Amphitheater II (S4-102)**
+
 *Resolution ladder, rung 1: the tissue average. Anchored on the Garber-lab hepatic JNK study.*
 
 ## Expected learning outcome

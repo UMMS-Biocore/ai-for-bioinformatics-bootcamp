@@ -1,4 +1,4 @@
-# AI for Science Bootcamp
+# AI for Bioinformatics Bootcamp
 
 *A hands-on bootcamp that pairs the **theory** of modern genomics — bulk RNA-Seq, single-cell, and spatial (Xenium/seqFISH) — with the **responsible use of AI** to accelerate research, taught through real studies from Manuel Garber's lab and run end-to-end on **Foundry Connect**.*
 
@@ -42,12 +42,28 @@ Each domain session opens by contrasting with the rung below it — that is how 
 
 ---
 
+## Schedule
+
+Six Fridays, Friday, September 18, 2026 through Friday, October 23, 2026, all 1:00 to 4:00 pm.
+
+| # | Date | Time | Location |
+|---|---|---|---|
+| 1 | Friday, September 18, 2026 | 1:00 to 4:00 pm | Amphitheater II (S4-102) |
+| 2 | Friday, September 25, 2026 | 1:00 to 4:00 pm | Amphitheater II (S4-102) |
+| 3 | Friday, October 2, 2026 | 1:00 to 4:00 pm | Amphitheater II (S4-102) |
+| 4 | Friday, October 9, 2026 | 1:00 to 4:00 pm | Amphitheater II (S4-102) |
+| 5 | Friday, October 16, 2026 | 1:00 to 4:00 pm | Amphitheater I (S2-102) |
+| 6 | Friday, October 23, 2026 | 1:00 to 4:00 pm | Amphitheater II (S4-102) |
+
+> Note the room change: **Session 5 on Fri Oct 16 is in Amphitheater I (S2-102)**, not Amphitheater II. Every other session is in Amphitheater II (S4-102).
+
+---
+
 ## Session map
 
 | # | Session | Core idea |
 |---|---|---|
-| 0 | [Quick Start](session0-quickstart.md) | Just enough environment — accounts, minimal CLI, where things run |
-| 1 | [AI Foundations & Responsible AI](session1-ai-foundations-responsible-ai.md) | How AI/LLMs work & fail; the responsible-AI block (PHI, verification, disclosure, bias) |
+| 1 | [AI Foundations & Responsible AI](session1-ai-foundations-responsible-ai.md) | Opens with the 45-min quick start (accounts, minimal CLI, where things run), then how AI/LLMs work & fail and the responsible-AI block (PHI, verification, disclosure, bias) |
 | 2 | [AI as a Research Co-pilot](session2-ai-research-copilot.md) | Speed up literature, coding, analysis, writing; prompting craft; verify-everything |
 | 3 | [Statistics & Visualization You Can Trust](session3-stats-and-visualization.md) | The shared stats + viz toolkit; AI as a stats BS-detector |
 | 4 | [Bulk RNA-Seq](session4-bulk-rnaseq-jnk.md) | Differential expression — Vernia et al. hepatic JNK study |
@@ -86,10 +102,10 @@ Each domain session opens by contrasting with the rung below it — that is how 
 
 ## Delivery
 
-Same infrastructure as the original bootcamp: markdown + slides in this repo, session recordings, and light homework. Sessions run over consecutive weeks; the capstone is optional for v1.
+Same infrastructure as the original bootcamp: markdown + slides in this repo, session recordings, and light homework. Six sessions run over six consecutive weeks; the capstone is optional for v1.
 
 ---
 
 ## How to fill this in
 
-Each session file has the same headings with `> _TODO:_` prompts. Recommended order to draft: **4 → 5 → 6** (the domain sessions carry the science), then **3** (stats/viz to support them), then **1, 2, 0**.
+Each session file has the same headings with `> _TODO:_` prompts. Recommended order to draft: **4 → 5 → 6** (the domain sessions carry the science), then **3** (stats/viz to support them), then **1, 2**.

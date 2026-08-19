@@ -1,5 +1,7 @@
 # Session 3 — Statistics & Visualization You Can Trust
 
+**Friday, October 2, 2026 · 1:00 to 4:00 pm · Amphitheater II (S4-102)**
+
 *The shared toolkit under every genomics result. Taught once here, reinforced just-in-time in Sessions 4–6.*
 
 ## Expected learning outcome

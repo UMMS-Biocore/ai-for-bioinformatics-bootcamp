@@ -1,5 +1,7 @@
 # Session 6 — Spatial: Xenium & seqFISH
 
+**Friday, October 23, 2026 · 1:00 to 4:00 pm · Amphitheater II (S4-102)**
+
 *Resolution ladder, rung 3: cells in their tissue context. Anchored on the Garber-lab photosensitive-skin study.*
 
 ## Expected learning outcome
