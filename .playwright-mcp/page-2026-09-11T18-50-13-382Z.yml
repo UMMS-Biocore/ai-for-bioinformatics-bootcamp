@@ -1,0 +1,450 @@
+- generic [active] [ref=e1]:
+  - link "Skip to the lesson" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: next‑token
+      - generic [ref=e7]: AI for Bioinformatics BootcampSession 1 · Part A
+    - button "Dark theme" [ref=e8] [cursor=pointer]
+  - generic [ref=e11]:
+    - navigation "Page sections" [ref=e12]:
+      - generic [ref=e13]: On this page
+      - list [ref=e14]:
+        - listitem [ref=e15]:
+          - link "01 One trick" [ref=e16] [cursor=pointer]:
+            - /url: "#beat-01"
+            - generic [ref=e17]: "01"
+            - text: One trick
+        - listitem [ref=e18]:
+          - link "02 Tokens" [ref=e19] [cursor=pointer]:
+            - /url: "#beat-02"
+            - generic [ref=e20]: "02"
+            - text: Tokens
+        - listitem [ref=e21]:
+          - link "03 Dice and temperature" [ref=e22] [cursor=pointer]:
+            - /url: "#beat-03"
+            - generic [ref=e23]: "03"
+            - text: Dice and temperature
+        - listitem [ref=e24]:
+          - link "04 Training" [ref=e25] [cursor=pointer]:
+            - /url: "#beat-04"
+            - generic [ref=e26]: "04"
+            - text: Training
+        - listitem [ref=e27]:
+          - link "05 The big library" [ref=e28] [cursor=pointer]:
+            - /url: "#beat-05"
+            - generic [ref=e29]: "05"
+            - text: The big library
+        - listitem [ref=e30]:
+          - link "06 Confidently wrong" [ref=e31] [cursor=pointer]:
+            - /url: "#beat-06"
+            - generic [ref=e32]: "06"
+            - text: Confidently wrong
+        - listitem [ref=e33]:
+          - link "07 Scale" [ref=e34] [cursor=pointer]:
+            - /url: "#beat-07"
+            - generic [ref=e35]: "07"
+            - text: Scale
+        - listitem [ref=e36]:
+          - link "08 Foundation models" [ref=e37] [cursor=pointer]:
+            - /url: "#beat-08"
+            - generic [ref=e38]: "08"
+            - text: Foundation models
+        - listitem [ref=e39]:
+          - link "09 Limits and the handoff" [ref=e40] [cursor=pointer]:
+            - /url: "#beat-09"
+            - generic [ref=e41]: "09"
+            - text: Limits and the handoff
+        - listitem [ref=e42]:
+          - link "10 Take it with you" [ref=e43] [cursor=pointer]:
+            - /url: "#beat-10"
+            - generic [ref=e44]: "10"
+            - text: Take it with you
+      - generic [ref=e45]:
+        - generic [ref=e46]: On stage
+        - button "Presenter mode P" [ref=e47] [cursor=pointer]:
+          - text: Presenter mode
+          - generic [ref=e48]: P
+        - paragraph [ref=e49]: Jump between sections with ← → or J K.
+    - main [ref=e50]:
+      - generic [ref=e51]:
+        - paragraph [ref=e52]: Session 1 · Part A · intuition, math-light
+        - heading "How language models actually work" [level=1] [ref=e53]
+        - paragraph [ref=e54]: "I'll spend this session on one trick: predicting the next token, over a library of text bigger than any lifetime of reading. By the end you can explain the trick to your own lab, and you know where it breaks."
+        - paragraph [ref=e55]: The toy model behind every demo you'll see is a real language model, just a very small one. It read four short paragraphs of biology text and counted which letters follow which. Nothing here is faked, which is exactly the point.
+      - generic [ref=e56]:
+        - paragraph [ref=e57]: Section 01
+        - heading "A language model is a very well-read autocomplete" [level=2] [ref=e58]
+        - paragraph [ref=e59]: Everything you'll see this fall, from code that writes itself to summaries of a thousand papers, rests on one core mechanism. The model looks at the text so far and predicts what comes next. It reads and writes one chunk at a time, over and over.
+        - paragraph [ref=e60]: That sounds too small to matter. The surprise of the last few years is what the trick looks like when you do it extremely well, over more text than any person could read in a hundred lifetimes. My goal is that you leave able to trace any answer a model gives you back to this one mechanism.
+        - generic [ref=e61]:
+          - paragraph [ref=e62]: How would you finish this sentence? Call it out, then let the model take its turn; we'll see what four short paragraphs of reading gets it.
+          - paragraph [ref=e63]: Try it. The model below read four short paragraphs of biology text and counted which letters follow which. Give it the start of a sentence, then let it take over.
+          - generic [ref=e64]:
+            - generic [ref=e65]: Start of a sentence
+            - textbox "Start of a sentence" [ref=e66]: The polymerase chain reaction
+            - button "Let it finish the thought" [ref=e67] [cursor=pointer]
+          - paragraph [ref=e69]: The continuation will appear here.
+          - paragraph [ref=e70]: It has no idea what PCR is. It still writes biology-shaped words, because four short paragraphs of counting were enough to teach it which letters tend to follow which. Hold onto the gap between what it knows and what it produces; hallucination is where that gap bites.
+      - generic [ref=e71]:
+        - paragraph [ref=e72]: Section 02
+        - heading "Text becomes numbers" [level=2] [ref=e73]
+        - paragraph [ref=e74]: "Before a model can predict anything, it has to read. Models read in chunks called tokens. A token is a common cluster of characters: everyday words get their own token, rarer words get split into pieces. By the time text reaches the model, it has become a list of numbers, one ID per token, and that list is the model's entire view of everything you typed."
+        - paragraph [ref=e75]:
+          - text: Tokenization explains a family of quirks that otherwise look like stupidity. Ask a model how many letters are in
+          - emphasis [ref=e76]: deoxyribonucleic
+          - text: "and it may miscount, because it never saw letters at all; it saw opaque ID numbers. Exact strings from the lab bench hit the same wall: the model sees token IDs, not characters, and one wrong letter changes what a reagent or a variant means. Watch what a production tokenizer does to vocabulary your lab uses daily."
+        - generic [ref=e77]:
+          - paragraph [ref=e78]:
+            - text: Where do the boundaries land inside
+            - emphasis [ref=e79]: deoxyribonucleic
+            - text: "? How many pieces? Guess before you tokenize it."
+          - paragraph [ref=e80]: Type anything, then tokenize it. Watch where the boundaries land, especially on long bio words.
+          - generic [ref=e81]:
+            - generic [ref=e82]: Text to tokenize
+            - textbox "Text to tokenize" [ref=e83]: CRISPR-Cas9 edits deoxyribonucleic acid in the cell nucleus
+            - button "Tokenize it" [ref=e84] [cursor=pointer]
+          - paragraph [ref=e86]: The tokens will appear here.
+          - paragraph [ref=e87]: Every chip is one token, with its ID number underneath. The model's whole world is sequences of these IDs. Our toy model reads one letter at a time so you can watch it work; production models read tokens. It's the same trick with a different chunk size.
+      - generic [ref=e88]:
+        - paragraph [ref=e89]: Section 03
+        - heading "A probability list, then a dice roll" [level=2] [ref=e90]
+        - paragraph [ref=e91]: "At every step, the model does one thing: it assigns a probability to every possible next token. Prediction means picking from that list, and picking, called sampling, means rolling a weighted die. That die is why the same prompt can give you a different answer tonight than it gave this morning."
+        - paragraph [ref=e92]: Temperature is the knob that reshapes the list before the roll. Low values make the model cautious and repetitive. High values make it adventurous and strange. When you use a chat app, the app hides this knob from you. When you call a model through its API, the way software talks to a model directly instead of through a chat window, you set it yourself, and it belongs in your methods section.
+        - generic [ref=e93]:
+          - paragraph [ref=e94]: Roll it twice at the same temperature. Hands up if you expect the same pick both times.
+          - paragraph [ref=e95]: Roll it yourself. The bars show the model's top candidates for the next character after "The", reshaped by the temperature you set. The highlighted one is what the die picked this time.
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - generic [ref=e98]: Temperature
+              - slider "Temperature" [ref=e99]: "0.8"
+              - status [ref=e100]: "0.8"
+            - button "Roll the dice" [ref=e101] [cursor=pointer]
+          - paragraph [ref=e103]: The probability list and the pick will appear here.
+          - paragraph [ref=e104]: Roll it several times without touching the slider. The bars stay put and the pick moves. That, in miniature, is what "the model is probabilistic" means for the reproducibility paragraph of your next paper.
+      - generic [ref=e105]:
+        - paragraph [ref=e106]: Section 04
+        - heading "Where the numbers come from" [level=2] [ref=e107]
+        - paragraph [ref=e108]: The model's probabilities come from training. During training, the model makes a guess at every position in the text, compares its guess with what the text actually says next, and nudges itself a little toward the truth. Billions of nudges later, the patterns of the library live in the model's parameters, the stored numbers training adjusts.
+        - paragraph [ref=e109]: "This is why training data matters so much: the model can only mimic the distribution of the text it was shown. Our toy corpus is four short paragraphs of biology. A frontier model's library is closer to the whole readable internet. The mechanism is identical, and so is the catch: whatever patterns sit in the library, flawed and biased and outdated alike, end up in the model. Using the trained model afterwards is called inference."
+        - generic [ref=e110]:
+          - paragraph [ref=e111]: "Call it before the drag: at fifteen percent of the library, will it write soup, English-shaped soup, or biology?"
+          - paragraph [ref=e112]: "Drag the slider to decide how much text the model has read. Then look at two things: how surprised it is by text it has never seen, and what it writes when prompted."
+          - generic [ref=e114]:
+            - generic [ref=e115]: Corpus read
+            - slider "Corpus read" [ref=e116]: "1"
+            - status [ref=e117]: 1 of 6
+          - paragraph [ref=e119]: "The falling bar is training. The changing text is the payoff: soup, then English-shaped soup, then biology-shaped sentences with the facts slightly scrambled. Scale that same loop up by a factor of a billion, and you get the frontier models."
+      - generic [ref=e120]:
+        - paragraph [ref=e121]: Section 05
+        - heading "It looks like magic because the library is bigger than a lifetime of reading" [level=2] [ref=e122]
+        - paragraph [ref=e123]: "A language model mimics the training distribution of text, and that distribution is bigger than anything any of us could read in a lifetime. So when you ask about a niche proteomics method at midnight and a fluent answer comes back, the question feels out of the ordinary to you. For the model, the question is ordinary: millions of pages in the training text say similar things."
+        - paragraph [ref=e124]: That's why the right mental picture is interpolation, not retrieval. The model itself never looks anything up. Every answer lands somewhere inside the cloud of training text, and the cloud is so vast that almost everything a scientist can think to ask already lives inside it. The exceptions live at the edge of that cloud, and the last section walks through them. (When a chat app searches the web mid-answer, that's a separate tool stapled onto the same predictor, and Part B covers where that line sits.)
+        - generic [ref=e125]:
+          - paragraph [ref=e126]: Give me the most niche question in your field, the one you're sure nobody has written down. That's the one I'll ask.
+          - paragraph [ref=e127]: "Ask something that feels out of the ordinary and watch where it lands. Each dot is a piece of text: the small dense cluster is what one careful researcher reads in a career, the vast cloud is what the model read during training."
+          - region "Comparison of one researcher's reading against the model's training data" [ref=e128]:
+            - img "A small cluster of dots representing one researcher's reading next to a vast cloud of dots representing the model's training data" [ref=e129]:
+              - generic [ref=e970]: your career of reading
+              - generic [ref=e971]: the model's training distribution
+          - generic [ref=e972]:
+            - button "Ask something that feels out of the ordinary" [ref=e973] [cursor=pointer]
+            - button "Clear the asks" [ref=e974] [cursor=pointer]
+          - paragraph [ref=e975]: "Questions that feel novel to us still land inside the cloud; that's what in-distribution means. The cloud has an edge, though: training stopped on a date, and that edge is where the exceptions begin."
+      - generic [ref=e976]:
+        - paragraph [ref=e977]: Section 06
+        - heading "Confidently wrong is the mechanism working normally" [level=2] [ref=e978]
+        - paragraph [ref=e979]: A hallucination is the model doing exactly what it was trained to do, on a question where the fluent continuation happens to be false. There's no lookup table to consult and no alarm that rings when a prediction strays past what the model actually knows. There's only the next most plausible token.
+        - paragraph [ref=e980]: "This is what makes the failure mode dangerous in research: fabricated references arrive in perfect formatting, with plausible author lists, real journals, and tidy page numbers. Two of the five references below are fabricated; the other three come straight from the bootcamp's reading list."
+        - generic [ref=e981]:
+          - paragraph [ref=e982]: A reviewer sent you this paragraph. Call each reference real or fabricated on its card below, then check your answers.
+          - paragraph [ref=e984]:
+            - text: Hepatic JNK signaling has become a central node in metabolic disease research. Loss of JNK1/2 in the liver reshapes the transcriptome through the PPARα–FGF21 axis
+            - button "[1]" [ref=e985]
+            - text: ", and chronic JNK blockade has been reported to protect against diet-induced steatosis through FGF21-independent routes"
+            - button "[2]" [ref=e986]
+            - text: . In inflammatory skin disease, single-cell profiling of vitiligo showed an expansion of effector CD8⁺ T cells, with CCR5 positioning regulatory T cells to restrain disease
+            - button "[3]" [ref=e987]
+            - text: . More recently, a single-cell atlas of photosensitive skin described MMP9⁺ myeloid circuits organized by keratinocyte–fibroblast crosstalk
+            - button "[4]" [ref=e988]
+            - text: ", consistent with the spatial mapping of a keratinocyte→fibroblast→myeloid axis driving photosensitivity"
+            - button "[5]" [ref=e989]
+            - text: .
+          - list [ref=e990]:
+            - listitem [ref=e991]:
+              - paragraph [ref=e992]:
+                - text: Vernia S., et al. (2014). "The PPARα–FGF21 hormone axis contributes to metabolic regulation by the hepatic JNK signaling pathway."
+                - emphasis [ref=e993]: Cell Metabolism
+                - text: 20(3):512–525.
+              - generic [ref=e994]:
+                - button "Real" [ref=e995] [cursor=pointer]
+                - button "Fabricated" [ref=e996] [cursor=pointer]
+            - listitem [ref=e997]:
+              - paragraph [ref=e998]:
+                - text: Marquez-Herrera R., et al. (2019). "FGF21-independent hepatoprotective effects of chronic JNK inhibition in diet-induced steatosis."
+                - emphasis [ref=e999]: Cell Metabolism
+                - text: 29(4):912–925.
+              - generic [ref=e1000]:
+                - button "Real" [ref=e1001] [cursor=pointer]
+                - button "Fabricated" [ref=e1002] [cursor=pointer]
+            - listitem [ref=e1003]:
+              - paragraph [ref=e1004]:
+                - text: "Gellatly K.J., et al. (2021). Vitiligo single-cell study: effector T cell expansion and CCR5-dependent positioning of regulatory T cells."
+                - emphasis [ref=e1005]: Science Translational Medicine
+                - text: .
+              - generic [ref=e1006]:
+                - button "Real" [ref=e1007] [cursor=pointer]
+                - button "Fabricated" [ref=e1008] [cursor=pointer]
+            - listitem [ref=e1009]:
+              - paragraph [ref=e1010]:
+                - text: Okonkwo A. & Reyes T. (2022). "Single-cell atlas of photosensitive skin reveals MMP9⁺ myeloid circuits."
+                - emphasis [ref=e1011]: Nature Immunology
+                - text: 23(11):1745–1758.
+              - generic [ref=e1012]:
+                - button "Real" [ref=e1013] [cursor=pointer]
+                - button "Fabricated" [ref=e1014] [cursor=pointer]
+            - listitem [ref=e1015]:
+              - paragraph [ref=e1016]:
+                - text: Wang Y., et al. (2026). Spatial mapping of a keratinocyte→fibroblast→myeloid circuit driving photosensitivity.
+                - emphasis [ref=e1017]: Nature Immunology
+                - text: .
+              - generic [ref=e1018]:
+                - button "Real" [ref=e1019] [cursor=pointer]
+                - button "Fabricated" [ref=e1020] [cursor=pointer]
+          - generic [ref=e1021]:
+            - button "Check my marks" [ref=e1022] [cursor=pointer]
+            - button "Reset" [ref=e1023] [cursor=pointer]
+          - paragraph [ref=e1024]: From inside the model, every citation is equally fluent. Fluency is its native output, so fluency can never be your evidence. Checking each reference against the primary source is the habit that catches fakes; Part B turns that habit into concrete rules.
+      - generic [ref=e1025]:
+        - paragraph [ref=e1026]: Section 07
+        - heading "What changes when everything gets bigger" [level=2] [ref=e1027]
+        - paragraph [ref=e1028]: "Same recipe, more of everything: more parameters to hold patterns, more text to learn them from, more compute to push the training loop. For years the gains looked politely incremental: better grammar, fewer nonsense words. Then, somewhere past a few billion parameters, abilities showed up that nobody had explicitly programmed: following instructions in plain language, picking up a task from a couple of examples in the prompt, working through a problem step by step: what researchers call emergence. Researchers still argue how sharp those jumps really are; that they arrived with scale rather than with code is the part everyone agrees on."
+        - generic [ref=e1029]:
+          - paragraph [ref=e1030]: Drag across ten orders of magnitude and watch what the same mechanism picks up along the way. The counts are public through GPT-3; newer labs keep their numbers quiet, so treat the right edge as "more, undisclosed".
+          - generic [ref=e1031]:
+            - generic [ref=e1032]: Parameters
+            - slider "Parameters" [ref=e1033]: "3"
+            - status [ref=e1034]: 1.0 thousand
+          - list [ref=e1035]:
+            - listitem [ref=e1036]:
+              - generic [ref=e1037]: 1940s–now
+              - strong [ref=e1038]: Common letter patterns
+              - paragraph [ref=e1039]: It counts which chunks follow which. The toy model on this page lives here, at a few thousand counted parameters.
+            - listitem [ref=e1040]:
+              - generic [ref=e1041]: "2013"
+              - strong [ref=e1042]: Word meanings as geometry
+              - paragraph [ref=e1043]:
+                - text: "Words become long lists of numbers, and similar words get similar lists, so word math starts to work:"
+                - emphasis [ref=e1044]: king − man + woman
+                - text: lands near
+                - emphasis [ref=e1045]: queen
+                - text: .
+            - listitem [ref=e1046]:
+              - generic [ref=e1047]: "2018"
+              - strong [ref=e1048]: Fluent paragraphs
+              - paragraph [ref=e1049]: GPT-1, 117 million parameters. The transformer recipe starts writing decent prose on almost any prompt.
+            - listitem [ref=e1050]:
+              - generic [ref=e1051]: "2019"
+              - strong [ref=e1052]: Whole essays, wobbly facts
+              - paragraph [ref=e1053]: GPT-2, 1.5 billion. It writes multi-paragraph text that reads clean, though the facts arrive loose.
+            - listitem [ref=e1054]:
+              - generic [ref=e1055]: "2020"
+              - strong [ref=e1056]: Learns from examples in the prompt
+              - paragraph [ref=e1057]: GPT-3, 175 billion. Show two examples, ask for a third. Nobody programmed this; researchers still debate the shape of the jump, but it arrived with scale.
+            - listitem [ref=e1058]:
+              - generic [ref=e1059]: "2022"
+              - strong [ref=e1060]: Follows plain-language instructions
+              - paragraph [ref=e1061]: Chat-era models are tuned to do what you ask instead of completing text. The apps in your browser tabs live here.
+            - listitem [ref=e1062]:
+              - generic [ref=e1063]: frontier
+              - strong [ref=e1064]: Reasons step by step, drives tools
+              - paragraph [ref=e1065]: Sizes stay undisclosed, but multi-step reasoning and tool use show up at this end of the slider.
+          - paragraph [ref=e1066]: "One thing scale didn't buy: the dice and the library's edge survive every order of magnitude, so fluent and true stay different words at any slider position. Emergence at scale is the bridge to foundation models, and the reason your field builds one shared model instead of training a fresh network for every question."
+      - generic [ref=e1067]:
+        - paragraph [ref=e1068]: Section 08
+        - 'heading "Train once, use everywhere: foundation models" [level=2] [ref=e1069]'
+        - paragraph [ref=e1070]:
+          - text: "You now own every piece of the vocabulary: tokens, next-token prediction, training, sampling, distribution, scale. A"
+          - strong [ref=e1071]: foundation model
+          - text: "is what you get when you push that recipe far enough on broad data that one model adapts to many jobs. Pretrain once on the giant library, then adapt: ask in plain language, show a few examples, or fine-tune on your own data."
+        - paragraph [ref=e1072]: "The same idea left text behind. Swap what counts as a token and the same sequence-modeling machinery learns biology: amino acids, genes, regulatory DNA. Open the cards that matter to your science."
+        - generic [ref=e1073]:
+          - paragraph [ref=e1074]: "Hands up: proteins, genes, regulatory DNA, or single cells? Your votes pick which cards I open."
+          - paragraph [ref=e1075]: Open a card to see what goes in and what comes out; the block in the middle is the same in every card, which is the whole point.
+          - generic [ref=e1076]:
+            - group [ref=e1077]:
+              - generic "Text LLMs GPT, Claude, Llama +" [ref=e1078] [cursor=pointer]:
+                - strong [ref=e1079]: Text LLMs
+                - generic [ref=e1080]: GPT, Claude, Llama
+                - text: +
+            - group [ref=e1081]:
+              - generic "AlphaFold 2 protein structure, 2021 +" [ref=e1082] [cursor=pointer]:
+                - strong [ref=e1083]: AlphaFold 2
+                - generic [ref=e1084]: protein structure, 2021
+                - text: +
+            - group [ref=e1085]:
+              - generic "Geneformer network biology, 2023 +" [ref=e1086] [cursor=pointer]:
+                - strong [ref=e1087]: Geneformer
+                - generic [ref=e1088]: network biology, 2023
+                - text: +
+            - group [ref=e1089]:
+              - generic "scGPT single-cell analysis, 2023 +" [ref=e1090] [cursor=pointer]:
+                - strong [ref=e1091]: scGPT
+                - generic [ref=e1092]: single-cell analysis, 2023
+                - text: +
+            - group [ref=e1093]:
+              - generic "Enformer gene regulation, 2021 +" [ref=e1094] [cursor=pointer]:
+                - strong [ref=e1095]: Enformer
+                - generic [ref=e1096]: gene regulation, 2021
+                - text: +
+          - paragraph [ref=e1097]: The session Manuel Garber leads takes these tools into spatial biology. When you get there, it assumes the vocabulary you've built today, and you already have it.
+      - generic [ref=e1098]:
+        - paragraph [ref=e1099]: Section 09
+        - heading "Know where the trick breaks, then use it anyway" [level=2] [ref=e1100]
+        - paragraph [ref=e1101]: Every failure mode you'll hear about this fall traces back to something you just worked through. Once you own the mechanism, failures become predictable, and each one comes with a habit that catches it.
+        - region "Failure modes and the habits that catch them" [ref=e1102]:
+          - table [ref=e1103]:
+            - caption [ref=e1104]: Failure modes and the habits that catch them
+            - rowgroup [ref=e1105]:
+              - row [ref=e1106]:
+                - columnheader "What you'll see" [ref=e1107]
+                - columnheader "Where it comes from" [ref=e1108]
+                - columnheader "The habit that catches it" [ref=e1109]
+            - rowgroup [ref=e1110]:
+              - row [ref=e1111]:
+                - cell "The model makes something up" [ref=e1112]
+                - cell "Prediction without lookup" [ref=e1113]
+                - cell "Verify claims against primary sources" [ref=e1114]
+              - row [ref=e1115]:
+                - cell "Same prompt, different answer" [ref=e1116]
+                - cell "Sampling, the dice roll" [ref=e1117]
+                - cell "Log model, settings, and prompts; expect wobble" [ref=e1118]
+              - row [ref=e1119]:
+                - cell "Confident about a world that changed last month" [ref=e1120]
+                - cell "The library has an edge date, and nothing you type adds to it" [ref=e1121]
+                - cell "Check current sources for anything time-sensitive" [ref=e1122]
+              - row [ref=e1123]:
+                - cell "Repeats the field's old mistakes" [ref=e1124]
+                - cell "Mimics the training distribution" [ref=e1125]
+                - cell "Read outputs with the literature's biases in mind" [ref=e1126]
+              - row [ref=e1127]:
+                - cell "Echoes whatever sensitive text you pasted" [ref=e1128]
+                - cell "Its entire view of you is the text you hand it; nothing in the mechanism keeps a secret" [ref=e1129]
+                - cell "Keep patient and unpublished data out of consumer tools" [ref=e1130]
+        - generic [ref=e1131]:
+          - paragraph [ref=e1132]: Before you go, I'll show you four failure reports, and you pick the idea that explains each one.
+          - generic [ref=e1133]:
+            - generic [ref=e1134]:
+              - paragraph [ref=e1135]: 1. You ask the same question twice and get two different protocols.
+              - generic [ref=e1136]:
+                - button "Tokenization" [ref=e1137] [cursor=pointer]
+                - button "Sampling, the dice roll" [ref=e1138] [cursor=pointer]
+                - button "Prediction without lookup" [ref=e1139] [cursor=pointer]
+            - generic [ref=e1140]:
+              - paragraph [ref=e1141]: 2. Your paragraph cites a paper that turns out not to exist.
+              - generic [ref=e1142]:
+                - button "The library's edge date" [ref=e1143] [cursor=pointer]
+                - button "The dice roll" [ref=e1144] [cursor=pointer]
+                - button "Prediction without lookup" [ref=e1145] [cursor=pointer]
+            - generic [ref=e1146]:
+              - paragraph [ref=e1147]: 3. You ask about a preprint posted yesterday and get a summary that's fluently wrong.
+              - generic [ref=e1148]:
+                - button "The library's edge date" [ref=e1149] [cursor=pointer]
+                - button "Scale" [ref=e1150] [cursor=pointer]
+                - button "Tokenization" [ref=e1151] [cursor=pointer]
+            - generic [ref=e1152]:
+              - paragraph [ref=e1153]: 4. Your analysis suggestion uses a statistical method the field moved away from decades ago.
+              - generic [ref=e1154]:
+                - button "Foundation models" [ref=e1155] [cursor=pointer]
+                - button "It mimics its training data" [ref=e1156] [cursor=pointer]
+                - button "The one-trick mechanism" [ref=e1157] [cursor=pointer]
+          - button "Reset the quiz" [ref=e1159] [cursor=pointer]
+          - paragraph [ref=e1160]: "The frame I find most useful: treat the model as a collaborator. Collaborators do brilliant work, make honest mistakes, and expect their work to be checked. The mistake you catch is the one you looked at."
+        - generic [ref=e1161]:
+          - generic [ref=e1162]: The short version
+          - paragraph [ref=e1163]: A language model predicts the next token over a library bigger than anyone could read in a lifetime, so fluent answers come from interpolating within that library's patterns. They land outside the truth when the most plausible continuation happens to be false, because nothing in the mechanism checks truth.
+        - paragraph [ref=e1164]: "Part B, led by Alper, turns the habits in that table into concrete rules: protecting patient data, verification discipline, disclosure, reproducibility, and the cases where you leave the model out of it entirely. He has war stories, and they're worth staying for."
+      - generic [ref=e1165]:
+        - paragraph [ref=e1166]: Appendix
+        - heading "Take it with you" [level=2] [ref=e1167]
+        - paragraph [ref=e1168]: Every session is recorded, so nothing here depends on having been in the room. Here is the vocabulary in one place, the questions we expect in the room, and where to go deeper if you want more.
+        - heading "The vocabulary" [level=3] [ref=e1169]
+        - generic [ref=e1170]:
+          - term [ref=e1171]: "Token:"
+          - definition [ref=e1172]: "The chunk of text a model reads: a word, a piece of a word, or a punctuation mark, mapped to an ID number."
+          - term [ref=e1173]: "Next-token prediction:"
+          - definition [ref=e1174]: "The whole trick: look at the text so far, assign a probability to every possible next token."
+          - term [ref=e1175]: "Probability distribution:"
+          - definition [ref=e1176]: The full list of probabilities the model assigns, one for each possible next token. The model's answer to every question is one of these lists.
+          - term [ref=e1177]: "Sampling:"
+          - definition [ref=e1178]: "Rolling the weighted die: picking one token from the distribution. This is why answers vary."
+          - term [ref=e1179]: "Temperature:"
+          - definition [ref=e1180]: The knob that reshapes the distribution before the roll. Low is cautious, high is adventurous. Set explicitly in API use, hidden in consumer apps.
+          - term [ref=e1181]: "Parameters:"
+          - definition [ref=e1182]: The stored numbers inside the model; training adjusts them and every answer runs through them, so scale just means more of them.
+          - term [ref=e1183]: "Training:"
+          - definition [ref=e1184]: "The expensive loop: guess the next token everywhere in the library, compare with reality, nudge the parameters."
+          - term [ref=e1185]: "Inference:"
+          - definition [ref=e1186]: Using the trained model to answer. Cheap compared with training; this is what happens when you chat.
+          - term [ref=e1187]: "Training distribution:"
+          - definition [ref=e1188]: The shape of everything the model read. The model mimics it, so it can only be as current and fair as its library.
+          - term [ref=e1189]: "Interpolation:"
+          - definition [ref=e1190]: Landing inside the cloud of patterns the model has seen. The right default picture for how it answers; it retrieves nothing.
+          - term [ref=e1191]: "Hallucination:"
+          - definition [ref=e1192]: The same mechanism, fluently wrong. A plausible continuation that happens to be false.
+          - term [ref=e1193]: "Fine-tuning:"
+          - definition [ref=e1194]: Extra training on your own data to specialize a pretrained model.
+          - term [ref=e1195]: "Foundation model:"
+          - definition [ref=e1196]: "One model, trained on broad data at scale, adapted to many jobs: text, protein structure, gene expression, regulation."
+        - heading "Questions we expect in the room" [level=3] [ref=e1197]
+        - generic [ref=e1198]:
+          - group [ref=e1199]:
+            - generic "Is it just autocomplete? +" [ref=e1200] [cursor=pointer]
+          - group [ref=e1201]:
+            - generic "Does the model learn from our conversation? +" [ref=e1202] [cursor=pointer]
+          - group [ref=e1203]:
+            - generic "Which model should my lab use? +" [ref=e1204] [cursor=pointer]
+          - group [ref=e1205]:
+            - generic "What about top-p, seeds, the other knobs? +" [ref=e1206] [cursor=pointer]
+          - group [ref=e1207]:
+            - generic "Will it take my job? +" [ref=e1208] [cursor=pointer]
+        - heading "Further reading" [level=3] [ref=e1209]
+        - list [ref=e1210]:
+          - listitem [ref=e1211]:
+            - link "Welch Labs on YouTube" [ref=e1212] [cursor=pointer]:
+              - /url: https://www.youtube.com/@WelchLabsVideo
+            - text: ", the deep-dive visual series on how LLMs work."
+          - listitem [ref=e1213]:
+            - link "3Blue1Brown on YouTube" [ref=e1214] [cursor=pointer]:
+              - /url: https://www.youtube.com/@3blue1brown
+            - text: ", neural networks and transformers as animations."
+          - listitem [ref=e1215]:
+            - 'link "Language models for biological research: a primer" [ref=e1216] [cursor=pointer]':
+              - /url: https://www.nature.com/articles/s41592-024-02354-y
+            - text: ", Nature Methods, 2024."
+          - listitem [ref=e1217]:
+            - link "The bootcamp repo" [ref=e1218] [cursor=pointer]:
+              - /url: https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp
+            - text: ", all sessions and materials."
+          - listitem [ref=e1219]:
+            - link "This site's source" [ref=e1220] [cursor=pointer]:
+              - /url: https://github.com/ericmjl/next-token
+            - text: ", one container, runs anywhere."
+        - paragraph [ref=e1221]:
+          - text: "Run it yourself:"
+          - code [ref=e1222]: docker compose up
+          - text: ", then open port 8000. The model, corpus, styles, and scripts all live in the image."
+      - generic [ref=e1223]:
+        - paragraph [ref=e1224]: Before you go
+        - heading "Thank you for reading" [level=2] [ref=e1225]
+        - paragraph [ref=e1226]: "If this page taught you the mechanism in a way that stuck, that's the smallest version of the thing I care about most: learning how AI can actually help you learn. In February 2027 I'm running a one-week retreat on exactly that, called Learn Anything. You bring something you want to learn, and a small group of curious people works alongside AI as the accelerator."
+        - paragraph [ref=e1227]:
+          - text: "The timing is the point. What AI can help you learn is on a curve that is accelerating away from us today, and getting on that curve is a skill worth practicing in person, together. If that sounds like your kind of week, I'd love to have you:"
+          - link "learn-anything.nonlinearlabs.ai" [ref=e1228] [cursor=pointer]:
+            - /url: https://learn-anything.nonlinearlabs.ai/
+          - text: .
+  - contentinfo [ref=e1229]:
+    - generic [ref=e1230]:
+      - generic [ref=e1231]: Built for the UMass Chan AI for Bioinformatics bootcamp
+      - generic [ref=e1232]: Part A · How AI actually works
+      - generic [ref=e1233]: Eric Ma · Alper Kucukural · Tommy Tang
