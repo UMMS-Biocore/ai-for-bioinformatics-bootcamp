@@ -608,6 +608,25 @@
 
   .closing p { margin: 0; color: var(--ink-soft); max-width: 34rem; }
 
+  .disclosure {
+    border-top: 1px solid var(--rule);
+    padding: 2rem 0 1.5rem;
+    max-width: 46rem;
+    font-size: .88rem;
+    color: var(--ink-soft);
+  }
+  .disclosure h2 {
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--pencil);
+    font-weight: 500;
+    margin: 0 0 .8rem;
+  }
+  .disclosure p { margin: .35rem 0; }
+  .disclosure b { color: var(--ink); font-weight: 600; }
+
   footer.foot {
     border-top: 1px solid var(--rule);
     padding: 1.75rem 0 3rem;
@@ -1125,11 +1144,19 @@
     <a class="btn" href="register.html">Register for Fall 2026 <span class="arw" aria-hidden="true">&rarr;</span></a>
   </section>
 
+  <section class="disclosure" id="ai-disclosure" aria-labelledby="ai-disclosure-h">
+    <h2 id="ai-disclosure-h">AI use disclosure</h2>
+    <p><b>Tools:</b> OpenAI Codex; Anthropic Claude (Claude Code).</p>
+    <p><b>What for:</b> Drafting and editing page text, summarizing the guest speakers' materials, and writing the code for this website.</p>
+    <p><b>How it was checked:</b> The instructors reviewed and edited everything, checked facts, names, and links against the original sources, and tested the pages in a browser. The instructors are responsible for all content.</p>
+  </section>
+
   <footer class="foot">
     <span>AI for Bioinformatics Bootcamp</span>
     <span>Successor to the Sequence Analysis Bootcamp</span>
     <span>Run on Foundry Connect</span>
     <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="#ai-disclosure">AI use disclosure</a></span>
   </footer>
 
 </div>

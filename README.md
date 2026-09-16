@@ -50,6 +50,12 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 - Zyphur, [Responsible AI in Research and Research Training](https://github.com/mzyphur/responsible-ai-in-research-training) (CC BY-NC-ND: referenced and attributed, not copied).
 - [Language models for biological research: a primer](https://www.nature.com/articles/s41592-024-02354-y), Nature Methods 2024.
 
+## AI use disclosure
+
+- **Tools:** OpenAI Codex; Anthropic Claude (Claude Code).
+- **What for:** Drafting and editing page text, summarizing the guest speakers' materials, and writing the code for this website.
+- **How it was checked:** The instructors reviewed and edited everything, checked facts, names, and links against the original sources, and tested the pages in a browser. The instructors are responsible for all content.
+
 ## Instructors
 
 Manuel Garber, Ozkan Aydemir, Alper Kucukural (UMass Chan Bioinformatics Core). Guest speakers: Eric Ma (Moderna), Ming "Tommy" Tang (AstraZeneca), and Eric Kercher (Alys Pharmaceuticals).
