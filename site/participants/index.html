@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Participants · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Who registered for the AI for Bioinformatics Bootcamp: roles, data types, AI tools, and self-rated experience, as aggregate counts.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+<style>
+  .viz {
+    --bar: #2547A8;
+    --track: #EEF1F6;
+    --r1: #86b6ef; --r2: #5598e7; --r3: #2a78d6; --r4: #1c5cab; --r5: #0d366b;
+  }
+  :root[data-theme="dark"] .viz {
+    --bar: #8AA6F2;
+    --track: #1F2430;
+    --r1: #184f95; --r2: #256abf; --r3: #3987e5; --r4: #6da7ec; --r5: #b7d3f6;
+  }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+  .stat { background: var(--surface); padding: 1.3rem 1.3rem 1.2rem; }
+  .stat .v { font-family: var(--serif); font-size: 2.3rem; font-weight: 600; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stat .l { margin-top: .45rem; font-size: .88rem; color: var(--ink-soft); }
+
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 1.25rem; }
+  @media (max-width: 30rem) { .charts { grid-template-columns: minmax(0, 1fr); } }
+  .chart { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 1.2rem 1.25rem 1.1rem; min-width: 0; }
+  .chart h3 { font-family: var(--serif); font-size: 1.08rem; font-weight: 600; line-height: 1.3; margin: 0; }
+  .chart .sub { font-size: .8rem; color: var(--pencil); margin: .25rem 0 .9rem; }
+
+  .bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .55rem; }
+  .bars li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .15rem .75rem; align-items: baseline; }
+  .bars .lab { font-size: .86rem; color: var(--ink); }
+  .bars .val { font-size: .8rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bars .val b { color: var(--ink); font-weight: 600; }
+  .bars .track { grid-column: 1 / -1; height: .6rem; background: var(--track); border-radius: 4px; position: relative; }
+  .bars .fill { position: absolute; inset: 0 auto 0 0; background: var(--bar); border-radius: 4px; min-width: 2px; }
+  .bars li:hover .fill, .bars li:focus-visible .fill { filter: brightness(1.15); }
+  .bars li:focus-visible { outline: 2px solid var(--pen); outline-offset: 3px; border-radius: 2px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: 0 0 1.1rem; padding: 0; list-style: none; font-size: .82rem; color: var(--ink-soft); }
+  .legend li { display: inline-flex; align-items: center; gap: .4rem; }
+  .legend i { width: .8rem; height: .8rem; border-radius: 2px; display: inline-block; }
+
+  .stack-rows { display: flex; flex-direction: column; gap: 1rem; }
+  .stack-row .lab { font-size: .9rem; color: var(--ink); margin-bottom: .35rem; }
+  .stack { display: flex; gap: 2px; height: 1.1rem; }
+  .stack span { display: block; height: 100%; min-width: 0; }
+  .stack span:first-child { border-radius: 4px 0 0 4px; }
+  .stack span:last-child { border-radius: 0 4px 4px 0; }
+  .stack span:hover, .stack span:focus-visible { filter: brightness(1.15); outline: none; }
+
+  .tip {
+    position: fixed; z-index: 10; pointer-events: none;
+    background: var(--ink); color: var(--ground);
+    font-size: .8rem; line-height: 1.35; padding: .4rem .6rem; border-radius: 3px;
+    box-shadow: var(--shadow); max-width: 16rem;
+  }
+
+  details.table-view { margin-top: 1.2rem; }
+  details.table-view summary { cursor: pointer; font-size: .85rem; color: var(--pen); }
+  details.table-view .table-scroll { margin-top: .8rem; }
+  details.table-view table.data { min-width: 36rem; }
+  details.table-view td { font-variant-numeric: tabular-nums; }
+
+  .privacy { font-size: .85rem; color: var(--pencil); max-width: 46rem; margin-top: 1rem; }
+</style>
+</head>
+<body>
+<div class="wrap viz">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Participants</p>
+
+  <header class="hero compact">
+    <p class="eyebrow">Fall 2026 · Registration answers</p>
+    <h1>Who is in the room.</h1>
+    <p class="deck">How the people who registered described themselves: their roles, their data, the AI tools they already use, and where they feel least confident. The sessions are pitched with these answers in mind.</p>
+    <div class="meta-row" id="updated"></div>
+  </header>
+
+  <section class="band" aria-labelledby="glance-h">
+    <div class="band-head"><h2 id="glance-h">At a glance</h2></div>
+    <div class="stats" id="headline"></div>
+  </section>
+
+  <section class="band" aria-labelledby="ratings-h">
+    <div class="band-head"><h2 id="ratings-h">Self-rated experience</h2></div>
+    <p class="lede">Before the bootcamp, each person rated their current level on the six topics the course covers.</p>
+    <div class="chart">
+      <ul class="legend" id="rating-legend"></ul>
+      <div class="stack-rows" id="ratings"></div>
+      <details class="table-view">
+        <summary>Show as a table</summary>
+        <div class="table-scroll"><table class="data" id="ratings-table"></table></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="answers-h">
+    <div class="band-head"><h2 id="answers-h">Background and AI use</h2></div>
+    <p class="lede">Percentages are of everyone who registered. Where people could choose more than one answer, the bars add up to more than 100%.</p>
+    <div class="charts" id="questions"></div>
+    <p class="privacy">Only totals are shown. Names, emails, labs, and written comments are never published, and answers chosen by fewer than 3 people are grouped into Other or left out.</p>
+  </section>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+
+<div class="tip" id="tip" hidden></div>
+
+<script src="stats.js"></script>
+<script>
+(function () {
+  var D = window.PARTICIPANT_STATS;
+  if (!D) return;
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function pct(n, of) { return of ? Math.round(100 * n / of) : 0; }
+
+  var when = new Date(D.updated + 'T12:00:00');
+  document.getElementById('updated').append(
+    el('span', null, D.total + ' registrations'),
+    el('span', null, 'Updated ' + when.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }))
+  );
+
+  var head = document.getElementById('headline');
+  D.headline.forEach(function (h) {
+    var s = el('div', 'stat');
+    s.append(el('div', 'v', h.value), el('div', 'l', h.label));
+    head.append(s);
+  });
+
+  // Tooltip shared by every mark, shown on hover and keyboard focus.
+  var tip = document.getElementById('tip');
+  function bindTip(node, text) {
+    node.tabIndex = 0;
+    node.setAttribute('aria-label', text);
+    function show(x, y) {
+      tip.textContent = text;
+      tip.hidden = false;
+      var w = tip.offsetWidth;
+      tip.style.left = Math.max(8, Math.min(x + 12, window.innerWidth - w - 8)) + 'px';
+      tip.style.top = (y + 14) + 'px';
+    }
+    node.addEventListener('mousemove', function (e) { show(e.clientX, e.clientY); });
+    node.addEventListener('mouseleave', function () { tip.hidden = true; });
+    node.addEventListener('focus', function () { var r = node.getBoundingClientRect(); show(r.left, r.bottom - 10); });
+    node.addEventListener('blur', function () { tip.hidden = true; });
+  }
+
+  // Self-ratings: one 100% stacked bar per topic, ordinal blue ramp.
+  var levels = D.ratingLevels;
+  var legend = document.getElementById('rating-legend');
+  levels.forEach(function (lv, i) {
+    var li = el('li');
+    var sw = el('i');
+    sw.style.background = 'var(--r' + (i + 1) + ')';
+    li.append(sw, document.createTextNode(lv));
+    legend.append(li);
+  });
+  var rows = document.getElementById('ratings');
+  var table = document.getElementById('ratings-table');
+  var thead = el('thead'), tr = el('tr');
+  tr.append(el('th', null, 'Topic'));
+  levels.forEach(function (lv) { tr.append(el('th', null, lv)); });
+  thead.append(tr);
+  var tbody = el('tbody');
+  D.ratings.forEach(function (r) {
+    var total = r.counts.reduce(function (a, b) { return a + b; }, 0);
+    var row = el('div', 'stack-row');
+    row.append(el('div', 'lab', r.label));
+    var stack = el('div', 'stack');
+    stack.setAttribute('role', 'img');
+    r.counts.forEach(function (n, i) {
+      if (!n) return;
+      var seg = el('span');
+      seg.style.flex = n + ' 0 0';
+      seg.style.background = 'var(--r' + (i + 1) + ')';
+      bindTip(seg, r.label + ': ' + levels[i] + ', ' + n + ' people (' + pct(n, total) + '%)');
+      stack.append(seg);
+    });
+    row.append(stack);
+    rows.append(row);
+
+    var t = el('tr');
+    t.append(el('th', null, r.label));
+    r.counts.forEach(function (n) { t.append(el('td', null, n + ' (' + pct(n, total) + '%)')); });
+    tbody.append(t);
+  });
+  table.append(thead, tbody);
+
+  // One bar list per question.
+  var box = document.getElementById('questions');
+  D.questions.forEach(function (q) {
+    var card = el('article', 'chart');
+    card.append(el('h3', null, q.title));
+    card.append(el('p', 'sub', q.multi ? 'People could choose more than one' : 'One answer per person'));
+    var list = el('ul', 'bars');
+    q.items.forEach(function (it) {
+      var li = el('li');
+      var p = pct(it.n, D.total);
+      var val = el('span', 'val');
+      val.append(el('b', null, p + '%'), document.createTextNode(' · ' + it.n));
+      var track = el('div', 'track');
+      var fill = el('div', 'fill');
+      fill.style.width = (100 * it.n / D.total) + '%';
+      track.append(fill);
+      li.append(el('span', 'lab', it.label), val, track);
+      bindTip(li, it.label + ': ' + it.n + ' of ' + D.total + ' people (' + p + '%)');
+      list.append(li);
+    });
+    card.append(list);
+    box.append(card);
+  });
+})();
+</script>
+</body>
+</html>
