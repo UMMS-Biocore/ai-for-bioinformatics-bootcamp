@@ -3,3 +3,4 @@
 # Registration form design, setup notes, and any exported response data.
 # Responses contain participant names and emails and must never enter git.
 registration/
+.playwright-mcp/

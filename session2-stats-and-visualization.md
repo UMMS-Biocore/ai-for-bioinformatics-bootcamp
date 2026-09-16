@@ -8,7 +8,7 @@
 
 Read and reason about the core statistics and plots behind genomics analyses — and use AI to help with stats/viz while catching its mistakes.
 
-## Statistics (intuition-first)
+## Statistics (intuition-first) (Tommy)
 
 > _TODO: plain-language + one figure each._
 - Experimental design & **replicates** (biological vs. technical); power.
@@ -21,7 +21,7 @@ Read and reason about the core statistics and plots behind genomics analyses —
 - Normalization intuition (why and how).
 - Choosing the right test.
 
-## Visualization grammar
+## Visualization grammar 
 
 > _TODO: for each, "how to read it" + "how it misleads."_
 - Right plot for the data; how charts mislead (truncated axes, dual axes, overplotting).
