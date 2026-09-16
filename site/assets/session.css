@@ -1,0 +1,184 @@
+/* Components used only by the session pages (session1.0/ and up).
+   Load after bootcamp.css. */
+
+.hero.compact { padding: 2.5rem 0 2.75rem; }
+.hero.compact h1 { font-size: clamp(2.1rem, 5vw, 3.3rem); max-width: 24ch; }
+
+.crumbs {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .06em;
+  color: var(--pencil);
+  margin: 1.6rem 0 0;
+}
+.crumbs a { color: var(--pencil); }
+.crumbs a:hover { color: var(--pen); }
+
+.brand a { display: flex; align-items: center; gap: .8rem; text-decoration: none; }
+.topbar .right { display: flex; align-items: center; gap: .8rem; }
+.gh-link {
+  font-family: var(--mono);
+  font-size: .7rem;
+  color: var(--pencil);
+  text-decoration: none;
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  padding: .5rem .75rem;
+  white-space: nowrap;
+}
+.gh-link:hover { color: var(--pen); border-color: var(--pen); }
+
+/* ---------- part navigation ---------- */
+
+nav.parts { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.1rem 0 0; }
+nav.parts a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .5rem;
+  text-decoration: none;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: .35rem .75rem;
+  font-size: .82rem;
+}
+nav.parts a b { font-family: var(--mono); font-size: .68rem; color: var(--pen); font-weight: 600; }
+nav.parts a:hover { border-color: var(--pen); color: var(--ink); }
+nav.parts a[aria-current="page"] { border-color: var(--pen); background: var(--pen-wash); color: var(--ink); }
+
+/* ---------- prose inside bands ---------- */
+
+.band h3 { font-family: var(--serif); font-size: 1.22rem; font-weight: 600; margin: 2.2rem 0 .6rem; }
+.band > p, .band > ul, .band > ol { max-width: 46rem; }
+ul.plain, ol.plain { padding-left: 1.2rem; color: var(--ink-soft); }
+ul.plain li, ol.plain li { margin: .4rem 0; }
+ul.plain b, ol.plain b { color: var(--ink); }
+
+.meta-row { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 1.4rem 0 0; font-size: .9rem; color: var(--pencil); }
+.meta-row b { color: var(--ink-soft); font-weight: 600; }
+
+.tag {
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  padding: .05rem .35rem;
+  margin-left: .5rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.tag.core { color: var(--pen); }
+.tag.opt { color: var(--keep); }
+.tag.min { color: var(--pencil); }
+
+/* ---------- today's flow ---------- */
+
+.acts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.act { background: var(--surface); padding: 1.3rem 1.2rem; display: flex; flex-direction: column; gap: .4rem; }
+.act .when { font-family: var(--mono); font-size: .68rem; color: var(--pen); font-weight: 600; }
+.act .who { font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: var(--pencil-faint); }
+.act strong { font-family: var(--serif); font-size: 1.1rem; line-height: 1.3; }
+.act p { margin: 0; font-size: .88rem; color: var(--ink-soft); }
+.act a { font-size: .85rem; margin-top: auto; padding-top: .5rem; }
+.act.is-break { background: var(--pen-wash); }
+
+/* ---------- trust checklist ---------- */
+
+ol.checklist { list-style: none; counter-reset: ck; margin: 0; padding: 0; border-top: 1px solid var(--rule-strong); max-width: 60rem; }
+ol.checklist li {
+  counter-increment: ck;
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) minmax(0, 17rem);
+  gap: .2rem 1rem;
+  padding: .9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+ol.checklist li::before { content: counter(ck, decimal-leading-zero); font-family: var(--mono); font-size: .7rem; color: var(--pen); font-weight: 600; padding-top: .25rem; }
+ol.checklist .q { font-family: var(--serif); font-size: 1.06rem; color: var(--ink); }
+ol.checklist .src { font-size: .82rem; color: var(--pencil); }
+@media (max-width: 40rem) {
+  ol.checklist li { grid-template-columns: 2.4rem minmax(0, 1fr); }
+  ol.checklist .src { grid-column: 2; }
+}
+
+/* ---------- numbered steps ---------- */
+
+.steps { counter-reset: st; display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.step { counter-increment: st; background: var(--surface); padding: 1.3rem 1.4rem 1.3rem 3.7rem; position: relative; }
+.step::before {
+  content: counter(st);
+  position: absolute;
+  left: 1.35rem;
+  top: 1.3rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--pen);
+  border: 1px solid var(--pen);
+  border-radius: 50%;
+}
+.step h4 { margin: 0 0 .35rem; font-family: var(--serif); font-size: 1.1rem; font-weight: 600; }
+.step p, .step li { font-size: .93rem; color: var(--ink-soft); margin: .3rem 0; max-width: 50rem; }
+.step ol, .step ul { padding-left: 1.2rem; margin: .4rem 0; }
+.step .say { font-size: .87rem; color: var(--pencil); border-left: 2px solid var(--rule-strong); padding-left: .8rem; margin-top: .7rem; }
+
+code, kbd {
+  font-family: var(--mono);
+  font-size: .84em;
+  background: var(--pen-wash);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: .02rem .3rem;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- reveal cards (activities) ---------- */
+
+details.reveal { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 1rem 1.2rem; margin: 0 0 .7rem; max-width: 50rem; }
+details.reveal summary { cursor: pointer; font-size: .95rem; color: var(--ink); }
+details.reveal summary .lbl { font-family: var(--mono); font-size: .66rem; color: var(--pen); font-weight: 600; margin-right: .5rem; }
+details.reveal blockquote { margin: .7rem 0 0; font-family: var(--mono); font-size: .8rem; line-height: 1.55; color: var(--ink-soft); background: var(--pen-wash); padding: .7rem .9rem; border-radius: 3px; }
+details.reveal .ans { margin: .8rem 0 0; padding-top: .8rem; border-top: 1px solid var(--rule); font-size: .92rem; color: var(--ink-soft); }
+.verdict-ok { color: var(--keep); font-weight: 600; }
+.verdict-leak { color: #B3261E; font-weight: 600; }
+:root[data-theme="dark"] .verdict-leak { color: #F2A29B; }
+
+/* ---------- link cards ---------- */
+
+.links { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.links a { background: var(--surface); padding: 1.1rem 1.25rem; text-decoration: none; display: flex; flex-direction: column; gap: .3rem; color: var(--ink); }
+.links a:hover { background: var(--pen-wash); }
+.links .k { font-family: var(--mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--pencil-faint); }
+.links strong { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+.links .d { font-size: .86rem; color: var(--ink-soft); }
+.links .u { font-family: var(--mono); font-size: .66rem; color: var(--pen); overflow-wrap: anywhere; margin-top: auto; }
+
+/* ---------- prev / next ---------- */
+
+.pager { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 2.5rem 0; border-top: 1px solid var(--rule); }
+.pager a { text-decoration: none; display: flex; flex-direction: column; gap: .15rem; max-width: 48%; }
+.pager a.next { text-align: right; margin-left: auto; }
+.pager .k { font-family: var(--mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--pencil-faint); }
+.pager strong { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); }
+
+@media print {
+  .topbar, nav.parts, .pager { display: none; }
+  body { background: #fff; }
+}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 1.2 · How AI actually works · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 1 part taught by Eric Ma: how language models work, from next-token prediction to foundation models, and where they break.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session1">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 1 / 1.2</p>
+  <nav class="parts" aria-label="Session 1 parts">
+    <a href="../session1.0/"><b>1.0</b> Before you arrive</a>
+    <a href="../session1.1/"><b>1.1</b> Welcome</a>
+    <a href="../session1.2/" aria-current="page"><b>1.2</b> How AI works</a>
+    <a href="../session1.3/"><b>1.3</b> Pilot or passenger</a>
+    <a href="../session1.4/"><b>1.4</b> Flight rules</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 1.2 · Act one · Eric Ma, Moderna</p>
+    <h1>How language models actually work.</h1>
+    <p class="deck">One trick, next-token prediction, explained well enough that you can teach it to your own lab and trace any answer a model gives you back to it. No math, no code. Every demo runs a real, tiny model in your browser.</p>
+    <div class="cta-row">
+      <a class="btn" href="https://biocore.umassmed.edu/next-token/">Open Eric's interactive lesson <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Press P for presenter mode, arrow keys to move between sections</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="outline-h">
+    <div class="band-head"><h2 id="outline-h">What the lesson covers</h2></div>
+    <ol class="outcomes">
+      <li><b>One trick.</b> A language model is a very well-read autocomplete, predicting the next piece of text.</li>
+      <li><b>Tokens.</b> Text becomes numbers, which is why models miscount letters and garble exact strings.</li>
+      <li><b>Dice and temperature.</b> A probability list, then a weighted roll. Why answers vary between runs.</li>
+      <li><b>Training.</b> Where the numbers come from, and why the model copies flaws in its training text.</li>
+      <li><b>The big library.</b> It interpolates within what it read. It does not look things up, and it stops at a cutoff date.</li>
+      <li><b>Confidently wrong.</b> Hallucination is the mechanism working normally. Quiz: find the two invented references.</li>
+      <li><b>Scale.</b> What changes as models grow, and what does not.</li>
+      <li><b>Foundation models.</b> The same machinery for proteins, genes, and cells: AlphaFold 2, Geneformer, scGPT, Enformer.</li>
+      <li><b>Limits.</b> Where the trick breaks, and the habit that catches each failure.</li>
+    </ol>
+  </section>
+
+  <section class="band" aria-labelledby="carry-h">
+    <div class="band-head"><h2 id="carry-h">Carry this into the rest of today</h2></div>
+    <p class="lede">Eric's closing table is the starting point for Part 1.4, where each row gets a practice from Tommy and a rule from us.</p>
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th scope="col">What you see</th><th scope="col">Cause</th><th scope="col">Habit that catches it</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">It makes something up</th><td>Prediction without lookup</td><td>Verify against primary sources</td></tr>
+          <tr><th scope="row">Same prompt, different answer</th><td>Sampling</td><td>Log model, settings, and prompts</td></tr>
+          <tr><th scope="row">Out-of-date answers</th><td>Training cutoff date</td><td>Check current sources</td></tr>
+          <tr><th scope="row">Repeats the field's old mistakes</th><td>Copies its training data</td><td>Read with the literature's biases in mind</td></tr>
+          <tr><th scope="row">Echoes sensitive text you pasted</th><td>Nothing in the mechanism keeps secrets</td><td>Keep patient and unpublished data out of consumer tools</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="mat-h">
+    <div class="band-head"><h2 id="mat-h">Materials</h2></div>
+    <div class="links">
+      <a href="https://biocore.umassmed.edu/next-token/"><span class="k">Lesson</span><strong>How language models actually work</strong><span class="d">The interactive page used in class.</span><span class="u">biocore.umassmed.edu/next-token</span></a>
+      <a href="https://github.com/ericmjl/next-token"><span class="k">Source</span><strong>Run it yourself</strong><span class="d">The lesson and its tiny model. <code>docker compose up</code>, then open port 8000.</span><span class="u">github.com/ericmjl/next-token</span></a>
+      <a href="https://www.nature.com/articles/s41592-024-02354-y"><span class="k">Reading</span><strong>Language models for biological research: a primer</strong><span class="d">Nature Methods, 2024.</span><span class="u">nature.com</span></a>
+      <a href="https://www.youtube.com/@3blue1brown"><span class="k">Going deeper</span><strong>3Blue1Brown</strong><span class="d">Visual explanations of neural networks and transformers.</span><span class="u">youtube.com/@3blue1brown</span></a>
+      <a href="https://www.youtube.com/@WelchLabsVideo"><span class="k">Going deeper</span><strong>Welch Labs</strong><span class="d">Recommended by Eric for the history and intuition of modern AI.</span><span class="u">youtube.com/@WelchLabsVideo</span></a>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session1.1/"><span class="k">&larr; Previous</span><strong>1.1 Welcome</strong></a>
+    <a class="next" href="../session1.3/"><span class="k">Next &rarr;</span><strong>1.3 Pilot or passenger</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

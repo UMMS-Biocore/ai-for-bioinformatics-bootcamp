@@ -1,18 +1,39 @@
 # Bootcamp website
 
-**Live:**
-- Landing page: https://web.dolphinnext.com/biocoreweb/
-- Registration: https://web.dolphinnext.com/biocoreweb/register.html
+**Target:** https://biocore.umassmed.edu/bootcamp/
 
-Served from `/data/pub/umms/pub/biocoreweb` on `umwlresdol02.umassmed.edu`.
-Redeploy with `scp index.html register.html svcgalaxy@umwlresdol02.umassmed.edu:/data/pub/umms/pub/biocoreweb/`.
+| URL | Page |
+|---|---|
+| `/bootcamp/` | Landing page for the whole bootcamp |
+| `/bootcamp/register.html` | Registration form |
+| `/bootcamp/session1.0/` | Session 1 pre-work: setup, four green lights |
+| `/bootcamp/session1.1/` | Session 1 opening: welcome and the six-week map (Alper) |
+| `/bootcamp/session1.2/` | How AI actually works (Eric Ma), links to his interactive lesson |
+| `/bootcamp/session1.3/` | Pilot or passenger (Tommy Tang), slides and demo links |
+| `/bootcamp/session1.4/` | Session 1 closing: flight rules and daily practice (Alper) |
+
+Each later session follows the same pattern: `sessionN.0/` for pre-work if any, then
+`sessionN.1/`, `sessionN.2/`, and so on in teaching order.
+
+**Previous location:** https://web.dolphinnext.com/biocoreweb/ (served from
+`/data/pub/umms/pub/biocoreweb` on `umwlresdol02.umassmed.edu`). Links in the
+registration email still point there.
+
+**Deploy:** copy `index.html`, `register.html`, `assets/`, and every `session*/`
+folder into the `bootcamp/` directory of the biocore.umassmed.edu web root. Keep
+the layout as is: session pages use relative links (`../assets/`, `../session1.2/`),
+so they work under any base path as long as the folders stay siblings.
 
 Static files. No build step, no dependencies, no server-side code.
 
 | File | What it is |
 |---|---|
-| `index.html` | Public landing page. Course outline, resolution ladder, schedule. |
+| `index.html` | Public landing page. Course outline, resolution ladder, schedule, materials. Keeps its own inline CSS. |
 | `register.html` | The registration form. Posts to Apps Script, which writes to a Google Sheet. |
+| `assets/bootcamp.css` | Colors, type, and base components, copied from `index.html`. |
+| `assets/session.css` | Components used only by the session pages. |
+| `assets/theme.js` | Light and dark toggle, shared with `index.html` through the same stored choice. |
+| `sessionN.M/index.html` | One page per session part. |
 | `apps-script/Code.gs` | The backend. Lives in Google, not on your server. |
 | `apps-script/README.md` | **Deploy this first.** Twenty minutes, once. |
 

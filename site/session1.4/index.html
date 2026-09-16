@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 1.4 · Flight rules · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 1 closing: tying Eric Ma's and Tommy Tang's parts together, the rules for AI and research data, and how an agent is used day to day on real infrastructure.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session1">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 1 / 1.4</p>
+  <nav class="parts" aria-label="Session 1 parts">
+    <a href="../session1.0/"><b>1.0</b> Before you arrive</a>
+    <a href="../session1.1/"><b>1.1</b> Welcome</a>
+    <a href="../session1.2/"><b>1.2</b> How AI works</a>
+    <a href="../session1.3/"><b>1.3</b> Pilot or passenger</a>
+    <a href="../session1.4/" aria-current="page"><b>1.4</b> Flight rules</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 1.4 · Closing · Alper Kucukural</p>
+    <h1>Flight rules: from pilot to practice.</h1>
+    <p class="deck">Eric showed why the plane can fly confidently in the wrong direction. Tommy showed how a good pilot flies it anyway. This last part is about the rules for flying it here, with our data, on our cluster, and what that looks like on an ordinary working day.</p>
+    <div class="meta-row">
+      <span><b>About 30 to 45 minutes</b></span>
+      <span>Sections marked <span class="tag core" style="margin:0">core</span> always run; <span class="tag opt" style="margin:0">optional</span> ones are dropped first if time is short</span>
+    </div>
+  </header>
+
+  <!-- A -->
+  <section class="band" aria-labelledby="a-h">
+    <div class="band-head"><h2 id="a-h">A. One table for the whole afternoon <span class="tag core">core</span></h2></div>
+    <p class="lede">Eric ended with a table of what you will see, what causes it, and the habit that catches it. Here it is again with two more columns: what Tommy showed about each failure, and the rule or tool we use for it.</p>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr><th scope="col">What you see</th><th scope="col">Why (Eric, 1.2)</th><th scope="col">The pilot's habit (Tommy, 1.3)</th><th scope="col">Our rule or tool (1.4)</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">It makes something up</th><td>Prediction without lookup. Nothing in the mechanism checks truth.</td><td>Run generated code line by line. &ldquo;Hallucination is even more dangerous&rdquo; than irreproducibility.</td><td>Check every number against the raw report and every citation against the paper. A second, independent reviewer model.</td></tr>
+          <tr><th scope="row">Same prompt, different answer</th><td>Sampling: a weighted dice roll at every token.</td><td>Traceability and reproducibility are different questions. Commit to GitHub.</td><td>Log model, version, date, settings, and prompts. Keep the agent transcript and the git history.</td></tr>
+          <tr><th scope="row">Out-of-date answers</th><td>Training stops at a cutoff date.</td><td>Start with <code>/plan</code> and give it the context: PDFs, data, links, your old scripts.</td><td>Ground it in current documentation and your own files. A project <code>CLAUDE.md</code> that says what is true now.</td></tr>
+          <tr><th scope="row">Repeats the field's old mistakes</th><td>It copies the patterns in its training text, flaws included.</td><td>Foundations matter. Your experience spots the batch effect in the PCA.</td><td>Your judgement is the final verifier. Ask a domain expert before you believe a surprise.</td></tr>
+          <tr><th scope="row">Echoes sensitive text</th><td>Nothing in the mechanism keeps secrets.</td><td><em>Not covered today.</em></td><td>Patient and unpublished data only in approved tools. Data stays on the cluster; the connector shows only what you allow.</td></tr>
+          <tr><th scope="row">Does more than you asked</th><td><em>Agents add tool use on top of prediction.</em></td><td><code>--permission-mode auto</code> is fast, and it trades away the pause before each action.</td><td>Permission prompts, confirm before any write, deny rules, and hooks that enforce the rules no matter what the model decides.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section class="band" aria-labelledby="b-h">
+    <div class="band-head"><h2 id="b-h">B. The flight rules <span class="tag core">core</span></h2></div>
+    <p class="lede">Eric handed these topics to this part: patient data, checking outputs, disclosure, reproducibility, and when to leave AI out. One rule each, with the reason.</p>
+
+    <div class="steps">
+      <div class="step">
+        <h4>Protect the data before you protect your time</h4>
+        <p><b>Rule:</b> patient data (PHI) and unpublished results go only into tools the institution has approved for that data, with training on your inputs turned off. Never into a consumer chat account. If you are not sure a tool is approved for this data, treat it as not approved and ask.</p>
+        <p><b>Why:</b> In 2023, Samsung engineers pasted confidential source code into a consumer chatbot, and the company responded by restricting the tools for everyone. Eric's FAQ answered &ldquo;does it learn from my chat?&rdquo; with no. Whether the provider keeps and can read what you sent is a separate question, and for patient data it is the one that matters.</p>
+        <p class="say">Identifiers are wider than names. Dates of service, ZIP codes, record numbers, and full-face photos all count under HIPAA.</p>
+      </div>
+      <div class="step">
+        <h4>You are the author, and you are accountable</h4>
+        <p><b>Rule:</b> AI is never an author. Major journals, including the Nature and Science families, do not accept AI tools as authors, because a tool cannot take responsibility for the work. Every claim in your paper is yours.</p>
+      </div>
+      <div class="step">
+        <h4>Disclose what you used, for what, and how you checked it</h4>
+        <p><b>Rule:</b> name the tool and version, the task it did, and the verification you ran. Follow the venue's policy. Session 2 builds a reusable disclosure template.</p>
+      </div>
+      <div class="step">
+        <h4>Log it so someone can trace it</h4>
+        <p><b>Rule:</b> record the model and version, the date, settings such as temperature when you control them, and the prompts. With a coding agent, keep the session transcript and commit the code it wrote. As Tommy put it, you may not get the same output twice, but you should always be able to show how you got this one.</p>
+      </div>
+      <div class="step">
+        <h4>Expect the bias you would expect from the literature</h4>
+        <p><b>Rule:</b> read AI output the way you read a field's older papers. Training text over-represents some populations, tissues, and model organisms, and the model repeats that skew fluently.</p>
+      </div>
+      <div class="step">
+        <h4>Hand AI the labour, keep the judgement</h4>
+        <p><b>Rule:</b> AI may do recoverable labour: formatting, first drafts of code, polishing language, summarizing a source you will check. It must not replace the judgement that defines research: framing the question, calling an outlier, interpreting a surprise, answering a reviewer, or anything clinically consequential without expert review. Leave AI out entirely when you cannot check its answer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section class="band" aria-labelledby="c-h">
+    <div class="band-head"><h2 id="c-h">C. How I actually work <span class="tag core">core</span></h2></div>
+    <p class="lede">Tommy's demo ran an agent on a laptop against a local analysis. My day is the next step up: an agent connected to the systems this bootcamp runs on, Foundry Connect and the UMass Chan HPC cluster. This is a live demo; the steps below are what you will see.</p>
+
+    <div class="steps">
+      <div class="step">
+        <h4>Start from context, not from a prompt <span class="tag opt">optional</span></h4>
+        <p>Every project has a <code>CLAUDE.md</code>: what the project is, how it is laid out, and the rules the agent follows there. I also keep a global one with rules for every project. Before any change, the agent writes a plan, and I read it before it acts.</p>
+        <p class="say">Same idea as Tommy's &ldquo;always start with a /plan&rdquo;, made permanent so I do not have to repeat myself each session.</p>
+      </div>
+      <div class="step">
+        <h4>Skills are our lab's standard operating procedures <span class="tag opt">optional</span></h4>
+        <p>A skill is a markdown file with instructions, the <code>SKILL.md</code> from Tommy's slides. We write them for the procedures we do not want improvised:</p>
+        <ul>
+          <li><b>Submitting a job to the HPC cluster:</b> which LSF queue, how to request memory and time, how to run inside an Apptainer container, and how to generate a job script safely.</li>
+          <li><b>Launching a Foundry Connect pipeline run:</b> build a dataset from the FASTQ files on disk, duplicate a known-good run, change only the inputs, then launch.</li>
+        </ul>
+        <p class="say">A skill is a protocol written once, reviewed by a person, and followed the same way every time. That is what makes an agent's work traceable.</p>
+      </div>
+      <div class="step">
+        <h4>Connect it to Foundry Connect <span class="tag core">core</span></h4>
+        <p>Through the Foundry Connect connector (the fourth green light from <a href="../session1.0/">1.0</a>), I ask in plain language:</p>
+        <ul>
+          <li>&ldquo;Which of my runs failed this week, and why?&rdquo; It reads run status and logs.</li>
+          <li>&ldquo;Pull the QC report for this RNA-seq run and summarize anything unusual.&rdquo; It reads result files.</li>
+          <li>&ldquo;Rerun it with the corrected sample sheet.&rdquo; It prepares the change and <b>stops to ask for confirmation</b> before launching anything.</li>
+        </ul>
+        <p class="say">The data and the compute stay on the cluster. The assistant sees what the connector exposes, and every write waits for a person.</p>
+      </div>
+      <div class="step">
+        <h4>Guardrails: instructions are requests, hooks are enforcement <span class="tag core">core</span></h4>
+        <p>A chat assistant sees only what a connector shows it. A coding agent on your own machine can do anything your terminal can do. That is why permission modes matter, and why auto mode belongs in a throwaway project, not next to credentials or patient data.</p>
+        <p><b>A true story from this summer.</b> While debugging a database connection, an agent helpfully printed a live access token and a database password into its session transcript. Nothing malicious happened, and nothing was misused. Both credentials still had to be revoked and replaced, because anything printed into a transcript is kept.</p>
+        <p>What changed afterwards:</p>
+        <ul>
+          <li>A written rule in my global <code>CLAUDE.md</code>: never print a credential, never type a password into a command.</li>
+          <li>Deny rules so the agent cannot open credential files at all.</li>
+          <li>A <b>hook</b>: a small script that runs before every command the agent issues and blocks anything that would print a secret. It has no bypass. It even blocked me while I was building these pages, on a false alarm, and that is the right trade.</li>
+        </ul>
+        <p class="say">The model can forget or misread a rule in its instructions. A hook runs every time, whatever the model decides.</p>
+      </div>
+      <div class="step">
+        <h4>Verification is a procedure, not a feeling <span class="tag core">core</span></h4>
+        <ul>
+          <li><b>Independent review:</b> a fresh subagent, or a model from a different family, critiques the analysis without seeing the author's reasoning. The same model cannot be both author and critic.</li>
+          <li><b>Check the numbers at the source:</b> sample counts, gene counts, and p-values in the summary must match the pipeline's own report.</li>
+          <li><b>Watch for agreement:</b> if the agent enthusiastically agrees with your hypothesis, treat that as a prompt to check, not as support.</li>
+          <li><b>Git is the flight recorder:</b> every change the agent makes is a commit a person can read.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <h4>Keep it sharp: small context, fresh sessions <span class="tag opt">optional</span></h4>
+        <p>Long sessions get slower, more expensive, and less accurate. I send exploration to subagents and keep only their conclusions, and I start a fresh session once a task ships. This is Tommy's <code>/compact</code> and subagents slide, applied as a habit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- D -->
+  <section class="band" aria-labelledby="d-h">
+    <div class="band-head"><h2 id="d-h">D. Six AI-literacy skills, and where you saw them today <span class="tag opt">optional</span></h2></div>
+    <p class="lede">Adapted from Michael Zyphur's <a href="https://github.com/mzyphur/responsible-ai-in-research-training">Responsible AI in Research and Research Training</a>.</p>
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th scope="col">Skill</th><th scope="col">The one-line rule</th><th scope="col">Where you saw it</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Citation verification</th><td>Check every AI-produced citation against the primary source.</td><td>Eric's fake-reference quiz (1.2)</td></tr>
+          <tr><th scope="row">Model and parameter reporting</th><td>Report model, version, temperature, seed, and prompt.</td><td>Eric's temperature slider (1.2)</td></tr>
+          <tr><th scope="row">Prompt discipline</th><td>A prompt is an analytic choice. Test whether a small rewording changes the answer.</td><td>Session 2 and Session 3</td></tr>
+          <tr><th scope="row">Adversarial review</th><td>Critique with a different model than the one that did the work.</td><td>Verification step (1.4 C)</td></tr>
+          <tr><th scope="row">Sycophancy detection</th><td>Agreement is not evidence.</td><td>Verification step (1.4 C)</td></tr>
+          <tr><th scope="row">Failure-mode reporting</th><td>Say what you checked, what failed, and what risk remains.</td><td>The table in section A</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- E -->
+  <section class="band" aria-labelledby="e-h">
+    <div class="band-head"><h2 id="e-h">E. Activity: spot the leak <span class="tag opt">optional</span></h2></div>
+    <p class="lede">Eric's quiz asked which references were invented. This one asks which prompts should never be sent to a consumer chat tool. Vote first, then open each card. All records below are fictional.</p>
+
+    <details class="reveal">
+      <summary><span class="lbl">Prompt 1</span>A results table from a public study</summary>
+      <blockquote>Here is the DESeq2 output for liver Jnk1/Jnk2 knockout versus wild type from GEO (public accession). Which of the top 50 genes are in the PPAR&alpha; pathway?</blockquote>
+      <div class="ans"><span class="verdict-ok">Fine to send.</span> The data is already public and has no personal information. Still verify the pathway membership against a database, not the model's memory.</div>
+    </details>
+
+    <details class="reveal">
+      <summary><span class="lbl">Prompt 2</span>Help writing up a biopsy note</summary>
+      <blockquote>Turn this into a sample description: MRN 0000-000, 52-year-old woman, vitiligo, lesional biopsy taken 03/14 at the dermatology clinic, follow-up scheduled.</blockquote>
+      <div class="ans"><span class="verdict-leak">Leak.</span> A record number, an exact date of service, age, and diagnosis together identify a patient. This is PHI whether or not a name appears.</div>
+    </details>
+
+    <details class="reveal">
+      <summary><span class="lbl">Prompt 3</span>A sample sheet with &ldquo;no names&rdquo;</summary>
+      <blockquote>Check this sample sheet for errors: sample_id, donor_age, sex, biopsy_date, home_zip, condition, batch</blockquote>
+      <div class="ans"><span class="verdict-leak">Leak.</span> No names, but biopsy dates and ZIP codes are HIPAA identifiers, and together with age and sex they can re-identify people. Remove those columns, or use an approved tool.</div>
+    </details>
+
+    <details class="reveal">
+      <summary><span class="lbl">Prompt 4</span>Polishing an abstract</summary>
+      <blockquote>Make this abstract more compelling for Nature: [our unpublished preliminary result, not yet submitted]</blockquote>
+      <div class="ans"><span class="verdict-leak">Leak in a consumer tool.</span> Unpublished findings are confidential to your lab. Use the approved instance, and disclose the editing help (flight rule 3).</div>
+    </details>
+  </section>
+
+  <!-- F -->
+  <section class="band" aria-labelledby="f-h">
+    <div class="band-head"><h2 id="f-h">F. What happens next <span class="tag core">core</span></h2></div>
+
+    <h3>1. Finish setup before Session 2</h3>
+    <p>Get your four green lights using the <a href="../session1.0/">setup checklist</a>. Everything you saw in section C depends on them, and so do Sessions 4 to 6.</p>
+
+    <h3>2. Homework: your lab's five-line AI ground rules</h3>
+    <p>Use the nine-question checklist from <a href="../session1.1/">1.1</a> and the flight rules above. Write five lines your lab could actually adopt, and bring them to Session 2. An example to react to, not to copy:</p>
+    <ol class="plain">
+      <li>No patient or unpublished data in any AI tool that is not approved for it.</li>
+      <li>Every AI-produced number or citation is checked at the source before it goes in a figure or a draft.</li>
+      <li>Agent-written code is committed and reviewed like a colleague's code.</li>
+      <li>Methods sections name the tool, version, task, and how it was checked.</li>
+      <li>Interpretation stays with people: AI can draft, it does not decide.</li>
+    </ol>
+
+    <h3>3. Where the rest of the bootcamp picks this up</h3>
+    <div class="acts">
+      <div class="act"><span class="when">Sep 25 · Session 2</span><strong>AI as a Research Co-pilot</strong><p>Prompting craft, the four ways to use AI, and the disclosure template.</p></div>
+      <div class="act"><span class="when">Oct 2 · Session 3</span><strong>Statistics You Can Trust</strong><p>The toolkit that lets you catch a wrong number yourself.</p></div>
+      <div class="act"><span class="when">Oct 9 to 23 · Sessions 4 to 6</span><strong>Bulk, single-cell, spatial</strong><p>Real studies, run on Foundry Connect with the same connector and verification habits you saw today.</p></div>
+    </div>
+
+    <div class="pull">
+      <p>Will you be the pilot or the passenger? Pilots know how the plane works, follow the flight rules, and check the instruments against the ground.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session1.3/"><span class="k">&larr; Previous</span><strong>1.3 Pilot or passenger</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
