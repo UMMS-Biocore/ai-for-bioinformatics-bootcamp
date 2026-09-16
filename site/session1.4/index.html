@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 1.4 · Flight rules · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 1 closing: tying Eric Ma's and Tommy Tang's parts together, the rules for AI and research data, and how an agent is used day to day on real infrastructure.">
+<meta name="description" content="Session 1 closing: the rules for AI and research data, and how an AI agent is used day to day on real infrastructure.">
 <script src="../assets/theme.js"></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
@@ -38,15 +38,11 @@
     <p class="eyebrow">Session 1.4 · Closing · Alper Kucukural</p>
     <h1>Flight rules: from pilot to practice.</h1>
     <p class="deck">Eric showed why the plane can fly confidently in the wrong direction. Tommy showed how a good pilot flies it anyway. This last part is about the rules for flying it here, with our data, on our cluster, and what that looks like on an ordinary working day.</p>
-    <div class="meta-row">
-      <span><b>About 30 to 45 minutes</b></span>
-      <span>Sections marked <span class="tag core" style="margin:0">core</span> always run; <span class="tag opt" style="margin:0">optional</span> ones are dropped first if time is short</span>
-    </div>
   </header>
 
   <!-- A -->
   <section class="band" aria-labelledby="a-h">
-    <div class="band-head"><h2 id="a-h">A. One table for the whole afternoon <span class="tag core">core</span></h2></div>
+    <div class="band-head"><h2 id="a-h">A. One table for the whole afternoon</h2></div>
     <p class="lede">Eric ended with a table of what you will see, what causes it, and the habit that catches it. Here it is again with two more columns: what Tommy showed about each failure, and the rule or tool we use for it.</p>
     <div class="table-scroll">
       <table class="data">
@@ -58,7 +54,7 @@
           <tr><th scope="row">Same prompt, different answer</th><td>Sampling: a weighted dice roll at every token.</td><td>Traceability and reproducibility are different questions. Commit to GitHub.</td><td>Log model, version, date, settings, and prompts. Keep the agent transcript and the git history.</td></tr>
           <tr><th scope="row">Out-of-date answers</th><td>Training stops at a cutoff date.</td><td>Start with <code>/plan</code> and give it the context: PDFs, data, links, your old scripts.</td><td>Ground it in current documentation and your own files. A project <code>CLAUDE.md</code> that says what is true now.</td></tr>
           <tr><th scope="row">Repeats the field's old mistakes</th><td>It copies the patterns in its training text, flaws included.</td><td>Foundations matter. Your experience spots the batch effect in the PCA.</td><td>Your judgement is the final verifier. Ask a domain expert before you believe a surprise.</td></tr>
-          <tr><th scope="row">Echoes sensitive text</th><td>Nothing in the mechanism keeps secrets.</td><td><em>Not covered today.</em></td><td>Patient and unpublished data only in approved tools. Data stays on the cluster; the connector shows only what you allow.</td></tr>
+          <tr><th scope="row">Echoes sensitive text</th><td>Nothing in the mechanism keeps secrets.</td><td>Covered by the rules in section B.</td><td>Patient and unpublished data only in approved tools. Data stays on the cluster; the connector shows only what you allow.</td></tr>
           <tr><th scope="row">Does more than you asked</th><td><em>Agents add tool use on top of prediction.</em></td><td><code>--permission-mode auto</code> is fast, and it trades away the pause before each action.</td><td>Permission prompts, confirm before any write, deny rules, and hooks that enforce the rules no matter what the model decides.</td></tr>
         </tbody>
       </table>
@@ -67,8 +63,8 @@
 
   <!-- B -->
   <section class="band" aria-labelledby="b-h">
-    <div class="band-head"><h2 id="b-h">B. The flight rules <span class="tag core">core</span></h2></div>
-    <p class="lede">Eric handed these topics to this part: patient data, checking outputs, disclosure, reproducibility, and when to leave AI out. One rule each, with the reason.</p>
+    <div class="band-head"><h2 id="b-h">B. The flight rules</h2></div>
+    <p class="lede">Patient data, checking outputs, disclosure, reproducibility, bias, and when to leave AI out. One rule for each, with the reason.</p>
 
     <div class="steps">
       <div class="step">
@@ -102,17 +98,17 @@
 
   <!-- C -->
   <section class="band" aria-labelledby="c-h">
-    <div class="band-head"><h2 id="c-h">C. How I actually work <span class="tag core">core</span></h2></div>
-    <p class="lede">Tommy's demo ran an agent on a laptop against a local analysis. My day is the next step up: an agent connected to the systems this bootcamp runs on, Foundry Connect and the UMass Chan HPC cluster. This is a live demo; the steps below are what you will see.</p>
+    <div class="band-head"><h2 id="c-h">C. How I actually work</h2></div>
+    <p class="lede">Tommy's demo ran an agent on a laptop against a local analysis. My day is the next step up: an agent connected to the systems this bootcamp runs on, Foundry Connect and the UMass Chan HPC cluster. In class this is a live demo; the steps below walk through it.</p>
 
     <div class="steps">
       <div class="step">
-        <h4>Start from context, not from a prompt <span class="tag opt">optional</span></h4>
+        <h4>Start from context, not from a prompt</h4>
         <p>Every project has a <code>CLAUDE.md</code>: what the project is, how it is laid out, and the rules the agent follows there. I also keep a global one with rules for every project. Before any change, the agent writes a plan, and I read it before it acts.</p>
         <p class="say">Same idea as Tommy's &ldquo;always start with a /plan&rdquo;, made permanent so I do not have to repeat myself each session.</p>
       </div>
       <div class="step">
-        <h4>Skills are our lab's standard operating procedures <span class="tag opt">optional</span></h4>
+        <h4>Skills are our lab's standard operating procedures</h4>
         <p>A skill is a markdown file with instructions, the <code>SKILL.md</code> from Tommy's slides. We write them for the procedures we do not want improvised:</p>
         <ul>
           <li><b>Submitting a job to the HPC cluster:</b> which LSF queue, how to request memory and time, how to run inside an Apptainer container, and how to generate a job script safely.</li>
@@ -121,7 +117,7 @@
         <p class="say">A skill is a protocol written once, reviewed by a person, and followed the same way every time. That is what makes an agent's work traceable.</p>
       </div>
       <div class="step">
-        <h4>Connect it to Foundry Connect <span class="tag core">core</span></h4>
+        <h4>Connect it to Foundry Connect</h4>
         <p>Through the Foundry Connect connector (the fourth green light from <a href="../session1.0/">1.0</a>), I ask in plain language:</p>
         <ul>
           <li>&ldquo;Which of my runs failed this week, and why?&rdquo; It reads run status and logs.</li>
@@ -131,19 +127,19 @@
         <p class="say">The data and the compute stay on the cluster. The assistant sees what the connector exposes, and every write waits for a person.</p>
       </div>
       <div class="step">
-        <h4>Guardrails: instructions are requests, hooks are enforcement <span class="tag core">core</span></h4>
+        <h4>Guardrails: instructions are requests, hooks are enforcement</h4>
         <p>A chat assistant sees only what a connector shows it. A coding agent on your own machine can do anything your terminal can do. That is why permission modes matter, and why auto mode belongs in a throwaway project, not next to credentials or patient data.</p>
         <p><b>A true story from this summer.</b> While debugging a database connection, an agent helpfully printed a live access token and a database password into its session transcript. Nothing malicious happened, and nothing was misused. Both credentials still had to be revoked and replaced, because anything printed into a transcript is kept.</p>
         <p>What changed afterwards:</p>
         <ul>
           <li>A written rule in my global <code>CLAUDE.md</code>: never print a credential, never type a password into a command.</li>
           <li>Deny rules so the agent cannot open credential files at all.</li>
-          <li>A <b>hook</b>: a small script that runs before every command the agent issues and blocks anything that would print a secret. It has no bypass. It even blocked me while I was building these pages, on a false alarm, and that is the right trade.</li>
+          <li>A <b>hook</b>: a small script that runs before every command the agent issues and blocks anything that would print a secret. It has no bypass. It occasionally blocks something harmless, and that is the right trade.</li>
         </ul>
         <p class="say">The model can forget or misread a rule in its instructions. A hook runs every time, whatever the model decides.</p>
       </div>
       <div class="step">
-        <h4>Verification is a procedure, not a feeling <span class="tag core">core</span></h4>
+        <h4>Verification is a procedure, not a feeling</h4>
         <ul>
           <li><b>Independent review:</b> a fresh subagent, or a model from a different family, critiques the analysis without seeing the author's reasoning. The same model cannot be both author and critic.</li>
           <li><b>Check the numbers at the source:</b> sample counts, gene counts, and p-values in the summary must match the pipeline's own report.</li>
@@ -152,7 +148,7 @@
         </ul>
       </div>
       <div class="step">
-        <h4>Keep it sharp: small context, fresh sessions <span class="tag opt">optional</span></h4>
+        <h4>Keep it sharp: small context, fresh sessions</h4>
         <p>Long sessions get slower, more expensive, and less accurate. I send exploration to subagents and keep only their conclusions, and I start a fresh session once a task ships. This is Tommy's <code>/compact</code> and subagents slide, applied as a habit.</p>
       </div>
     </div>
@@ -160,7 +156,7 @@
 
   <!-- D -->
   <section class="band" aria-labelledby="d-h">
-    <div class="band-head"><h2 id="d-h">D. Six AI-literacy skills, and where you saw them today <span class="tag opt">optional</span></h2></div>
+    <div class="band-head"><h2 id="d-h">D. Six AI-literacy skills, and where you saw them today</h2></div>
     <p class="lede">Adapted from Michael Zyphur's <a href="https://github.com/mzyphur/responsible-ai-in-research-training">Responsible AI in Research and Research Training</a>.</p>
     <div class="table-scroll">
       <table class="data">
@@ -179,8 +175,8 @@
 
   <!-- E -->
   <section class="band" aria-labelledby="e-h">
-    <div class="band-head"><h2 id="e-h">E. Activity: spot the leak <span class="tag opt">optional</span></h2></div>
-    <p class="lede">Eric's quiz asked which references were invented. This one asks which prompts should never be sent to a consumer chat tool. Vote first, then open each card. All records below are fictional.</p>
+    <div class="band-head"><h2 id="e-h">E. Activity: spot the leak</h2></div>
+    <p class="lede">Eric's quiz asked which references were invented. This one asks which prompts should never be sent to a consumer chat tool. Decide for each one before you open the card. All records below are fictional.</p>
 
     <details class="reveal">
       <summary><span class="lbl">Prompt 1</span>A results table from a public study</summary>
@@ -209,7 +205,7 @@
 
   <!-- F -->
   <section class="band" aria-labelledby="f-h">
-    <div class="band-head"><h2 id="f-h">F. What happens next <span class="tag core">core</span></h2></div>
+    <div class="band-head"><h2 id="f-h">F. What happens next</h2></div>
 
     <h3>1. Finish setup before Session 2</h3>
     <p>Get your four green lights using the <a href="../session1.0/">setup checklist</a>. Everything you saw in section C depends on them, and so do Sessions 4 to 6.</p>
@@ -223,13 +219,6 @@
       <li>Methods sections name the tool, version, task, and how it was checked.</li>
       <li>Interpretation stays with people: AI can draft, it does not decide.</li>
     </ol>
-
-    <h3>3. Where the rest of the bootcamp picks this up</h3>
-    <div class="acts">
-      <div class="act"><span class="when">Sep 25 · Session 2</span><strong>AI as a Research Co-pilot</strong><p>Prompting craft, the four ways to use AI, and the disclosure template.</p></div>
-      <div class="act"><span class="when">Oct 2 · Session 3</span><strong>Statistics You Can Trust</strong><p>The toolkit that lets you catch a wrong number yourself.</p></div>
-      <div class="act"><span class="when">Oct 9 to 23 · Sessions 4 to 6</span><strong>Bulk, single-cell, spatial</strong><p>Real studies, run on Foundry Connect with the same connector and verification habits you saw today.</p></div>
-    </div>
 
     <div class="pull">
       <p>Will you be the pilot or the passenger? Pilots know how the plane works, follow the flight rules, and check the instruments against the ground.</p>

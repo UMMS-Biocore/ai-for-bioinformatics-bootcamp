@@ -4,3 +4,6 @@
 # Responses contain participant names and emails and must never enter git.
 registration/
 .playwright-mcp/
+
+# Instructor-only notes, deploy docs, registration backend, drafts. Never public.
+internal/

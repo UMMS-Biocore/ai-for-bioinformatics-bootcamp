@@ -41,11 +41,9 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 
 | Path | What it is |
 |---|---|
-| `session1/README.md` | Session 1 plan: flow, content, instructor notes |
-| `session1/content-plan.md` | How the opening and closing were designed around the guest parts |
+| `session1/README.md` | Session 1 overview, homework, and materials |
 | `session1/AI in Bioinformatics.pptx` | Tommy Tang's slides |
-| `site/` | The website (static HTML). See [site/README.md](site/README.md) |
-| `announcement/` | Registration email and training-page blurb |
+| `site/` | The bootcamp website |
 
 ## Grounded in
 
