@@ -54,4 +54,4 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 
 ## Instructors
 
-Manuel Garber, Ozkan Aydemir, Alper Kucukural (UMass Chan Bioinformatics Core). Guest speakers: Eric Ma (Moderna) and Ming "Tommy" Tang (AstraZeneca).
+Manuel Garber, Ozkan Aydemir, Alper Kucukural (UMass Chan Bioinformatics Core). Guest speakers: Eric Ma (Moderna), Ming "Tommy" Tang (AstraZeneca), and Eric Kercher (Alys Pharmaceuticals).
