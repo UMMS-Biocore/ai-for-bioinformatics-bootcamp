@@ -12,12 +12,12 @@ Explain at an intuition level why language models hallucinate, and apply the rul
 
 | Time | Part | Who | Page |
 |---|---|---|---|
-| Before the session | 1.0 Before you arrive: four green lights | Pre-work | [session1.0](https://biocore.umassmed.edu/bootcamp/session1.0/) |
-| 1:00 | 1.1 Welcome | Alper Kucukural | [session1.1](https://biocore.umassmed.edu/bootcamp/session1.1/) |
-| ~1:15 | 1.2 How AI actually works | Eric Ma | [session1.2](https://biocore.umassmed.edu/bootcamp/session1.2/) |
+| Before the session | 1.0 Before you arrive: four green lights | Pre-work | [session1.0](https://biocore.umassmed.edu/session1.0/) |
+| 1:00 | 1.1 Welcome | Alper Kucukural | [session1.1](https://biocore.umassmed.edu/session1.1/) |
+| ~1:15 | 1.2 How AI actually works | Eric Ma | [session1.2](https://biocore.umassmed.edu/session1.2/) |
 | ~2:15 | Break | | |
-| ~2:30 | 1.3 AI in bioinformatics: pilot or passenger? | Tommy Tang | [session1.3](https://biocore.umassmed.edu/bootcamp/session1.3/) |
-| ~3:30 | 1.4 Flight rules: from pilot to practice | Alper Kucukural | [session1.4](https://biocore.umassmed.edu/bootcamp/session1.4/) |
+| ~2:30 | 1.3 AI in bioinformatics: pilot or passenger? | Tommy Tang | [session1.3](https://biocore.umassmed.edu/session1.3/) |
+| ~3:30 | 1.4 Flight rules: from pilot to practice | Alper Kucukural | [session1.4](https://biocore.umassmed.edu/session1.4/) |
 
 Times are approximate.
 
@@ -30,7 +30,7 @@ Connect Foundry Connect, the HPC cluster, and Claude before Session 2:
 3. Select the key in your Foundry Connect run environment and test the connection.
 4. Add the Foundry Connect connector (`https://viafoundry.umassmed.edu/mcp`) to Claude.
 
-Step-by-step instructions: [session1.0](https://biocore.umassmed.edu/bootcamp/session1.0/).
+Step-by-step instructions: [session1.0](https://biocore.umassmed.edu/session1.0/).
 
 ## Homework
 

@@ -2,7 +2,7 @@
 
 *A hands-on bootcamp that pairs the **theory** of modern genomics (bulk RNA-Seq, single-cell, and spatial) with the **responsible use of AI** to accelerate research, taught through real studies from Manuel Garber's lab and run end-to-end on **Foundry Connect**.*
 
-**Website:** https://biocore.umassmed.edu/bootcamp/ · Fall 2026 · UMass Chan Medical School · Six Fridays, Sep 18 to Oct 23, 1:00 to 4:00 pm
+**Website:** https://biocore.umassmed.edu/ · Fall 2026 · UMass Chan Medical School · Six Fridays, Sep 18 to Oct 23, 1:00 to 4:00 pm
 
 > This repository grows one session per week. Each session's plan, slides, and links are added as it is taught.
 
@@ -23,17 +23,17 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 
 | # | Date | Session | Materials |
 |---|---|---|---|
-| 1 | Fri Sep 18, 2026 · Amphitheater II (S4-102) | **AI Foundations and Responsible AI** | [Plan](session1/README.md) · [Web pages](https://biocore.umassmed.edu/bootcamp/session1.1/) · [Slides](session1/) |
+| 1 | Fri Sep 18, 2026 · Amphitheater II (S4-102) | **AI Foundations and Responsible AI** | [Plan](session1/README.md) · [Web pages](https://biocore.umassmed.edu/session1.1/) · [Slides](session1/) |
 
 ### Session 1 at a glance
 
 | Part | Who | Web page |
 |---|---|---|
-| 1.0 Before you arrive: four green lights (pre-work) | | [session1.0](https://biocore.umassmed.edu/bootcamp/session1.0/) |
-| 1.1 Welcome, the six-week map, today's three acts | Alper Kucukural | [session1.1](https://biocore.umassmed.edu/bootcamp/session1.1/) |
-| 1.2 How AI actually works | Eric Ma (Moderna) | [session1.2](https://biocore.umassmed.edu/bootcamp/session1.2/) · [lesson](https://biocore.umassmed.edu/next-token/) |
-| 1.3 AI in bioinformatics: pilot or passenger? | Tommy Tang (AstraZeneca) | [session1.3](https://biocore.umassmed.edu/bootcamp/session1.3/) · [slides](session1/AI%20in%20Bioinformatics.pptx) |
-| 1.4 Flight rules: from pilot to practice | Alper Kucukural | [session1.4](https://biocore.umassmed.edu/bootcamp/session1.4/) |
+| 1.0 Before you arrive: four green lights (pre-work) | | [session1.0](https://biocore.umassmed.edu/session1.0/) |
+| 1.1 Welcome, the six-week map, today's three acts | Alper Kucukural | [session1.1](https://biocore.umassmed.edu/session1.1/) |
+| 1.2 How AI actually works | Eric Ma (Moderna) | [session1.2](https://biocore.umassmed.edu/session1.2/) · [lesson](https://biocore.umassmed.edu/next-token/) |
+| 1.3 AI in bioinformatics: pilot or passenger? | Tommy Tang (AstraZeneca) | [session1.3](https://biocore.umassmed.edu/session1.3/) · [slides](session1/AI%20in%20Bioinformatics.pptx) |
+| 1.4 Flight rules: from pilot to practice | Alper Kucukural | [session1.4](https://biocore.umassmed.edu/session1.4/) |
 
 ---
 
