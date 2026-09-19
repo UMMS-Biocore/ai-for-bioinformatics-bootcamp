@@ -143,6 +143,19 @@ details.reveal .ans { margin: .8rem 0 0; padding-top: .8rem; border-top: 1px sol
 .verdict-leak { color: #B3261E; font-weight: 600; }
 :root[data-theme="dark"] .verdict-leak { color: #F2A29B; }
 
+/* ---------- recordings ---------- */
+
+figure.video { margin: 0 0 1.6rem; max-width: 52rem; }
+figure.video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+figure.video figcaption { margin-top: .5rem; font-size: .85rem; color: var(--pencil); }
+
 /* ---------- link cards ---------- */
 
 .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }

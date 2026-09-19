@@ -32,6 +32,18 @@ Connect Foundry Connect, the HPC cluster, and Claude before Session 2:
 
 Step-by-step instructions: [session1.0](https://biocore.umassmed.edu/session1.0/).
 
+## Recordings
+
+In the order the afternoon was taught. Each video also sits on its own page.
+
+| # | Part | Who | Length | Video |
+|---|---|---|---|---|
+| 1 | Welcome and introductions | Alper Kucukural | 10 min | [watch](https://biocore.umassmed.edu/session1.1/#recording) |
+| 2 | How language models actually work | Eric Ma | 1 h 2 min | [watch](https://biocore.umassmed.edu/session1.2/#recording) |
+| 3 | Foundry Connect and responsible AI | Alper Kucukural | 5 min | [watch](https://biocore.umassmed.edu/session1.4/#recording) |
+| 4 | AI in bioinformatics: pilot or passenger? | Tommy Tang | 53 min | [watch](https://biocore.umassmed.edu/session1.3/#recording) |
+| 5 | Verification and safety | Alper Kucukural | 22 min | [watch](https://biocore.umassmed.edu/session1.4/#recording) |
+
 ## Homework
 
 Draft your lab's five-line AI ground rules, using the trust checklist from 1.1 and the flight rules from 1.4. Bring them to Session 2.
@@ -42,4 +54,4 @@ Draft your lab's five-line AI ground rules, using the trust checklist from 1.1 a
 - Tommy Tang, [AI in Bioinformatics slides](AI%20in%20Bioinformatics.pptx) and the [Claude Code RNA-seq workshop](https://crazyhottommy.github.io/claude_code_RNAseq_workshop/)
 - Reading: [Nature Methods, "Language models for biological research: a primer" (2024)](https://www.nature.com/articles/s41592-024-02354-y)
 - Framework: Zyphur, [Responsible AI in Research and Research Training](https://github.com/mzyphur/responsible-ai-in-research-training) (CC BY-NC-ND)
-- Recording: added after the session
+- Recordings: see the table above
