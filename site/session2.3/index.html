@@ -253,16 +253,20 @@ Which factor separates the samples on PC1, and which on PC2?</blockquote>
       <div class="step">
         <h4>Wrap up: take the work with you</h4>
         <p>A chat is not a record. Before you close it, make sure you leave with more than a scrollback of plots.</p>
-        <div class="task"><span>Your turn: write the prompt</span><p>Before you close the chat, ask Claude for everything you would need to redo or report this analysis:</p><ul><li>one Python script, as a file to download, that redoes every step from the original data address, with a short comment above each step</li><li>a methods paragraph you could adapt for a paper, naming each filter and threshold</li><li>a list of every figure you made, with one sentence on what each shows</li><li>every assumption or choice Claude made on your behalf</li></ul></div>
+        <div class="task"><span>Your turn: write the prompt</span><p>Before you close the chat, ask Claude for everything you would need to redo or report this analysis:</p><ul><li>one Python script, as a file to download, that redoes every step from the original data address, with a short comment above each step</li><li>a methods paragraph you could adapt for a paper, naming each filter and threshold</li><li>a list of every figure you made, with one sentence on what each shows</li><li>every assumption or choice Claude made on your behalf</li><li>all of it gathered into one report you can share: a page with the figures, the methods, and the findings</li></ul></div>
         <details class="reveal hint"><summary><span class="lbl">HINT</span>Stuck? One way to write this prompt</summary>
           <blockquote>We are done for today. Please give me:
 1. one Python script, as a downloadable file, that redoes every step we did from the
    original data address, with a short comment above each step
 2. a methods paragraph I could adapt for a paper, naming each filter and threshold we used
 3. a list of every figure we made, with one sentence on what each one shows
-4. anything you assumed or chose on my behalf during this conversation</blockquote>
+4. anything you assumed or chose on my behalf during this conversation
+5. a one-page report as an artifact, with the key figures, the methods paragraph,
+   and three findings in plain language, so I can publish it and share the link</blockquote>
           <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
         </details>
+        <p class="say"><b>On claude.ai:</b> ask for the report &ldquo;as an artifact&rdquo;. It opens in a panel next to the chat. Use its <b>Publish</b> button to get a link you can send to your PI or paste into your lab notes. Anyone with the link can see it, so publish only what you are allowed to share.</p>
+        <p class="say"><b>On Codex:</b> ask it to write the report as an HTML or Markdown file in your project and tell you the file name. If your Codex is connected to GitHub, ask it to open a pull request instead, and share that link.</p>
         <p class="check"><b>Checkpoint</b>You can download a script, and the methods paragraph names the filter (at least 10 counts in at least 3 samples), log2(CPM + 1), and the 500 most variable genes for the heatmap and PCA. If a number in it disagrees with what you saw earlier, ask Claude which one is right.</p>
         <div class="more"><ul><li>Ask for the same script in R using ggplot2.</li><li>Ask which of today&rsquo;s results Claude would not trust yet, and why.</li></ul></div>
       </div>
