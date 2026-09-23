@@ -134,6 +134,24 @@ below that, so no individual can be singled out. Adding a question to the page
 means adding it to `QUESTIONS` or `RATINGS` in `build_stats.py` and regenerating,
 not editing the output.
 
+## Guest material is linked through org forks
+
+Material by other people that the course depends on is forked into
+`UMMS-Biocore`, and the site links the fork, so a repository that moves or
+disappears cannot break the course mid-semester. Attribution does not change:
+every page still names the original author.
+
+| Upstream | Fork the site links |
+|---|---|
+| `ericmjl/next-token` | `UMMS-Biocore/next-token` |
+| `crazyhottommy/claude_code_RNAseq_workshop` | `UMMS-Biocore/claude_code_RNAseq_workshop`, published at `umms-biocore.github.io/claude_code_RNAseq_workshop/` (Pages: `main`, `/docs`) |
+| `mzyphur/responsible-ai-in-research-training` | `UMMS-Biocore/responsible-ai-in-research-training` (CC BY-NC-ND: a verbatim copy, attributed, never edited) |
+
+A fork goes stale the moment upstream moves. Refresh one with
+`gh repo sync UMMS-Biocore/<name> --source <upstream>` before a session that
+uses it. `rstudio/cheatsheets` is deliberately **not** forked: 1.3 GB for one
+PDF, so that link stays upstream.
+
 ## Content sources
 
 `README.md` and `session1/README.md` are the student-facing index of sessions,

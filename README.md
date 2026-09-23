@@ -58,7 +58,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 
 ## Grounded in
 
-- Zyphur, [Responsible AI in Research and Research Training](https://github.com/mzyphur/responsible-ai-in-research-training) (CC BY-NC-ND: referenced and attributed, not copied).
+- Zyphur, [Responsible AI in Research and Research Training](https://github.com/UMMS-Biocore/responsible-ai-in-research-training) (CC BY-NC-ND: referenced and attributed, not copied).
 - [Language models for biological research: a primer](https://www.nature.com/articles/s41592-024-02354-y), Nature Methods 2024.
 
 ## AI use disclosure

@@ -50,8 +50,8 @@ Draft your lab's five-line AI ground rules, using the trust checklist from 1.1 a
 
 ## Materials
 
-- Eric Ma, [How language models actually work](https://biocore.umassmed.edu/next-token/) ([source](https://github.com/ericmjl/next-token))
-- Tommy Tang, [AI in Bioinformatics slides](AI%20in%20Bioinformatics.pptx) and the [Claude Code RNA-seq workshop](https://crazyhottommy.github.io/claude_code_RNAseq_workshop/)
+- Eric Ma, [How language models actually work](https://biocore.umassmed.edu/next-token/) ([source](https://github.com/UMMS-Biocore/next-token))
+- Tommy Tang, [AI in Bioinformatics slides](AI%20in%20Bioinformatics.pptx) and the [Claude Code RNA-seq workshop](https://umms-biocore.github.io/claude_code_RNAseq_workshop/)
 - Reading: [Nature Methods, "Language models for biological research: a primer" (2024)](https://www.nature.com/articles/s41592-024-02354-y)
-- Framework: Zyphur, [Responsible AI in Research and Research Training](https://github.com/mzyphur/responsible-ai-in-research-training) (CC BY-NC-ND)
+- Framework: Zyphur, [Responsible AI in Research and Research Training](https://github.com/UMMS-Biocore/responsible-ai-in-research-training) (CC BY-NC-ND)
 - Recordings: see the table above
