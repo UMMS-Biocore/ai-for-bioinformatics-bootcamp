@@ -155,6 +155,7 @@ details.reveal .ans { margin: .8rem 0 0; padding-top: .8rem; border-top: 1px sol
 .check b { color: var(--ink); }
 .check > b:first-child { color: var(--keep); font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; margin-right: .4rem; }
 .step details.reveal { margin-top: .8rem; }
+details.hint blockquote { white-space: pre-wrap; overflow-wrap: anywhere; }
 .more { max-width: 50rem; margin: .8rem 0 0; padding: .55rem .9rem; border: 1px dashed var(--rule-strong); border-radius: 4px; }
 .more ul { margin: 0; padding-left: 1.1rem; }
 .step .more li { font-size: .88rem; margin: .2rem 0; }
