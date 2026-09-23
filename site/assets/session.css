@@ -121,6 +121,13 @@ ol.checklist .src { font-size: .82rem; color: var(--pencil); }
 .step p, .step li { font-size: .93rem; color: var(--ink-soft); margin: .3rem 0; max-width: 50rem; }
 .step ol, .step ul { padding-left: 1.2rem; margin: .4rem 0; }
 .step .say { font-size: .87rem; color: var(--pencil); border-left: 2px solid var(--rule-strong); padding-left: .8rem; margin-top: .7rem; }
+details.reveal details.reveal { padding: .75rem .9rem; margin: .6rem 0 0; }
+@media (max-width: 40rem) {
+  .step { padding: 1.1rem .9rem 1.1rem 2.7rem; }
+  .step::before { left: .7rem; top: 1.1rem; }
+  .step details.reveal { padding: .8rem .75rem; }
+  details.reveal details.reveal { padding: .6rem .5rem; }
+}
 
 code, kbd {
   font-family: var(--mono);

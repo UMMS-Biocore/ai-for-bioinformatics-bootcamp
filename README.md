@@ -24,7 +24,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | # | Date | Session | Materials |
 |---|---|---|---|
 | 1 | Fri Sep 18, 2026 · Amphitheater II (S4-102) | **AI Foundations and Responsible AI** | [Plan](session1/README.md) · [Web pages](https://biocore.umassmed.edu/session1.1/) · [Slides](session1/) |
-| 2 | Fri Sep 25, 2026 · Amphitheater II (S4-102) | **Statistics and Visualization You Can Trust** | [Plan](session2/README.md) · [Web pages](https://biocore.umassmed.edu/session2.1/) |
+| 2 | Fri Sep 25, 2026 · Amphitheater II (S4-102) | **Statistics and Visualization You Can Trust** | [Plan](session2/README.md) · [Web pages](https://biocore.umassmed.edu/session2.0/) |
 
 ### Session 1 at a glance
 
@@ -42,6 +42,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 
 | Part | Who | Web page |
 |---|---|---|
+| 2.0 Get set up (pre-work) | Bioinformatics Core | [session2.0](https://biocore.umassmed.edu/session2.0/) |
 | 2.1 Basic statistics for biologists | Tommy Tang (AstraZeneca) | [session2.1](https://biocore.umassmed.edu/session2.1/) |
 | 2.2 Master six plots | Tommy Tang (AstraZeneca) | [session2.2](https://biocore.umassmed.edu/session2.2/) |
 | 2.3 Hands-on: a real RNA-Seq table with Claude | Bioinformatics Core | [session2.3](https://biocore.umassmed.edu/session2.3/) |

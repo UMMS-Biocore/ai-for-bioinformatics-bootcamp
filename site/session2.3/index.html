@@ -27,6 +27,7 @@
 
   <p class="crumbs"><a href="../">Bootcamp</a> / Session 2 / 2.3</p>
   <nav class="parts" aria-label="Session 2 parts">
+    <a href="../session2.0/"><b>2.0</b> Get set up</a>
     <a href="../session2.1/"><b>2.1</b> Basic statistics</a>
     <a href="../session2.2/"><b>2.2</b> Six plots</a>
     <a href="../session2.3/" aria-current="page"><b>2.3</b> Hands-on</a>
@@ -62,42 +63,9 @@
     <div class="band-head"><h2 id="setup-h">Before you start</h2></div>
     <div class="steps">
       <div class="step">
-        <h4>Open one new chat in Claude</h4>
-        <p>Go to <a href="https://claude.ai">claude.ai</a>, sign in, and start a new chat. Do the whole exercise in that <b>one</b> chat, so Claude remembers the data and every step you have taken. Claude writes Python, runs it for you, and shows the tables and plots right in the chat.</p>
-        <p class="say"><b>Using Codex or ChatGPT instead?</b> That works too. Wherever this page says Claude, read it as your assistant: the tasks, hints, and checkpoints stay the same, because it also writes and runs Python for you. If your assistant runs on your own computer rather than in the browser, it needs Python installed, so ask it to check that first. The one step that differs is sharing your report at the end, and the wrap-up covers both.</p>
-        <p class="say"><b>Prefer VS Code to the browser?</b> Claude and Codex both run inside VS Code, a free code editor. Open the sections below in order, ideally before the session, and skip anything you already have.</p>
-        <details class="reveal"><summary><span class="lbl">STEP A</span>Install VS Code, if you have not yet</summary>
-          <div class="ans">
-            <p>Download it free for Windows or macOS from <a href="https://code.visualstudio.com/download">code.visualstudio.com/download</a>, and run the installer with the default options.</p>
-          </div>
-        </details>
-        <details class="reveal"><summary><span class="lbl">STEP B</span>Install Python, if you have not yet</summary>
-          <div class="ans">
-            <p>Download Python 3 free from <a href="https://www.python.org/downloads/">python.org/downloads</a>.</p>
-            <p><b>Windows:</b> tick <b>Add python.exe to PATH</b> on the first installer screen. If you miss it, the assistant cannot find Python. <b>macOS:</b> run the downloaded installer as usual.</p>
-          </div>
-        </details>
-        <details class="reveal"><summary><span class="lbl">STEP C</span>Add Claude to VS Code</summary>
-          <div class="ans">
-            <p>Open the Extensions view (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on macOS), search for <b>Claude Code</b>, and install <b>Claude Code for VS Code</b> by Anthropic. Click the Claude icon that appears, sign in with your Claude account, and approve the request in the browser window that opens. Then start a new conversation in the Claude panel.</p>
-            <p>The extension may need a paid Claude plan. Check this before the session, not during it.</p>
-          </div>
-        </details>
-        <details class="reveal"><summary><span class="lbl">STEP C</span>Or add Codex to VS Code</summary>
-          <div class="ans">
-            <p>Open the Extensions view (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on macOS), search for <b>Codex</b>, and install <b>Codex &ndash; OpenAI&rsquo;s coding agent</b> by OpenAI. Open the Codex panel, sign in with your ChatGPT account, and approve the request in the browser window that opens.</p>
-            <p>The extension may need a paid ChatGPT plan. Check this before the session, not during it.</p>
-          </div>
-        </details>
-        <details class="reveal"><summary><span class="lbl">STEP D</span>What changes when you work in VS Code</summary>
-          <div class="ans">
-            <p>Make a new folder for today, for example <code>session2-handson</code>, and open it with <b>File, Open Folder</b>. Everything the assistant makes (data, plots, scripts, the report) lands in that folder.</p>
-            <p>The assistant runs code on your own computer, so your first message should also ask it to check that Python and the packages it needs (pandas, matplotlib, seaborn, scipy, scikit-learn) are installed, and to help you install anything missing.</p>
-            <p>Plots are saved as image files rather than shown in the chat. Ask it to save each plot as a PNG and tell you the file name, then click the file in VS Code to see it.</p>
-            <p>It asks your permission before it runs commands or edits files. Read what it wants to do before you approve.</p>
-          </div>
-        </details>
-        <p class="say">Later in the bootcamp we will run this kind of analysis on the UMass Chan cluster through Foundry Connect. The way you talk to Claude stays the same.</p>
+        <h4>Get set up first</h4>
+        <p>If you have not set up yet, do <a href="../session2.0/">2.0 Get set up</a> first. It shows the places you can work (Claude in the browser, the Claude desktop app, Claude Science, ChatGPT or Codex, and VS Code) and how to set up each one. Whichever you pick, do this whole exercise in <b>one</b> conversation, so the assistant remembers the data and every step you have taken.</p>
+        <p class="say">This page says &ldquo;Claude&rdquo; throughout. If you use ChatGPT or Codex, read it as your assistant: the tasks, hints, and checkpoints stay the same.</p>
       </div>
       <div class="step">
         <h4>Tell Claude who you are and how to work</h4>

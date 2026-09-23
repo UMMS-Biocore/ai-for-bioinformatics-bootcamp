@@ -14,11 +14,16 @@ Read and reason about the statistics and figures behind a genomics result: what 
 
 | Time | Part | Who | Page |
 |---|---|---|---|
+| Before | 2.0 Get set up (pre-work) | Bioinformatics Core | [session2.0](https://biocore.umassmed.edu/session2.0/) |
 | 1:00 | 2.1 Basic statistics for biologists | Tommy Tang | [session2.1](https://biocore.umassmed.edu/session2.1/) |
 | | 2.2 Master six plots | Tommy Tang | [session2.2](https://biocore.umassmed.edu/session2.2/) |
 | | 2.3 Hands-on: a real RNA-Seq table with Claude | Bioinformatics Core | [session2.3](https://biocore.umassmed.edu/session2.3/) |
 
 Times are approximate and the running order is not final.
+
+## 2.0 Get set up (pre-work)
+
+Pick where to do the hands-on and set it up: Claude in the browser, the Claude desktop app, Claude Science, ChatGPT or Codex, or VS Code with the Claude Code or Codex extension. Ends with a quick check that the assistant can run Python and draw a plot.
 
 ## 2.1 Basic statistics for biologists
 
