@@ -143,6 +143,29 @@ details.reveal .ans { margin: .8rem 0 0; padding-top: .8rem; border-top: 1px sol
 .verdict-leak { color: #B3261E; font-weight: 600; }
 :root[data-theme="dark"] .verdict-leak { color: #F2A29B; }
 
+/* ---------- prompt boxes and checkpoints (hands-on) ---------- */
+
+.prompt { margin: .8rem 0 0; max-width: 50rem; border: 1px solid var(--rule-strong); border-radius: 4px; overflow: hidden; background: var(--pen-wash); }
+.prompt-bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .35rem .5rem .35rem .9rem; border-bottom: 1px solid var(--rule); background: var(--surface); }
+.prompt-bar span { font-family: var(--mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--pencil); }
+.prompt button.copy {
+  font-family: var(--mono);
+  font-size: .68rem;
+  color: var(--pen);
+  background: transparent;
+  border: 1px solid var(--pen);
+  border-radius: 3px;
+  padding: .25rem .65rem;
+  cursor: pointer;
+}
+.prompt button.copy:hover { background: var(--pen-wash); }
+.prompt pre { margin: 0; padding: .8rem .9rem; font-family: var(--mono); font-size: .8rem; line-height: 1.55; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.check { max-width: 50rem; margin: .8rem 0 0; padding: .6rem .9rem; border-left: 3px solid var(--keep); background: var(--surface); font-size: .9rem; color: var(--ink-soft); }
+.check b { color: var(--ink); }
+.check > b:first-child { color: var(--keep); font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; margin-right: .4rem; }
+.step details.reveal { margin-top: .8rem; }
+
 /* ---------- recordings ---------- */
 
 figure.video { margin: 0 0 1.6rem; max-width: 52rem; }
@@ -162,7 +185,7 @@ figure.video figcaption { margin-top: .5rem; font-size: .85rem; color: var(--pen
 .links a { background: var(--surface); padding: 1.1rem 1.25rem; text-decoration: none; display: flex; flex-direction: column; gap: .3rem; color: var(--ink); }
 .links a:hover { background: var(--pen-wash); }
 .links .k { font-family: var(--mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--pencil-faint); }
-.links strong { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+.links strong { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
 .links .d { font-size: .86rem; color: var(--ink-soft); }
 .links .u { font-family: var(--mono); font-size: .66rem; color: var(--pen); overflow-wrap: anywhere; margin-top: auto; }
 

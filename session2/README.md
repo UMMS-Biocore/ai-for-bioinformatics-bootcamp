@@ -16,6 +16,7 @@ Read and reason about the statistics and figures behind a genomics result: what 
 |---|---|---|---|
 | 1:00 | 2.1 Basic statistics for biologists | Tommy Tang | [session2.1](https://biocore.umassmed.edu/session2.1/) |
 | | 2.2 Master six plots | Tommy Tang | [session2.2](https://biocore.umassmed.edu/session2.2/) |
+| | 2.3 Hands-on: a real RNA-Seq table with Claude | Bioinformatics Core | [session2.3](https://biocore.umassmed.edu/session2.3/) |
 
 Times are approximate and the running order is not final.
 
@@ -26,6 +27,10 @@ Starting from the null hypothesis, what a p-value is and is not, p-value distrib
 ## 2.2 Master six plots
 
 Barplot, scatter plot, line graph, histogram, boxplot and violin, and heatmap: what each shows, when to use it, and how each one misleads. Then what the fancier plots (clustered dot plots, volcanoes, UMAP panels) are made of underneath, worked through two published figures.
+
+## 2.3 Hands-on: a real RNA-Seq table with Claude
+
+Participants use Claude in the browser (Python, no installs) on liver RNA-Seq counts from [Vernia et al., 2014, *Cell Metabolism*](https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/): 2 diets by 4 genotypes by 3 mice. They build a metadata table from the sample names, then make a barplot, histograms, violins, scatter plots, a correlation heatmap, and a PCA, each checked against a stated result. A stretch step runs a per-gene t-test, a p-value histogram, Benjamini-Hochberg correction, and a shuffled null. The same dataset returns in Session 4.
 
 ## Materials
 

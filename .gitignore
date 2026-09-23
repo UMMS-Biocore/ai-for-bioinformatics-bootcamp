@@ -7,3 +7,6 @@ registration/
 
 # Instructor-only notes, deploy docs, registration backend, drafts. Never public.
 internal/
+
+# Datasets served by the site (large; deployed by rsync like the videos, not tracked).
+site/data/

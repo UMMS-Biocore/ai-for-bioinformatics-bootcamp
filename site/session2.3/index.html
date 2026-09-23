@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 2.3 · Hands-on with real RNA-Seq · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Hands-on for Session 2: use Claude to build a metadata table, plot, and test a real liver RNA-Seq count table from Vernia et al. 2014, applying Tommy Tang's statistics and six plots.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+<script src="../assets/copy.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session2">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 2 / 2.3</p>
+  <nav class="parts" aria-label="Session 2 parts">
+    <a href="../session2.1/"><b>2.1</b> Basic statistics</a>
+    <a href="../session2.2/"><b>2.2</b> Six plots</a>
+    <a href="../session2.3/" aria-current="page"><b>2.3</b> Hands-on</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 2.3 · Hands-on · Bioinformatics Core</p>
+    <h1>Put the six plots and the p-value to work on real data.</h1>
+    <p class="deck">You get one real RNA-Seq count table and a chat with Claude. You write the prompts, Claude writes and runs the code, and you check every result against a checkpoint before moving on. By the end you will have built a metadata table from sample names, made five of Tommy's six plots, and watched multiple testing correction happen to your own p-values.</p>
+    <div class="cta-row">
+      <a class="btn" href="#setup">Start the exercise <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">About 90 minutes &middot; No installs &middot; Works the same on macOS and Windows</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="study-h">
+    <div class="band-head"><h2 id="study-h">The study behind the table</h2></div>
+    <p>The data come from <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/">Vernia et al., 2014, <i>Cell Metabolism</i></a>, a collaboration between the Davis and Garber labs here at UMass Chan. JNK is a stress signaling kinase that switches on when mice eat a high-fat diet, and it helps drive obesity and insulin resistance. The authors removed JNK from liver cells and asked what the liver does without it. Their answer: liver JNK holds back the nuclear receptor PPAR&alpha;. Without JNK, PPAR&alpha; target genes that burn fatty acids and make ketone bodies go up, and so does <b>FGF21</b>, a hormone the liver releases into the blood. FGF21 turns out to carry much of the metabolic benefit of losing liver JNK.</p>
+    <p>The table you will use holds liver RNA-Seq counts from that work: four genotypes, each on a normal chow diet and on a high-fat diet (hfd), with three mice per group. <code>wt</code> is the control. <code>ALAB</code>, <code>J1c</code>, and <code>J2c</code> are the lab's own labels for the JNK-deficient livers, and the paper describes the exact alleles. We will come back to this same dataset in Session 4 for a proper differential expression analysis.</p>
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th scope="col">Diet</th><th scope="col">wt</th><th scope="col">ALAB</th><th scope="col">J1c</th><th scope="col">J2c</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">chow</th><td>3 mice</td><td>3 mice</td><td>3 mice</td><td>3 mice</td></tr>
+          <tr><th scope="row">hfd</th><td>3 mice</td><td>3 mice</td><td>3 mice</td><td>3 mice</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cta-meta">Vernia S, Cavanagh-Kyros J, Garcia-Haro L, et al. The PPAR&alpha;-FGF21 hormone axis contributes to metabolic regulation by the hepatic JNK signaling pathway. <i>Cell Metab.</i> 2014;20(3):512&ndash;525. <a href="https://doi.org/10.1016/j.cmet.2014.06.010">doi:10.1016/j.cmet.2014.06.010</a></p>
+  </section>
+
+  <section class="band" id="setup" aria-labelledby="setup-h">
+    <div class="band-head"><h2 id="setup-h">Before you start</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Open a new chat with Claude</h4>
+        <p>Go to <a href="https://claude.ai">claude.ai</a> and start a new chat. Claude can write Python, run it, and show you the plots right in the chat. Do the whole exercise in <b>one</b> chat, so Claude remembers the data and every step you have taken.</p>
+        <p class="say">Using ChatGPT or Codex instead? The prompts below work there too. Later in the bootcamp we will run this kind of analysis on the UMass Chan cluster through Foundry Connect.</p>
+      </div>
+      <div class="step">
+        <h4>Know where the data lives</h4>
+        <p>The table is one tab-separated file, about 16&nbsp;MB: <a href="../data/session2/genes_expression_expected_count.tsv" download>genes_expression_expected_count.tsv</a>. The first prompt gives Claude its web address. If Claude says it cannot reach the address, download the file with that link and attach it to the chat with the paperclip, then send the prompt again.</p>
+      </div>
+      <div class="step">
+        <h4>Work the loop</h4>
+        <p>Every step below has the same shape: copy the prompt, paste it into Claude, then compare what you get with the green <b>checkpoint</b>. If your numbers differ, do not move on. Ask Claude why they differ. Finding that out is the most useful skill on this page.</p>
+        <p class="say">Ask to see the code whenever you want to. Claude writing code you have not read is fine for exploring; it is not fine for a figure in a paper.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="core-h">
+    <div class="band-head"><h2 id="core-h">The exercise</h2></div>
+    <div class="steps">
+
+      <div class="step">
+        <h4>Load the table and look before you touch anything</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>Load this tab-separated RNA-Seq count table with Python and pandas:
+https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv
+
+Do not analyze anything yet. Tell me:
+1. how many rows and columns it has, and the column names
+2. what one row represents, and whether the gene names are unique
+3. what kind of numbers the sample columns hold
+4. how many rows are zero in every sample</pre></div>
+        <p class="check"><b>Checkpoint</b>77,922 rows and 26 columns: <code>gene</code>, <code>transcript</code>, and 24 sample columns. Gene names are unique, so one row is one gene. The values are expected counts (numbers of reads, some with decimals). 40,181 genes are zero in every sample.</p>
+        <details class="reveal"><summary><span class="lbl">WHY</span>Why look first?</summary>
+          <div class="ans">Every later number depends on knowing what a row is. Counts are not normalized, and half the rows are empty. Both facts shape every plot you are about to make.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Turn sample names into a metadata table</h4>
+        <p>The sample names hold the whole experimental design, for example <code>hfd.J1c.rep2</code>. Pull it out into a table you can group, color, and test by.</p>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>The 24 sample column names follow the pattern diet.genotype.replicate.
+Build a metadata table with one row per sample and the columns:
+sample, diet, genotype, replicate, and group (diet and genotype joined, like hfd_J1c).
+Show me the table, then a cross-tabulation of diet against genotype,
+and save it as metadata.tsv so I can download it.</pre></div>
+        <p class="check"><b>Checkpoint</b>24 rows. Two diets (chow, hfd) by four genotypes (wt, ALAB, J1c, J2c), with exactly 3 samples in every cell. Eight groups.</p>
+        <details class="reveal"><summary><span class="lbl">WHY</span>Why a separate metadata table?</summary>
+          <div class="ans">Metadata is data. Once diet and genotype are columns, every plot and test can say &ldquo;color by diet&rdquo; or &ldquo;compare these groups&rdquo; instead of hand-picking sample names. The cross-table is the check that Claude parsed every name correctly: a 2 or a 4 in any cell means something went wrong.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Filter, normalize, and use a barplot the right way</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>1. Drop genes that are zero in every sample.
+2. Make a barplot of the total counts per sample (library size), colored by diet.
+3. Keep genes with at least 10 counts in at least 3 samples.
+4. Normalize to counts per million (CPM) using each sample's library size,
+   then take log2(CPM + 1). Call this the log table and use it from now on.
+Tell me the library size range and how many genes you kept.</pre></div>
+        <p class="check"><b>Checkpoint</b>Library sizes run from about 7.4 to 24.1 million reads, so some samples were sequenced three times deeper than others. 15,974 genes pass the filter.</p>
+        <details class="reveal"><summary><span class="lbl">2.2</span>Tommy said bars hide distributions. Why is a bar fine here?</summary>
+          <div class="ans">A barplot is right when each category has exactly one value, like one total per sample. It goes wrong when a bar stands in for a mean of several points and hides their spread. The threefold range in depth is why raw counts cannot be compared between samples, and why we divide by library size first.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Histogram: raw counts against log counts</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>For the first sample, using the genes left after step 1 of the last prompt
+(zero-in-every-sample removed, but before the 10-count filter),
+draw two histograms side by side: the raw counts, and log2(count + 1).
+What fraction of genes are zero in that sample, and which gene has the highest count?</pre></div>
+        <p class="check"><b>Checkpoint</b>The raw histogram is one tall bar at zero and nothing else visible. The log histogram shows a real shape. About 40% of those genes are zero in this sample. The top gene is <i>Alb</i> (albumin), with over 800,000 counts, which is what you expect from liver.</p>
+        <details class="reveal"><summary><span class="lbl">2.2</span>What did the log transform buy you?</summary>
+          <div class="ans">Counts span from 0 to almost a million, so on a linear axis a handful of huge genes squash everything else into one bar. The log spreads out the range where most genes live. The +1 keeps the zeros, since log of zero is undefined.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Violin and box: are the samples comparable?</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>Using the log table, draw a violin plot with a boxplot inside, one per sample,
+filled by diet, with samples grouped by genotype. Report the lowest and highest
+per-sample median.</pre></div>
+        <p class="check"><b>Checkpoint</b>24 violins of nearly the same shape. Per-sample medians fall between about 3.0 and 3.5 log2(CPM + 1). No sample stands out as broken.</p>
+        <details class="reveal"><summary><span class="lbl">2.2</span>What would a barplot of means have hidden?</summary>
+          <div class="ans">A bar of the mean per sample would look almost identical across samples and tell you nothing about shape. A violin shows the whole distribution, so a failed library (a lump of low genes, or a squashed shape) would jump out.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Scatter plots: replicates, then diet</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>Using the log table:
+1. Scatter chow.wt.rep1 against chow.wt.rep2, with a y = x line. Report the Pearson correlation.
+2. Average the three replicates of each group. Scatter chow_wt (x) against hfd_wt (y),
+   with a y = x line. First draw it with solid points, then again with transparent points.
+3. Label the 10 genes farthest from the diagonal, and tell me which went up on hfd
+   and which went down.</pre></div>
+        <p class="check"><b>Checkpoint</b>Replicates hug the diagonal (r about 0.991). Diet spreads points off it (group means r about 0.983). Among the farthest genes: <i>Cyp2b9</i>, <i>Lcn2</i>, and <i>Serpina7</i> go up on hfd, while <i>Moxd1</i>, <i>Cyp3a11</i>, and <i>Cyp4a12b</i> go down.</p>
+        <details class="reveal"><summary><span class="lbl">2.2</span>What did the transparent version show that the solid one hid?</summary>
+          <div class="ans">With 16,000 solid points the middle becomes one black blob: overplotting. Transparency lets the density show, so you can see that nearly all genes sit on the diagonal and only a thin tail moves. A correlation of 0.98 sounds like &ldquo;nothing changed&rdquo;, yet those tails hold the biology. One summary number is not the plot.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Find the paper's gene yourself</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>Plot Fgf21 in the log table for all 24 samples: one column per group,
+every sample drawn as a dot, with a boxplot behind the dots.
+Order the groups chow_wt, chow_ALAB, chow_J1c, chow_J2c, then the same for hfd.
+Which groups stand out?</pre></div>
+        <p class="check"><b>Checkpoint</b>On chow every group sits near 2.5 to 3.2. On hfd, <b>hfd_ALAB</b> jumps to about 5.2 and <b>hfd_J2c</b> to about 4.3, while hfd_wt stays near 3.2.</p>
+        <details class="reveal"><summary><span class="lbl">2.1</span>Why draw the dots and not only the box?</summary>
+          <div class="ans">A boxplot of three points invents a shape that three points cannot support. Showing every mouse is honest about n = 3. Tie it back to the paper: FGF21 rising only when JNK is lost and the diet is high in fat is the result the study is built on.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Heatmap and PCA: what drives the biggest differences?</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>Using the 500 most variable genes in the log table:
+1. Compute the sample-to-sample Pearson correlation and draw it as a clustered heatmap,
+   with diet and genotype as colored annotation bars.
+2. Run PCA (center the genes, no scaling). Plot PC1 against PC2,
+   color by diet, shape by genotype, and put the percent variance on each axis.
+Which factor separates the samples on PC1, and which on PC2?</pre></div>
+        <p class="check"><b>Checkpoint</b>In the heatmap, samples mostly group by diet. How cleanly depends on the clustering method: with some settings the two diets split perfectly, with others a less typical sample such as <code>hfd.ALAB.rep3</code> sits on a branch of its own. PC1 explains about 29% of the variance and separates diet. PC2 (about 16.5%) pulls ALAB away from wt, with J1c and J2c in between.</p>
+        <p class="say">Your tree looks different from your neighbor's? Ask Claude which distance and linkage it used, then try another. A dendrogram is one method's answer, not a fact about the data. PCA does not depend on that choice.</p>
+        <details class="reveal"><summary><span class="lbl">2.2</span>Is a heatmap one of the six?</summary>
+          <div class="ans">Yes, and the PCA plot is just a scatter plot of two derived numbers per sample. This pair is the first figure to make in any RNA-Seq project: before testing a single gene, it tells you whether replicates agree and which factor dominates. Here diet outweighs genotype.</div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="stretch-h">
+    <div class="band-head"><h2 id="stretch-h">Stretch: your own multiple testing problem</h2></div>
+    <p>Done early? This one ties straight back to 2.1. It uses a plain t-test on purpose, to show why RNA-Seq needs better tools.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>Test every gene, then correct</h4>
+        <div class="prompt"><div class="prompt-bar"><span>Prompt for Claude</span><button type="button" class="copy">Copy</button></div>
+<pre>For every gene in the log table, run a Welch t-test of hfd_wt against chow_wt (3 against 3).
+1. How many genes have p &lt; 0.05? How many would you expect by chance alone?
+2. Draw a histogram of all the p-values with bins 0.05 wide.
+3. Adjust with Benjamini-Hochberg. How many genes have adjusted p &lt; 0.05?
+4. Now shuffle each gene's six values at random between the two groups, so there is
+   no real difference left, and repeat steps 1 to 3 on the shuffled data.
+5. Finish with a volcano plot of the real test: log2 fold change against -log10(p).</pre></div>
+        <p class="check"><b>Checkpoint</b>About 16,000 genes tested and 2,722 with p &lt; 0.05, far more than the roughly 800 chance alone would give. The histogram has a spike near zero. After Benjamini-Hochberg: <b>zero</b> genes. The shuffled data give about 600 genes with p &lt; 0.05 (about 4%), a flat histogram, and zero after correction.</p>
+        <details class="reveal"><summary><span class="lbl">2.1</span>There is a spike near zero, so why does nothing survive?</summary>
+          <div class="ans">The spike says real differences exist somewhere. But with three mice per group, a t-test has so little power that no single gene's p-value is small enough to beat correction across 16,000 tests. The shuffle shows the other side: hundreds of &ldquo;hits&rdquo; appear from pure noise, and correction removes them all. Tools like DESeq2 share information across genes to get more power from few samples. That is Session 4.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="wrap-h">
+    <div class="band-head"><h2 id="wrap-h">What you practiced</h2></div>
+    <ol class="checklist">
+      <li><span class="q">Metadata is data: build it, then check it with a cross-table.</span><span class="src">Step 2</span></li>
+      <li><span class="q">A barplot for one value per category, never for a hidden distribution.</span><span class="src">2.2, step 3</span></li>
+      <li><span class="q">Log transform before you look at count data.</span><span class="src">2.2, step 4</span></li>
+      <li><span class="q">Violins and dots over bars when n is small.</span><span class="src">2.2, steps 5 and 7</span></li>
+      <li><span class="q">Fix overplotting before you read a scatter plot.</span><span class="src">2.2, step 6</span></li>
+      <li><span class="q">Heatmap and PCA first, to see what drives the data.</span><span class="src">2.2, step 8</span></li>
+      <li><span class="q">Thousands of tests make noise look significant; correct for it.</span><span class="src">2.1, stretch</span></li>
+      <li><span class="q">When your number differs from the checkpoint, ask why before moving on.</span><span class="src">Every step</span></li>
+    </ol>
+    <p>Tell us how it went: <a href="../feedback/?session=2">Session 2 feedback</a>.</p>
+  </section>
+
+  <section class="band" aria-labelledby="mat-h">
+    <div class="band-head"><h2 id="mat-h">Materials</h2></div>
+    <div class="links">
+      <a href="../data/session2/genes_expression_expected_count.tsv" download><span class="k">Data</span><strong>genes_expression_expected_count.tsv</strong><span class="d">Liver RNA-Seq expected counts, 24 samples. About 16 MB.</span><span class="u">data/session2</span></a>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/"><span class="k">Paper</span><strong>Vernia et al., 2014, Cell Metabolism</strong><span class="d">The PPAR&alpha;-FGF21 hormone axis and hepatic JNK signaling. Open access.</span><span class="u">pmc.ncbi.nlm.nih.gov</span></a>
+      <a href="../session2.1/"><span class="k">Session 2.1</span><strong>Basic statistics</strong><span class="d">P-values, their histogram, and multiple testing.</span><span class="u">session2.1</span></a>
+      <a href="../session2.2/"><span class="k">Session 2.2</span><strong>Six plots</strong><span class="d">What each plot shows and how it misleads.</span><span class="u">session2.2</span></a>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session2.2/"><span class="k">&larr; Previous</span><strong>2.2 Six plots</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
