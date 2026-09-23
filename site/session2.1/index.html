@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 2.1 · Basic statistics · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 2 part taught by Tommy Tang: what a p-value means, why thousands of genes break it, and how FDR, adjusted p-values, and q-values fix it.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session2">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 2 / 2.1</p>
+  <nav class="parts" aria-label="Session 2 parts">
+    <a href="../session2.1/" aria-current="page"><b>2.1</b> Basic statistics</a>
+    <a href="../session2.2/"><b>2.2</b> Six plots</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 2.1 · Ming &ldquo;Tommy&rdquo; Tang, AstraZeneca</p>
+    <h1>Basic statistics for biologists.</h1>
+    <p class="deck">What a p-value actually means, why testing twenty thousand genes at once breaks it, and how false discovery rate, adjusted p-values, and q-values put it back together. The statistics you need to judge a gene list, your own or one an AI hands you.</p>
+    <div class="cta-row">
+      <a class="btn" href="https://docs.google.com/presentation/d/13zkZ0Wc5bmNFbWn1cawBkmcdcXAAsZGLBbX87oUnqz0/edit">Open the slides <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Fri Sep 25, 1:00 to 4:00 pm &middot; Slides are still being written and will change before the session</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="outline-h">
+    <div class="band-head"><h2 id="outline-h">What the talk covers</h2></div>
+    <ol class="outcomes">
+      <li><b>Start from the null hypothesis.</b> Every p-value begins by assuming one, so you cannot read the number without stating it.</li>
+      <li><b>What a p-value is.</b> The probability of seeing a difference this large if the null were true, and what that does not tell you.</li>
+      <li><b>P-value distributions.</b> What the histogram of all your p-values says about the experiment before you look at any single gene.</li>
+      <li><b>The multiple comparison problem.</b> Thousands of genes tested at once, and what happens to your false positives.</li>
+      <li><b>Controlling the false discovery rate.</b> The Benjamini and Hochberg method, and what it actually promises.</li>
+      <li><b>Adjusted p-values and q-values.</b> What <code>p.adjust()</code> recalculates, and how a q-value differs.</li>
+      <li><b>Large samples always look significant.</b> With enough points, a meaningless difference still clears p &lt; 0.05, which is why effect size matters.</li>
+      <li><b>Single-cell data.</b> Where thousands of cells make that problem worse.</li>
+      <li><b>Small samples mislead.</b> Why a boxplot over a handful of samples can show you a pattern that is not there.</li>
+    </ol>
+  </section>
+
+  <section class="band" aria-labelledby="ai-h">
+    <div class="band-head"><h2 id="ai-h">Why this comes right after Session 1</h2></div>
+    <p class="lede">Session 1 ended on a rule: verify what AI produces. This is the part of the toolkit that lets you do it on a result.</p>
+    <div class="pull">
+      <p>An AI assistant will confidently run the wrong test, or hand you a gene list with uncorrected p-values, and the output looks exactly as polished either way.</p>
+      <p>Knowing what a p-value promises is how you catch that. Statistics is the detector.</p>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="mat-h">
+    <div class="band-head"><h2 id="mat-h">Materials</h2></div>
+    <div class="links">
+      <a href="https://docs.google.com/presentation/d/13zkZ0Wc5bmNFbWn1cawBkmcdcXAAsZGLBbX87oUnqz0/edit"><span class="k">Slides</span><strong>Basic statistics for biologists</strong><span class="d">Tommy's deck for this part. Work in progress.</span><span class="u">docs.google.com</span></a>
+      <a href="https://divingintogeneticsandgenomics.com/post/understanding-p-value-multiple-comparisons-fdr-and-q-value/"><span class="k">Reading</span><strong>P-values, multiple comparisons, FDR, and q-values</strong><span class="d">Tommy's written version of this talk, with the worked arithmetic.</span><span class="u">divingintogeneticsandgenomics.com</span></a>
+      <a href="http://varianceexplained.org/statistics/interpreting-pvalue-histogram/"><span class="k">Reading</span><strong>How to interpret a p-value histogram</strong><span class="d">David Robinson. What the shape of the distribution is telling you.</span><span class="u">varianceexplained.org</span></a>
+      <a href="https://lindeloev.github.io/tests-as-linear/"><span class="k">Reading</span><strong>Common statistical tests are linear models</strong><span class="d">One framework behind the tests you were taught as separate recipes.</span><span class="u">lindeloev.github.io</span></a>
+      <a href="https://gkhajduk.github.io/2017-03-09-mixed-models/"><span class="k">Reading</span><strong>Introduction to linear mixed models</strong><span class="d">For designs with repeated measures or nested samples.</span><span class="u">gkhajduk.github.io</span></a>
+      <a href="https://www.nature.com/collections/qghhqm"><span class="k">Reading</span><strong>Points of Significance</strong><span class="d">The Nature Methods statistics column, collected.</span><span class="u">nature.com</span></a>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../"><span class="k">&larr; Back to</span><strong>Bootcamp home</strong></a>
+    <a class="next" href="../session2.2/"><span class="k">Next &rarr;</span><strong>2.2 Six plots</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

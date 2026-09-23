@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 2.2 · Six plots · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 2 part taught by Tommy Tang: the six plot types behind most figures in genomics, how to read them, and how they mislead.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session2">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 2 / 2.2</p>
+  <nav class="parts" aria-label="Session 2 parts">
+    <a href="../session2.1/"><b>2.1</b> Basic statistics</a>
+    <a href="../session2.2/" aria-current="page"><b>2.2</b> Six plots</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 2.2 · Ming &ldquo;Tommy&rdquo; Tang, AstraZeneca</p>
+    <h1>Master six plots and you can make most figures.</h1>
+    <p class="deck">Six plot types carry about ninety percent of the figures in a genomics paper. This part walks through each one: what it shows, when to reach for it, how to read someone else's, and the ways each can mislead you.</p>
+    <div class="cta-row">
+      <a class="btn" href="https://docs.google.com/presentation/d/1yMV3pJjYVnTr1xjP-_6BDO_wT2JKSms0dK1kswwCKeM/edit">Open the slides <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Fri Sep 25, 1:00 to 4:00 pm &middot; Slides are still being written and will change before the session</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="six-h">
+    <div class="band-head"><h2 id="six-h">The six</h2></div>
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th scope="col">Plot</th><th scope="col">What it shows</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Barplot</th><td>A value per category. The one most often used where a distribution belongs.</td></tr>
+          <tr><th scope="row">Scatter plot</th><td>Two measurements per point, and the relationship between them.</td></tr>
+          <tr><th scope="row">Line graph</th><td>Something measured along an ordered axis, usually time or dose.</td></tr>
+          <tr><th scope="row">Histogram</th><td>The shape of one distribution, including the tails a summary statistic hides.</td></tr>
+          <tr><th scope="row">Boxplot and violin</th><td>Distributions side by side across groups.</td></tr>
+          <tr><th scope="row">Heatmap</th><td>A matrix of values, with clustering and annotations on the margins.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="also-h">
+    <div class="band-head"><h2 id="also-h">Also in this part</h2></div>
+    <ul class="plain">
+      <li><b>What the fancy plots are underneath.</b> A clustered dot plot, a volcano, a UMAP panel: each is one of the six with extra encoding layered on.</li>
+      <li><b>Two figures read live.</b> One from a published paper and one from a recent Nature study, taken apart to see what the authors chose and what they left out.</li>
+      <li><b>How a plot misleads.</b> Bars hiding a distribution, axes that do not start at zero, and overplotting that turns thousands of points into a solid blob.</li>
+    </ul>
+  </section>
+
+  <section class="band" aria-labelledby="mat-h">
+    <div class="band-head"><h2 id="mat-h">Materials</h2></div>
+    <div class="links">
+      <a href="https://docs.google.com/presentation/d/1yMV3pJjYVnTr1xjP-_6BDO_wT2JKSms0dK1kswwCKeM/edit"><span class="k">Slides</span><strong>Six types of plots</strong><span class="d">Tommy's deck for this part. Work in progress.</span><span class="u">docs.google.com</span></a>
+      <a href="https://clauswilke.com/dataviz/directory-of-visualizations.html"><span class="k">Reference</span><strong>Directory of visualizations</strong><span class="d">Claus Wilke. A named picture of every chart type, and what each is for.</span><span class="u">clauswilke.com/dataviz</span></a>
+      <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf"><span class="k">Reference</span><strong>ggplot2 cheatsheet</strong><span class="d">The grammar, one page, for building these plots in R.</span><span class="u">github.com/rstudio/cheatsheets</span></a>
+      <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/heatmap-annotations.html"><span class="k">Reference</span><strong>ComplexHeatmap: annotations</strong><span class="d">For heatmaps with sample and gene annotations on the margins.</span><span class="u">jokergoo.github.io</span></a>
+      <a href="https://divingintogeneticsandgenomics.com/post/clustered-dotplot-for-single-cell-rnaseq/"><span class="k">Reading</span><strong>Clustered dot plot for single-cell RNA-seq</strong><span class="d">Tommy's walkthrough of what that plot is made of.</span><span class="u">divingintogeneticsandgenomics.com</span></a>
+      <a href="https://www.youtube.com/@chatomics"><span class="k">Video</span><strong>Chatomics on YouTube</strong><span class="d">Tommy's channel, including the plotting walkthroughs.</span><span class="u">youtube.com/@chatomics</span></a>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session2.1/"><span class="k">&larr; Previous</span><strong>2.1 Basic statistics</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
