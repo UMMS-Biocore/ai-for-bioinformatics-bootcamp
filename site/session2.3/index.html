@@ -77,7 +77,7 @@
       </div>
       <div class="step">
         <h4>Work the loop</h4>
-        <p>Every task below has the same shape: <b>ask</b> (write your own prompt from the task description), <b>check</b> (compare with the green checkpoint), then <b>keep talking</b> (follow up on at least one of the suggestions, or your own idea). If your numbers differ from the checkpoint, do not move on. Ask Claude why they differ. Getting to the bottom of that is the most useful thing you will practice today.</p>
+        <p>Every task below has the same shape: <b>ask</b> (write your own prompt from the task description), <b>check</b> (compare with the green checkpoint), then <b>keep talking</b> (follow up on at least one of the suggestions in the dashed box under each checkpoint, or on your own idea). If your numbers differ from the checkpoint, do not move on. Ask Claude why they differ. Getting to the bottom of that is the most useful thing you will practice today.</p>
         <p class="say">A good prompt names the data, says exactly what to do (including any thresholds), and says what you want back: a plot, a number, a table, or a file. Vague prompts get vague answers, and different numbers from your neighbor&rsquo;s.</p>
         <p class="say">Claude can be confidently wrong, especially about biology and papers. When it tells you a fact, ask how it knows, and check anything that matters.</p>
       </div>
@@ -92,7 +92,7 @@
         <h4>Load the table and look before you touch anything</h4>
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to load the table from <code>https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv</code> and describe it, without analyzing anything yet. Ask for:</p><ul><li>the number of rows and columns, and the column names</li><li>what one row represents, and whether the gene names are unique</li><li>what kind of numbers the sample columns hold</li><li>how many rows are zero in every sample</li></ul></div>
         <p class="check"><b>Checkpoint</b>77,922 rows and 26 columns: <code>gene</code>, <code>transcript</code>, and 24 sample columns. Gene names are unique, so one row is one gene. The values are expected counts (numbers of reads, some with decimals). 40,181 genes are zero in every sample.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask what an &ldquo;expected count&rdquo; is, explained for someone new to RNA-Seq.</li><li>Ask to see the first five rows.</li></ul></div>
+        <div class="more"><ul><li>Ask what an &ldquo;expected count&rdquo; is, explained for someone new to RNA-Seq.</li><li>Ask to see the first five rows.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">WHY</span>Why look first?</summary>
           <div class="ans">Every later number depends on knowing what a row is. Counts are not normalized, and half the rows are empty. Both facts shape every plot you are about to make.</div>
         </details>
@@ -103,7 +103,7 @@
         <p>The sample names hold the whole experimental design, for example <code>hfd.J1c.rep2</code>. Pull it out into a table you can group, color, and test by.</p>
         <div class="task"><span>Your turn: write the prompt</span><p>The 24 sample names follow the pattern diet.genotype.replicate. Ask Claude to turn them into a metadata table. Ask for:</p><ul><li>one row per sample, with the columns sample, diet, genotype, replicate, and group (diet and genotype joined, like <code>hfd_J1c</code>)</li><li>a cross-table of diet against genotype, so you can check the parsing</li><li>the table saved as <code>metadata.tsv</code> for you to download</li></ul></div>
         <p class="check"><b>Checkpoint</b>24 rows. Two diets (chow, hfd) by four genotypes (wt, ALAB, J1c, J2c), with exactly 3 samples in every cell. Eight groups.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask to see the code Claude used to split the sample names.</li><li>Ask how to open <code>metadata.tsv</code> in Excel.</li></ul></div>
+        <div class="more"><ul><li>Ask to see the code Claude used to split the sample names.</li><li>Ask how to open <code>metadata.tsv</code> in Excel.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">WHY</span>Why a separate metadata table?</summary>
           <div class="ans">Metadata is data. Once diet and genotype are columns, every plot and test can say &ldquo;color by diet&rdquo; or &ldquo;compare these groups&rdquo; instead of hand-picking sample names. The cross-table is the check that Claude parsed every name correctly: a 2 or a 4 in any cell means something went wrong.</div>
         </details>
@@ -113,7 +113,7 @@
         <h4>Filter, normalize, and use a barplot the right way</h4>
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to clean and normalize the counts, and to show you how deeply each sample was sequenced. Your prompt should ask it to:</p><ul><li>drop genes that are zero in every sample</li><li>draw a barplot of the total counts per sample (the library size), colored by diet</li><li>keep genes with at least 10 counts in at least 3 samples</li><li>convert to counts per million (CPM), take log2(CPM + 1), and use this log table from now on</li><li>report the library size range and how many genes were kept</li></ul></div>
         <p class="check"><b>Checkpoint</b>Library sizes run from about 7.4 to 24.1 million reads, so some samples were sequenced three times deeper than others. 15,974 genes pass the filter.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask why the filter is at least 10 counts in at least 3 samples, and what changes with 5.</li><li>Ask which sample has the smallest library, and whether that is a worry.</li></ul></div>
+        <div class="more"><ul><li>Ask why the filter is at least 10 counts in at least 3 samples, and what changes with 5.</li><li>Ask which sample has the smallest library, and whether that is a worry.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">2.2</span>Tommy said bars hide distributions. Why is a bar fine here?</summary>
           <div class="ans">A barplot is right when each category has exactly one value, like one total per sample. It goes wrong when a bar stands in for a mean of several points and hides their spread. The threefold range in depth is why raw counts cannot be compared between samples, and why we divide by library size first.</div>
         </details>
@@ -123,7 +123,7 @@
         <h4>Histogram: raw counts against log counts</h4>
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to show you why count data needs a log. Ask for:</p><ul><li>two histograms side by side for the first sample: the raw counts, and log2(count + 1)</li><li>using the genes left after dropping the all-zero ones, before the 10-count filter</li><li>the fraction of genes that are zero in that sample, and the gene with the highest count</li></ul></div>
         <p class="check"><b>Checkpoint</b>The raw histogram is one tall bar at zero and nothing else visible. The log histogram shows a real shape. About 40% of those genes are zero in this sample. The top gene is <i>Alb</i> (albumin), with over 800,000 counts, which is what you expect from liver.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask for both histograms in one figure with titles and labels good enough for lab meeting.</li><li>Ask why we add 1 before taking the log.</li></ul></div>
+        <div class="more"><ul><li>Ask for both histograms in one figure with titles and labels good enough for lab meeting.</li><li>Ask why we add 1 before taking the log.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">2.2</span>What did the log transform buy you?</summary>
           <div class="ans">Counts span from 0 to almost a million, so on a linear axis a handful of huge genes squash everything else into one bar. The log spreads out the range where most genes live. The +1 keeps the zeros, since log of zero is undefined.</div>
         </details>
@@ -133,7 +133,7 @@
         <h4>Violin and box: are the samples comparable?</h4>
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to compare the distributions of all 24 samples in the log table. Ask for:</p><ul><li>a violin plot with a boxplot inside, one per sample</li><li>filled by diet, with samples grouped by genotype</li><li>the lowest and the highest per-sample median</li></ul></div>
         <p class="check"><b>Checkpoint</b>24 violins of nearly the same shape. Per-sample medians fall between about 3.0 and 3.5 log2(CPM + 1). No sample stands out as broken.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask for colorblind friendly colors and a PNG you can download.</li><li>Ask what a failed sample's violin would look like.</li></ul></div>
+        <div class="more"><ul><li>Ask for colorblind friendly colors and a PNG you can download.</li><li>Ask what a failed sample's violin would look like.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">2.2</span>What would a barplot of means have hidden?</summary>
           <div class="ans">A bar of the mean per sample would look almost identical across samples and tell you nothing about shape. A violin shows the whole distribution, so a failed library (a lump of low genes, or a squashed shape) would jump out.</div>
         </details>
@@ -143,7 +143,7 @@
         <h4>Scatter plots: replicates, then diet</h4>
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude for three scatter plots from the log table:</p><ul><li><code>chow.wt.rep1</code> against <code>chow.wt.rep2</code>, with a y = x line and the Pearson correlation</li><li>the average of each group's three replicates, chow_wt on x against hfd_wt on y, drawn first with solid points and then with transparent points</li><li>labels on the 10 genes farthest from the diagonal, and which of them went up or down on hfd</li></ul></div>
         <p class="check"><b>Checkpoint</b>Replicates hug the diagonal (r about 0.991). Diet spreads points off it (group means r about 0.983). Among the farthest genes: <i>Cyp2b9</i>, <i>Lcn2</i>, and <i>Serpina7</i> go up on hfd, while <i>Moxd1</i>, <i>Cyp3a11</i>, and <i>Cyp4a12b</i> go down.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask which of the labeled genes are known liver or metabolism genes, and how sure Claude is about each.</li><li>Ask for the same diet scatter for ALAB instead of wt, and whether it looks different.</li></ul></div>
+        <div class="more"><ul><li>Ask which of the labeled genes are known liver or metabolism genes, and how sure Claude is about each.</li><li>Ask for the same diet scatter for ALAB instead of wt, and whether it looks different.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">2.2</span>What did the transparent version show that the solid one hid?</summary>
           <div class="ans">With 16,000 solid points the middle becomes one black blob: overplotting. Transparency lets the density show, so you can see that nearly all genes sit on the diagonal and only a thin tail moves. A correlation of 0.98 sounds like &ldquo;nothing changed&rdquo;, yet those tails hold the biology. One summary number is not the plot.</div>
         </details>
@@ -153,7 +153,7 @@
         <h4>Find the paper's gene yourself</h4>
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to show you Fgf21, the gene at the center of the paper. Ask for:</p><ul><li>Fgf21 from the log table in all 24 samples, one column per group</li><li>every mouse drawn as a dot, with a boxplot behind the dots</li><li>the groups in a sensible order: the four chow groups, then the four hfd groups, wt first in each</li><li>which groups stand out</li></ul></div>
         <p class="check"><b>Checkpoint</b>On chow every group sits near 2.5 to 3.2. On hfd, <b>hfd_ALAB</b> jumps to about 5.2 and <b>hfd_J2c</b> to about 4.3, while hfd_wt stays near 3.2.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask for Mapk8 and Mapk9 plotted the same way (they encode JNK1 and JNK2), what you should notice, and why a deleted gene can still leave reads behind.</li><li>Ask for Fgf21, Cyp4a14, and Ppara side by side in one figure.</li></ul></div>
+        <div class="more"><ul><li>Ask for Mapk8 and Mapk9 plotted the same way (they encode JNK1 and JNK2), what you should notice, and why a deleted gene can still leave reads behind.</li><li>Ask for Fgf21, Cyp4a14, and Ppara side by side in one figure.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">2.1</span>Why draw the dots and not only the box?</summary>
           <div class="ans">A boxplot of three points invents a shape that three points cannot support. Showing every mouse is honest about n = 3. Tie it back to the paper: FGF21 rising only when JNK is lost and the diet is high in fat is the result the study is built on.</div>
         </details>
@@ -167,7 +167,7 @@
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude which factor drives the biggest differences between samples. Using the 500 most variable genes in the log table, ask for:</p><ul><li>the sample to sample Pearson correlation, drawn as a clustered heatmap with diet and genotype as colored annotation bars</li><li>a PCA (genes centered, not scaled) of PC1 against PC2, colored by diet, shaped by genotype, with the percent variance on each axis</li><li>which factor separates the samples on PC1, and which on PC2</li></ul></div>
         <p class="check"><b>Checkpoint</b>In the heatmap, samples mostly group by diet. How cleanly depends on the clustering method: with some settings the two diets split perfectly, with others a less typical sample such as <code>hfd.ALAB.rep3</code> sits on a branch of its own. PC1 explains about 29% of the variance and separates diet. PC2 (about 16.5%) pulls ALAB away from wt, with J1c and J2c in between.</p>
         <p class="say">Your tree looks different from your neighbor's? Ask Claude which distance and linkage it used, then try another. A dendrogram is one method's answer, not a fact about the data. PCA does not depend on that choice.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask which genes drive PC2, top ten.</li><li>Ask for the heatmap again with complete linkage, and whether the tree changed.</li></ul></div>
+        <div class="more"><ul><li>Ask which genes drive PC2, top ten.</li><li>Ask for the heatmap again with complete linkage, and whether the tree changed.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">2.2</span>Is a heatmap one of the six?</summary>
           <div class="ans">Yes, and the PCA plot is just a scatter plot of two derived numbers per sample. This pair is the first figure to make in any RNA-Seq project: before testing a single gene, it tells you whether replicates agree and which factor dominates. Here diet outweighs genotype.</div>
         </details>
@@ -178,7 +178,7 @@
         <p>A chat is not a record. Before you close it, make sure you leave with more than a scrollback of plots.</p>
         <div class="task"><span>Your turn: write the prompt</span><p>Before you close the chat, ask Claude for everything you would need to redo or report this analysis:</p><ul><li>one Python script, as a file to download, that redoes every step from the original data address, with a short comment above each step</li><li>a methods paragraph you could adapt for a paper, naming each filter and threshold</li><li>a list of every figure you made, with one sentence on what each shows</li><li>every assumption or choice Claude made on your behalf</li></ul></div>
         <p class="check"><b>Checkpoint</b>You can download a script, and the methods paragraph names the filter (at least 10 counts in at least 3 samples), log2(CPM + 1), and the 500 most variable genes for the heatmap and PCA. If a number in it disagrees with what you saw earlier, ask Claude which one is right.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask for the same script in R using ggplot2.</li><li>Ask which of today&rsquo;s results Claude would not trust yet, and why.</li></ul></div>
+        <div class="more"><ul><li>Ask for the same script in R using ggplot2.</li><li>Ask which of today&rsquo;s results Claude would not trust yet, and why.</li></ul></div>
       </div>
     </div>
   </section>
@@ -191,7 +191,7 @@
         <h4>Test every gene, then correct</h4>
         <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to test every gene in the log table with a Welch t-test of hfd_wt against chow_wt (3 against 3). Then ask it to:</p><ul><li>count the genes with p &lt; 0.05, and say how many to expect by chance alone</li><li>draw a histogram of all the p-values with bins 0.05 wide</li><li>adjust the p-values with Benjamini-Hochberg and count the genes with adjusted p &lt; 0.05</li><li>shuffle each gene's six values at random between the two groups, so no real difference is left, and repeat the three steps above</li><li>finish with a volcano plot of the real test: log2 fold change against -log10(p)</li></ul></div>
         <p class="check"><b>Checkpoint</b>About 16,000 genes tested and 2,722 with p &lt; 0.05, far more than the roughly 800 chance alone would give. The histogram has a spike near zero. After Benjamini-Hochberg: <b>zero</b> genes. The shuffled data give about 600 genes with p &lt; 0.05 (about 4%), a flat histogram, and zero after correction.</p>
-        <div class="more"><span>Keep talking</span><ul><li>Ask for a two-sentence explanation, for lab meeting, of why no gene survived correction.</li><li>Ask for the real and shuffled p-value histograms side by side on the same y axis.</li></ul></div>
+        <div class="more"><ul><li>Ask for a two-sentence explanation, for lab meeting, of why no gene survived correction.</li><li>Ask for the real and shuffled p-value histograms side by side on the same y axis.</li></ul></div>
         <details class="reveal"><summary><span class="lbl">2.1</span>There is a spike near zero, so why does nothing survive?</summary>
           <div class="ans">The spike says real differences exist somewhere. But with three mice per group, a t-test has so little power that no single gene's p-value is small enough to beat correction across 16,000 tests. The shuffle shows the other side: hundreds of &ldquo;hits&rdquo; appear from pure noise, and correction removes them all. Tools like DESeq2 share information across genes to get more power from few samples. That is Session 4.</div>
         </details>
