@@ -45,56 +45,56 @@
       <div class="step">
         <h4>Pick where you will work</h4>
         <p>You can do this exercise in any of the places below. Open the section for the one you pick and follow it; you can ignore the rest. Wherever you work, do the whole exercise in <b>one</b> conversation, so the assistant remembers the data and every step you have taken. The hands-on pages say &ldquo;Claude&rdquo; throughout: if you use ChatGPT or Codex, read it as your assistant, and the tasks, hints, and checkpoints stay the same.</p>
-        <details class="reveal"><summary><span class="lbl">BROWSER</span>Claude in your web browser (easiest: nothing to install)</summary>
+        <details class="reveal"><summary><span class="lbl">BROWSER</span> Claude in your web browser (easiest: nothing to install)</summary>
           <div class="ans">
             <p>Go to <a href="https://claude.ai">claude.ai</a>, sign in, and start a new chat. Claude writes Python, runs it in its own sandbox, and shows tables and plots right in the chat. The 2.3 checkpoints were written against this.</p>
             <p>If Claude says it cannot run code or make files, open <b>Settings</b>, find the code execution and file creation option, and turn it on.</p>
           </div>
         </details>
-        <details class="reveal"><summary><span class="lbl">DESKTOP</span>The Claude desktop app</summary>
+        <details class="reveal"><summary><span class="lbl">DESKTOP</span> The Claude desktop app</summary>
           <div class="ans">
             <p>Download it for Windows or macOS from <a href="https://claude.com/download">claude.com/download</a>, install it, sign in with your Claude account, and start a new chat. It works the same way as the browser version.</p>
           </div>
         </details>
-        <details class="reveal"><summary><span class="lbl">SCIENCE</span>Claude Science</summary>
+        <details class="reveal"><summary><span class="lbl">SCIENCE</span> Claude Science</summary>
           <div class="ans">
             <p><a href="https://claude.com/science">Claude Science</a> is Anthropic&rsquo;s workbench for research, with common analysis packages and databases built in. It is a desktop app for <b>macOS and Linux only</b>, in beta, and needs a Claude Pro, Max, Team, or Enterprise plan (on Team and Enterprise, your admin has to turn it on).</p>
             <p>Download it from <a href="https://claude.com/science">claude.com/science</a>, sign in, and start a new analysis. It runs code on your own computer or on machines you connect to it, so, as in VS Code, ask it to save plots as files and tell you where they are.</p>
           </div>
         </details>
-        <details class="reveal"><summary><span class="lbl">CHATGPT</span>ChatGPT or Codex</summary>
+        <details class="reveal"><summary><span class="lbl">CHATGPT</span> ChatGPT or Codex</summary>
           <div class="ans">
             <p><b>In the browser:</b> go to <a href="https://chatgpt.com">chatgpt.com</a>, sign in, and start a new chat. ChatGPT also writes and runs Python and shows plots in the chat.</p>
             <p><b>Desktop app:</b> download the ChatGPT app for Windows or macOS from <a href="https://chatgpt.com/download/">chatgpt.com/download</a> and sign in. Choose <b>ChatGPT</b> or <b>Codex</b> from the menu at the top left. Codex works with files on your own computer, so, as in VS Code, it needs Python installed; ask it to check that first.</p>
           </div>
         </details>
-        <details class="reveal"><summary><span class="lbl">VS CODE</span>VS Code with Claude or Codex</summary>
+        <details class="reveal"><summary><span class="lbl">VS CODE</span> VS Code with Claude or Codex</summary>
           <div class="ans">
             <p>Claude and Codex both run inside VS Code, a free code editor. Open the steps below in order, ideally before the session, and skip anything you already have.</p>
-            <details class="reveal"><summary><span class="lbl">STEP A</span>Install VS Code, if you have not yet</summary>
+            <details class="reveal"><summary><span class="lbl">STEP A</span> Install VS Code, if you have not yet</summary>
               <div class="ans">
                 <p>Download it free for Windows or macOS from <a href="https://code.visualstudio.com/download">code.visualstudio.com/download</a>, and run the installer with the default options.</p>
               </div>
             </details>
-            <details class="reveal"><summary><span class="lbl">STEP B</span>Install Python, if you have not yet</summary>
+            <details class="reveal"><summary><span class="lbl">STEP B</span> Install Python, if you have not yet</summary>
               <div class="ans">
                 <p>Download Python 3 free from <a href="https://www.python.org/downloads/">python.org/downloads</a>.</p>
                 <p><b>Windows:</b> tick <b>Add python.exe to PATH</b> on the first installer screen. If you miss it, the assistant cannot find Python. <b>macOS:</b> run the downloaded installer as usual.</p>
               </div>
             </details>
-            <details class="reveal"><summary><span class="lbl">STEP C</span>Add Claude to VS Code</summary>
+            <details class="reveal"><summary><span class="lbl">STEP C</span> Add Claude to VS Code</summary>
               <div class="ans">
                 <p>Open the Extensions view (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on macOS), search for <b>Claude Code</b>, and install <b>Claude Code for VS Code</b> by Anthropic. Click the Claude icon that appears, sign in with your Claude account, and approve the request in the browser window that opens. Then start a new conversation in the Claude panel.</p>
                 <p>The extension may need a paid Claude plan. Check this before the session, not during it.</p>
               </div>
             </details>
-            <details class="reveal"><summary><span class="lbl">STEP C</span>Or add Codex to VS Code</summary>
+            <details class="reveal"><summary><span class="lbl">STEP C</span> Or add Codex to VS Code</summary>
               <div class="ans">
                 <p>Open the Extensions view (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on macOS), search for <b>Codex</b>, and install <b>Codex &ndash; OpenAI&rsquo;s coding agent</b> by OpenAI. Open the Codex panel, sign in with your ChatGPT account, and approve the request in the browser window that opens.</p>
                 <p>The extension may need a paid ChatGPT plan. Check this before the session, not during it.</p>
               </div>
             </details>
-            <details class="reveal"><summary><span class="lbl">STEP D</span>What changes when you work in VS Code</summary>
+            <details class="reveal"><summary><span class="lbl">STEP D</span> What changes when you work in VS Code</summary>
               <div class="ans">
                 <p>Make a new folder for today, for example <code>session2-handson</code>, and open it with <b>File, Open Folder</b>. Everything the assistant makes (data, plots, scripts, the report) lands in that folder.</p>
                 <p>The assistant runs code on your own computer, so your first message should also ask it to check that Python and the packages it needs (pandas, matplotlib, seaborn, scipy, scikit-learn) are installed, and to help you install anything missing.</p>

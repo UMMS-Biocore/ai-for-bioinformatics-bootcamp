@@ -201,25 +201,25 @@
     <p class="lede">Eric's quiz asked which references were invented. This one asks which prompts should never be sent to a consumer chat tool. Decide for each one before you open the card. All records below are fictional.</p>
 
     <details class="reveal">
-      <summary><span class="lbl">Prompt 1</span>A results table from a public study</summary>
+      <summary><span class="lbl">Prompt 1</span> A results table from a public study</summary>
       <blockquote>Here is the DESeq2 output for liver Jnk1/Jnk2 knockout versus wild type from GEO (public accession). Which of the top 50 genes are in the PPAR&alpha; pathway?</blockquote>
       <div class="ans"><span class="verdict-ok">Fine to send.</span> The data is already public and has no personal information. Still verify the pathway membership against a database, not the model's memory.</div>
     </details>
 
     <details class="reveal">
-      <summary><span class="lbl">Prompt 2</span>Help writing up a biopsy note</summary>
+      <summary><span class="lbl">Prompt 2</span> Help writing up a biopsy note</summary>
       <blockquote>Turn this into a sample description: MRN 0000-000, 52-year-old woman, vitiligo, lesional biopsy taken 03/14 at the dermatology clinic, follow-up scheduled.</blockquote>
       <div class="ans"><span class="verdict-leak">Leak.</span> A record number, an exact date of service, age, and diagnosis together identify a patient. This is PHI whether or not a name appears.</div>
     </details>
 
     <details class="reveal">
-      <summary><span class="lbl">Prompt 3</span>A sample sheet with &ldquo;no names&rdquo;</summary>
+      <summary><span class="lbl">Prompt 3</span> A sample sheet with &ldquo;no names&rdquo;</summary>
       <blockquote>Check this sample sheet for errors: sample_id, donor_age, sex, biopsy_date, home_zip, condition, batch</blockquote>
       <div class="ans"><span class="verdict-leak">Leak.</span> No names, but biopsy dates and ZIP codes are HIPAA identifiers, and together with age and sex they can re-identify people. Remove those columns, or use an approved tool.</div>
     </details>
 
     <details class="reveal">
-      <summary><span class="lbl">Prompt 4</span>Polishing an abstract</summary>
+      <summary><span class="lbl">Prompt 4</span> Polishing an abstract</summary>
       <blockquote>Make this abstract more compelling for Nature: [our unpublished preliminary result, not yet submitted]</blockquote>
       <div class="ans"><span class="verdict-leak">Leak in a consumer tool.</span> Unpublished findings are confidential to your lab. Use the approved instance, and disclose the editing help (flight rule 3).</div>
     </details>
