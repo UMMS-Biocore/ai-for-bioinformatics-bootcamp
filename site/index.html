@@ -485,6 +485,8 @@
     background: var(--surface);
   }
   .s-parts a:hover { border-color: var(--pen); }
+  .s-parts a.fb { color: var(--pen); border-color: var(--pen); border-style: dashed; }
+  .s-parts a.fb:hover { background: var(--pen-wash); border-style: solid; }
 
   .topbar .right { display: flex; align-items: center; gap: .8rem; }
   .gh-link {
@@ -946,6 +948,8 @@
     <div class="band-head"><h2 id="sessions-h">The sessions</h2></div>
     <p class="lede">Six Fridays, September 18 through October 23, every session 1:00 to 4:00 pm. Sessions 4 through 6 climb the ladder one rung at a time, and each opens by contrasting itself with the rung below.</p>
 
+    <p class="lede" style="margin-top:-1rem">After each session, the feedback link on that row takes two minutes and records your attendance.</p>
+
     <p class="room-note">All sessions are in <b>Amphitheater II (S4-102)</b>, except <b>October 16</b>, which moves to <b>Amphitheater I (S2-102)</b>.</p>
 
     <ol class="sessions">
@@ -954,7 +958,7 @@
         <div class="s-body">
           <span class="s-title">AI Foundations and Responsible AI</span>
           <p class="s-desc">How language models work and why they are confidently wrong (Eric Ma), how a working bioinformatician flies an AI coding agent (Tommy Tang), then the rules for our data and what an agent looks like on real infrastructure. Setup is pre-work.</p>
-          <p class="s-parts"><a href="session1.0/">1.0 Before you arrive</a><a href="session1.1/">1.1 Welcome</a><a href="session1.2/">1.2 How AI works</a><a href="session1.3/">1.3 Pilot or passenger</a><a href="session1.4/">1.4 Flight rules</a></p>
+          <p class="s-parts"><a href="session1.0/">1.0 Before you arrive</a><a href="session1.1/">1.1 Welcome</a><a href="session1.2/">1.2 How AI works</a><a href="session1.3/">1.3 Pilot or passenger</a><a href="session1.4/">1.4 Flight rules</a><a class="fb" href="feedback/?session=1">Feedback</a></p>
         </div>
         <div class="s-when">
           <span class="s-date">Fri Sep 18</span>
@@ -966,7 +970,7 @@
         <div class="s-body">
           <span class="s-title">Statistics and Visualization You Can Trust</span>
           <p class="s-desc">Tommy Tang on the statistics behind a gene list (p-values, multiple comparisons, FDR, q-values) and the six plot types behind most figures in genomics. The toolkit that lets you catch a wrong answer, from AI or anyone.</p>
-          <p class="s-parts"><a href="session2.0/">2.0 Get set up</a><a href="session2.1/">2.1 Basic statistics</a><a href="session2.2/">2.2 Six plots</a><a href="session2.3/">2.3 Hands-on</a></p>
+          <p class="s-parts"><a href="session2.0/">2.0 Get set up</a><a href="session2.1/">2.1 Basic statistics</a><a href="session2.2/">2.2 Six plots</a><a href="session2.3/">2.3 Hands-on</a><a class="fb" href="feedback/?session=2">Feedback</a></p>
         </div>
         <div class="s-when">
           <span class="s-date">Fri Sep 25</span>

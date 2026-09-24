@@ -37,6 +37,11 @@ Barplot, scatter plot, line graph, histogram, boxplot and violin, and heatmap: w
 
 Participants use Claude in the browser (Python, no installs) on liver RNA-Seq counts from [Vernia et al., 2014, *Cell Metabolism*](https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/): 2 diets by 4 genotypes by 3 mice. They build a metadata table from the sample names, then make a barplot, histograms, violins, scatter plots, a correlation heatmap, and a PCA, each checked against a stated result. A stretch step runs a per-gene t-test, a p-value histogram, Benjamini-Hochberg correction, and a shuffled null. The same dataset returns in Session 4.
 
+## Feedback
+
+After the session, fill in the short feedback form. It records attendance too:
+<https://biocore.umassmed.edu/feedback/?session=2>
+
 ## Materials
 
 - Tommy Tang, [Basic statistics for biologists](https://docs.google.com/presentation/d/13zkZ0Wc5bmNFbWn1cawBkmcdcXAAsZGLBbX87oUnqz0/edit) (slides, work in progress)

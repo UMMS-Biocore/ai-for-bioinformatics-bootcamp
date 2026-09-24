@@ -155,6 +155,29 @@
         <p class="err" aria-live="polite"></p>
       </fieldset>
 
+      <!-- Session 2 only -->
+      <fieldset data-field="s2Stats" data-session-only="2" data-when-attended hidden>
+        <legend>After this session, how confident are you reading a gene list with p-values and FDR?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s2Stats" value="Not confident"><span>Not confident</span></label>
+          <label><input type="radio" name="s2Stats" value="Somewhat confident"><span>Somewhat confident</span></label>
+          <label><input type="radio" name="s2Stats" value="Confident"><span>Confident</span></label>
+          <label><input type="radio" name="s2Stats" value="Could explain it to someone else"><span>I could explain it to someone else</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset data-field="s2Plots" data-session-only="2" data-when-attended hidden>
+        <legend>And how confident are you choosing and reading the right plot for your data?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s2Plots" value="Not confident"><span>Not confident</span></label>
+          <label><input type="radio" name="s2Plots" value="Somewhat confident"><span>Somewhat confident</span></label>
+          <label><input type="radio" name="s2Plots" value="Confident"><span>Confident</span></label>
+          <label><input type="radio" name="s2Plots" value="Could explain it to someone else"><span>I could explain it to someone else</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
       <div class="q" data-field="useful" data-optional>
         <label class="qlabel" for="f-useful">What was the most useful part?<span class="req opt">Optional</span></label>
         <textarea id="f-useful" name="useful" rows="3"></textarea>
@@ -221,8 +244,8 @@
 
   var SESSIONS = {
     '1': 'Session 1: AI Foundations and Responsible AI (Sep 18)',
-    '2': 'Session 2: AI as a Research Co-pilot (Sep 25)',
-    '3': 'Session 3: Statistics and Visualization You Can Trust (Oct 2)',
+    '2': 'Session 2: Statistics and Visualization You Can Trust (Sep 25)',
+    '3': 'Session 3: AI as a Research Co-pilot (Oct 2)',
     '4': 'Session 4: Bulk RNA-Seq (Oct 9)',
     '5': 'Session 5: Single-cell RNA-Seq (Oct 16)',
     '6': 'Session 6: Spatial: Xenium and seqFISH (Oct 23)'
@@ -230,7 +253,8 @@
 
   // Session-specific questions: field name -> the column label stored in the sheet.
   var EXTRA = {
-    '1': { s1Confidence: 'S1 confidence about safe AI data use (after)', s1Setup: 'S1 setup status' }
+    '1': { s1Confidence: 'S1 confidence about safe AI data use (after)', s1Setup: 'S1 setup status' },
+    '2': { s2Stats: 'S2 confidence with p-values and FDR (after)', s2Plots: 'S2 confidence choosing plots (after)' }
   };
 
   var form = document.getElementById('fb');
