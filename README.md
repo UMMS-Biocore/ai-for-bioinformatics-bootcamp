@@ -45,7 +45,8 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | 2.0 Get set up (pre-work) | Bioinformatics Core | [session2.0](https://biocore.umassmed.edu/session2.0/) |
 | 2.1 Basic statistics for biologists | Tommy Tang (AstraZeneca) | [session2.1](https://biocore.umassmed.edu/session2.1/) |
 | 2.2 Master six plots | Tommy Tang (AstraZeneca) | [session2.2](https://biocore.umassmed.edu/session2.2/) |
-| 2.3 Hands-on: a real RNA-Seq table with Claude | Bioinformatics Core | [session2.3](https://biocore.umassmed.edu/session2.3/) |
+| 2.3 Building with AI: web apps for science | Eric Kercher (RNA Therapeutics Institute, UMass Chan) | [session2.3](https://biocore.umassmed.edu/session2.3/) |
+| 2.4 Hands-on: a real RNA-Seq table with Claude | Bioinformatics Core | [session2.4](https://biocore.umassmed.edu/session2.4/) |
 
 ---
 

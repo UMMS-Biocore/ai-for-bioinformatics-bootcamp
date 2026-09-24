@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Session 2.3 · Hands-on with real RNA-Seq · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Hands-on for Session 2: use Claude to build a metadata table, plot, and test a real liver RNA-Seq count table from Vernia et al. 2014, applying Tommy Tang's statistics and six plots.">
+<title>Session 2.3 · Building with AI · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 2 talk by Eric Kercher: how a wet-lab postdoc built a research web app with AI in five months, and how to make AI-written code trustworthy.">
 <script src="../assets/theme.js"></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
@@ -30,306 +30,99 @@
     <a href="../session2.0/"><b>2.0</b> Get set up</a>
     <a href="../session2.1/"><b>2.1</b> Basic statistics</a>
     <a href="../session2.2/"><b>2.2</b> Six plots</a>
-    <a href="../session2.3/" aria-current="page"><b>2.3</b> Hands-on</a>
+    <a href="../session2.3/" aria-current="page"><b>2.3</b> Building with AI</a>
+    <a href="../session2.4/"><b>2.4</b> Hands-on</a>
   </nav>
 
   <header class="hero compact">
-    <p class="eyebrow">Session 2.3 · Hands-on · Bioinformatics Core</p>
-    <h1>Put the six plots and the p-value to work on real data.</h1>
-    <p class="deck">You get one real RNA-Seq count table and one chat with Claude, and you do everything by talking to it. You never write code, and nobody hands you a prompt. You write every request yourself, Claude writes and runs the code, and you check every answer, ask follow-up questions, and push back when something looks off. That conversation is the skill this part teaches. By the end you will have built a metadata table from sample names, made five of Tommy's six plots, and watched multiple testing correction happen to your own p-values.</p>
+    <p class="eyebrow">Session 2.3 · Eric Kercher, RNA Therapeutics Institute, UMass Chan</p>
+    <h1>AI-assisted development of web apps for science.</h1>
+    <p class="deck">How a wet-lab postdoc with beginner Python built a research tool his lab now runs, in five months, and how you can start next week. The tool is not the interesting part. The interesting part is that a wet-lab scientist could make it, and how he knows the code is right.</p>
     <div class="cta-row">
-      <a class="btn" href="#setup">Start the exercise <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <span class="cta-meta">Only a browser and a Claude account &middot; Works the same on macOS and Windows</span>
+      <a class="btn" href="https://docs.google.com/presentation/d/1NdPUL_T_B5S4zD5dwTE8DLrDU51kpiuj/edit">Open the slides <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Fri Sep 25, 1:00 to 4:00 pm</span>
     </div>
   </header>
 
-  <section class="band" aria-labelledby="study-h">
-    <div class="band-head"><h2 id="study-h">The study behind the table</h2></div>
-    <p>The data come from <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/">Vernia et al., 2014, <i>Cell Metabolism</i></a>, a collaboration between the Davis and Garber labs here at UMass Chan. JNK is a stress signaling kinase that switches on when mice eat a high-fat diet, and it helps drive obesity and insulin resistance. The authors removed JNK from liver cells and asked what the liver does without it. Their answer: liver JNK holds back the nuclear receptor PPAR&alpha;. Without JNK, PPAR&alpha; target genes that burn fatty acids and make ketone bodies go up, and so does <b>FGF21</b>, a hormone the liver releases into the blood. FGF21 turns out to carry much of the metabolic benefit of losing liver JNK.</p>
-    <p>The table you will use holds liver RNA-Seq counts from that work: four genotypes, each on a normal chow diet and on a high-fat diet (hfd), with three mice per group. <code>wt</code> is the control. <code>ALAB</code>, <code>J1c</code>, and <code>J2c</code> are the lab's own labels for the JNK-deficient livers, and the paper describes the exact alleles. We will come back to this same dataset in Session 4 for a proper differential expression analysis.</p>
-    <div class="table-scroll">
-      <table class="data">
-        <thead><tr><th scope="col">Diet</th><th scope="col">wt</th><th scope="col">ALAB</th><th scope="col">J1c</th><th scope="col">J2c</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">chow</th><td>3 mice</td><td>3 mice</td><td>3 mice</td><td>3 mice</td></tr>
-          <tr><th scope="row">hfd</th><td>3 mice</td><td>3 mice</td><td>3 mice</td><td>3 mice</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="cta-meta">Vernia S, Cavanagh-Kyros J, Garcia-Haro L, et al. The PPAR&alpha;-FGF21 hormone axis contributes to metabolic regulation by the hepatic JNK signaling pathway. <i>Cell Metab.</i> 2014;20(3):512&ndash;525. <a href="https://doi.org/10.1016/j.cmet.2014.06.010">doi:10.1016/j.cmet.2014.06.010</a></p>
-  </section>
-
-  <section class="band" id="setup" aria-labelledby="setup-h">
-    <div class="band-head"><h2 id="setup-h">Before you start</h2></div>
-    <div class="steps">
-      <div class="step">
-        <h4>Get set up first</h4>
-        <p>If you have not set up yet, do <a href="../session2.0/">2.0 Get set up</a> first. It shows the places you can work (Claude in the browser, the Claude desktop app, Claude Science, ChatGPT or Codex, and VS Code) and how to set up each one. Whichever you pick, do this whole exercise in <b>one</b> conversation, so the assistant remembers the data and every step you have taken.</p>
-        <p class="say">This page says &ldquo;Claude&rdquo; throughout. If you use ChatGPT or Codex, read it as your assistant: the tasks, hints, and checkpoints stay the same.</p>
-      </div>
-      <div class="step">
-        <h4>Tell Claude who you are and how to work</h4>
-        <p>Your first message sets the ground rules for the rest of the conversation, the same way you would brief a new lab member.</p>
-        <div class="task"><span>Your turn: write the prompt</span><p>Write your first message. Tell Claude who you are and how you want it to work for the rest of the chat. Make sure it covers:</p><ul><li>that you are a biologist learning RNA-Seq analysis and you do not write code</li><li>that Claude should write and run the code itself and show you the results and plots</li><li>that it should explain each step in plain language and skip the code unless you ask</li><li>that it should tell you about any assumption or choice it makes, and stop if the data looks wrong</li><li>that it should confirm and wait for your first task</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>I am a biologist learning to analyze RNA-Seq data, and I do not write code.
-For this whole conversation:
-- write and run the code yourself (Python is fine) and show me the results and plots
-- explain each step in plain language in a few sentences
-- do not show me code unless I ask for it
-- if you have to make an assumption or a choice, tell me what you chose and why
-- if something looks wrong in the data, stop and tell me
-Reply with OK and wait for my first task.</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-      </div>
-      <div class="step">
-        <h4>Know where the data lives</h4>
-        <p>The table is one tab-separated file, about 16&nbsp;MB: <a href="../data/session2/genes_expression_expected_count.tsv" download>genes_expression_expected_count.tsv</a>. Your first task prompt gives Claude its web address. If Claude says it cannot reach the address, download the file with that link, attach it to the chat with the paperclip, and tell Claude &ldquo;use the file I attached instead&rdquo;.</p>
-      </div>
-      <div class="step">
-        <h4>Work the loop</h4>
-        <p>Every task below has the same shape: <b>ask</b> (write your own prompt from the task description; open the hint only after you have tried), <b>check</b> (compare with the green checkpoint), then <b>keep talking</b> (follow up on at least one of the suggestions in the dashed box under each checkpoint, or on your own idea). If your numbers differ from the checkpoint, do not move on. Ask Claude why they differ. Getting to the bottom of that is the most useful thing you will practice today.</p>
-        <p class="say">A good prompt names the data, says exactly what to do (including any thresholds), and says what you want back: a plot, a number, a table, or a file. Vague prompts get vague answers, and different numbers from your neighbor&rsquo;s.</p>
-        <p class="say">Claude can be confidently wrong, especially about biology and papers. When it tells you a fact, ask how it knows, and check anything that matters.</p>
-      </div>
+  <section class="band" aria-labelledby="one-h">
+    <div class="band-head"><h2 id="one-h">The talk in one sentence</h2></div>
+    <div class="pull">
+      <p>&ldquo;Coding is no longer the bottleneck. Thinking is.&rdquo;</p>
+      <p>For science, a sharper version: the bottleneck was never writing code. It was that nobody could afford to own the tool.</p>
     </div>
   </section>
 
-  <section class="band" aria-labelledby="core-h">
-    <div class="band-head"><h2 id="core-h">The exercise</h2></div>
-    <div class="steps">
-
-      <div class="step">
-        <h4>Load the table and look before you touch anything</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to load the table from <code>https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv</code> and describe it, without analyzing anything yet. Ask for:</p><ul><li>the number of rows and columns, and the column names</li><li>what one row represents, and whether the gene names are unique</li><li>what kind of numbers the sample columns hold</li><li>how many rows are zero in every sample</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>Load this tab-separated RNA-Seq count table with Python and pandas:
-https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv
-
-Do not analyze anything yet. Tell me:
-1. how many rows and columns it has, and the column names
-2. what one row represents, and whether the gene names are unique
-3. what kind of numbers the sample columns hold
-4. how many rows are zero in every sample</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> 77,922 rows and 26 columns: <code>gene</code>, <code>transcript</code>, and 24 sample columns. Gene names are unique, so one row is one gene. The values are expected counts (numbers of reads, some with decimals). 40,181 genes are zero in every sample.</p>
-        <div class="more"><ul><li>Ask what an &ldquo;expected count&rdquo; is, explained for someone new to RNA-Seq.</li><li>Ask to see the first five rows.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">WHY</span> Why look first?</summary>
-          <div class="ans">Every later number depends on knowing what a row is. Counts are not normalized, and half the rows are empty. Both facts shape every plot you are about to make.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Turn sample names into a metadata table</h4>
-        <p>The sample names hold the whole experimental design, for example <code>hfd.J1c.rep2</code>. Pull it out into a table you can group, color, and test by.</p>
-        <div class="task"><span>Your turn: write the prompt</span><p>The 24 sample names follow the pattern diet.genotype.replicate. Ask Claude to turn them into a metadata table. Ask for:</p><ul><li>one row per sample, with the columns sample, diet, genotype, replicate, and group (diet and genotype joined, like <code>hfd_J1c</code>)</li><li>a cross-table of diet against genotype, so you can check the parsing</li><li>the table saved as <code>metadata.tsv</code> for you to download</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>The 24 sample column names follow the pattern diet.genotype.replicate.
-Build a metadata table with one row per sample and the columns:
-sample, diet, genotype, replicate, and group (diet and genotype joined, like hfd_J1c).
-Show me the table, then a cross-tabulation of diet against genotype,
-and save it as metadata.tsv so I can download it.</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> 24 rows. Two diets (chow, hfd) by four genotypes (wt, ALAB, J1c, J2c), with exactly 3 samples in every cell. Eight groups.</p>
-        <div class="more"><ul><li>Ask to see the code Claude used to split the sample names.</li><li>Ask how to open <code>metadata.tsv</code> in Excel.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">WHY</span> Why a separate metadata table?</summary>
-          <div class="ans">Metadata is data. Once diet and genotype are columns, every plot and test can say &ldquo;color by diet&rdquo; or &ldquo;compare these groups&rdquo; instead of hand-picking sample names. The cross-table is the check that Claude parsed every name correctly: a 2 or a 4 in any cell means something went wrong.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Filter, normalize, and use a barplot the right way</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to clean and normalize the counts, and to show you how deeply each sample was sequenced. Your prompt should ask it to:</p><ul><li>drop genes that are zero in every sample</li><li>draw a barplot of the total counts per sample (the library size), colored by diet</li><li>keep genes with at least 10 counts in at least 3 samples</li><li>convert to counts per million (CPM), take log2(CPM + 1), and use this log table from now on</li><li>report the library size range and how many genes were kept</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>1. Drop genes that are zero in every sample.
-2. Make a barplot of the total counts per sample (library size), colored by diet.
-3. Keep genes with at least 10 counts in at least 3 samples.
-4. Normalize to counts per million (CPM) using each sample's library size,
-   then take log2(CPM + 1). Call this the log table and use it from now on.
-Tell me the library size range and how many genes you kept.</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> Library sizes run from about 7.4 to 24.1 million reads, so some samples were sequenced three times deeper than others. 15,974 genes pass the filter.</p>
-        <div class="more"><ul><li>Ask why the filter is at least 10 counts in at least 3 samples, and what changes with 5.</li><li>Ask which sample has the smallest library, and whether that is a worry.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">2.2</span> Tommy said bars hide distributions. Why is a bar fine here?</summary>
-          <div class="ans">A barplot is right when each category has exactly one value, like one total per sample. It goes wrong when a bar stands in for a mean of several points and hides their spread. The threefold range in depth is why raw counts cannot be compared between samples, and why we divide by library size first.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Histogram: raw counts against log counts</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to show you why count data needs a log. Ask for:</p><ul><li>two histograms side by side for the first sample: the raw counts, and log2(count + 1)</li><li>using the genes left after dropping the all-zero ones, before the 10-count filter</li><li>the fraction of genes that are zero in that sample, and the gene with the highest count</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>For the first sample, using the genes left after step 1 of the last prompt
-(zero-in-every-sample removed, but before the 10-count filter),
-draw two histograms side by side: the raw counts, and log2(count + 1).
-What fraction of genes are zero in that sample, and which gene has the highest count?</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> The raw histogram is one tall bar at zero and nothing else visible. The log histogram shows a real shape. About 40% of those genes are zero in this sample. The top gene is <i>Alb</i> (albumin), with over 800,000 counts, which is what you expect from liver.</p>
-        <div class="more"><ul><li>Ask for both histograms in one figure with titles and labels good enough for lab meeting.</li><li>Ask why we add 1 before taking the log.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">2.2</span> What did the log transform buy you?</summary>
-          <div class="ans">Counts span from 0 to almost a million, so on a linear axis a handful of huge genes squash everything else into one bar. The log spreads out the range where most genes live. The +1 keeps the zeros, since log of zero is undefined.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Violin and box: are the samples comparable?</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to compare the distributions of all 24 samples in the log table. Ask for:</p><ul><li>a violin plot with a boxplot inside, one per sample</li><li>filled by diet, with samples grouped by genotype</li><li>the lowest and the highest per-sample median</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>Using the log table, draw a violin plot with a boxplot inside, one per sample,
-filled by diet, with samples grouped by genotype. Report the lowest and highest
-per-sample median.</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> 24 violins of nearly the same shape. Per-sample medians fall between about 3.0 and 3.5 log2(CPM + 1). No sample stands out as broken.</p>
-        <div class="more"><ul><li>Ask for colorblind friendly colors and a PNG you can download.</li><li>Ask what a failed sample's violin would look like.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">2.2</span> What would a barplot of means have hidden?</summary>
-          <div class="ans">A bar of the mean per sample would look almost identical across samples and tell you nothing about shape. A violin shows the whole distribution, so a failed library (a lump of low genes, or a squashed shape) would jump out.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Scatter plots: replicates, then diet</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude for three scatter plots from the log table:</p><ul><li><code>chow.wt.rep1</code> against <code>chow.wt.rep2</code>, with a y = x line and the Pearson correlation</li><li>the average of each group's three replicates, chow_wt on x against hfd_wt on y, drawn first with solid points and then with transparent points</li><li>labels on the 10 genes farthest from the diagonal, and which of them went up or down on hfd</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>Using the log table:
-1. Scatter chow.wt.rep1 against chow.wt.rep2, with a y = x line. Report the Pearson correlation.
-2. Average the three replicates of each group. Scatter chow_wt (x) against hfd_wt (y),
-   with a y = x line. First draw it with solid points, then again with transparent points.
-3. Label the 10 genes farthest from the diagonal, and tell me which went up on hfd
-   and which went down.</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> Replicates hug the diagonal (r about 0.991). Diet spreads points off it (group means r about 0.983). Among the farthest genes: <i>Cyp2b9</i>, <i>Lcn2</i>, and <i>Serpina7</i> go up on hfd, while <i>Moxd1</i>, <i>Cyp3a11</i>, and <i>Cyp4a12b</i> go down.</p>
-        <div class="more"><ul><li>Ask which of the labeled genes are known liver or metabolism genes, and how sure Claude is about each.</li><li>Ask for the same diet scatter for ALAB instead of wt, and whether it looks different.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">2.2</span> What did the transparent version show that the solid one hid?</summary>
-          <div class="ans">With 16,000 solid points the middle becomes one black blob: overplotting. Transparency lets the density show, so you can see that nearly all genes sit on the diagonal and only a thin tail moves. A correlation of 0.98 sounds like &ldquo;nothing changed&rdquo;, yet those tails hold the biology. One summary number is not the plot.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Find the paper's gene yourself</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to show you Fgf21, the gene at the center of the paper. Ask for:</p><ul><li>Fgf21 from the log table in all 24 samples, one column per group</li><li>every mouse drawn as a dot, with a boxplot behind the dots</li><li>the groups in a sensible order: the four chow groups, then the four hfd groups, wt first in each</li><li>which groups stand out</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>Plot Fgf21 in the log table for all 24 samples: one column per group,
-every sample drawn as a dot, with a boxplot behind the dots.
-Order the groups chow_wt, chow_ALAB, chow_J1c, chow_J2c, then the same for hfd.
-Which groups stand out?</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> On chow every group sits near 2.5 to 3.2. On hfd, <b>hfd_ALAB</b> jumps to about 5.2 and <b>hfd_J2c</b> to about 4.3, while hfd_wt stays near 3.2.</p>
-        <div class="more"><ul><li>Ask for Mapk8 and Mapk9 plotted the same way (they encode JNK1 and JNK2), what you should notice, and why a deleted gene can still leave reads behind.</li><li>Ask for Fgf21, Cyp4a14, and Ppara side by side in one figure.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">2.1</span> Why draw the dots and not only the box?</summary>
-          <div class="ans">A boxplot of three points invents a shape that three points cannot support. Showing every mouse is honest about n = 3. Tie it back to the paper: FGF21 rising only when JNK is lost and the diet is high in fat is the result the study is built on.</div>
-        </details>
-        <details class="reveal"><summary><span class="lbl">DETECTIVE</span> Tried the Mapk8 and Mapk9 follow-up? Check your reading here.</summary>
-          <div class="ans">Mapk8 (JNK1) is lower in ALAB and J1c. Mapk9 (JNK2) is lower in ALAB and J2c. So the data suggest ALAB lacks both, J1c lacks JNK1, and J2c lacks JNK2. The drop is partial because a conditional knockout removes a few exons in liver cells, while reads from the rest of the gene and from other cell types remain. This is an inference from the counts: confirm it against the paper's methods before you rely on it.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Heatmap and PCA: what drives the biggest differences?</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude which factor drives the biggest differences between samples. Using the 500 most variable genes in the log table, ask for:</p><ul><li>the sample to sample Pearson correlation, drawn as a clustered heatmap with diet and genotype as colored annotation bars</li><li>a PCA (genes centered, not scaled) of PC1 against PC2, colored by diet, shaped by genotype, with the percent variance on each axis</li><li>which factor separates the samples on PC1, and which on PC2</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>Using the 500 most variable genes in the log table:
-1. Compute the sample-to-sample Pearson correlation and draw it as a clustered heatmap,
-   with diet and genotype as colored annotation bars.
-2. Run PCA (center the genes, no scaling). Plot PC1 against PC2,
-   color by diet, shape by genotype, and put the percent variance on each axis.
-Which factor separates the samples on PC1, and which on PC2?</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> In the heatmap, samples mostly group by diet. How cleanly depends on the clustering method: with some settings the two diets split perfectly, with others a less typical sample such as <code>hfd.ALAB.rep3</code> sits on a branch of its own. PC1 explains about 29% of the variance and separates diet. PC2 (about 16.5%) pulls ALAB away from wt, with J1c and J2c in between.</p>
-        <p class="say">Your tree looks different from your neighbor's? Ask Claude which distance and linkage it used, then try another. A dendrogram is one method's answer, not a fact about the data. PCA does not depend on that choice.</p>
-        <div class="more"><ul><li>Ask which genes drive PC2, top ten.</li><li>Ask for the heatmap again with complete linkage, and whether the tree changed.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">2.2</span> Is a heatmap one of the six?</summary>
-          <div class="ans">Yes, and the PCA plot is just a scatter plot of two derived numbers per sample. This pair is the first figure to make in any RNA-Seq project: before testing a single gene, it tells you whether replicates agree and which factor dominates. Here diet outweighs genotype.</div>
-        </details>
-      </div>
-
-      <div class="step">
-        <h4>Wrap up: take the work with you</h4>
-        <p>A chat is not a record. Before you close it, make sure you leave with more than a scrollback of plots.</p>
-        <div class="task"><span>Your turn: write the prompt</span><p>Before you close the chat, ask Claude for everything you would need to redo or report this analysis:</p><ul><li>one Python script, as a file to download, that redoes every step from the original data address, with a short comment above each step</li><li>a methods paragraph you could adapt for a paper, naming each filter and threshold</li><li>a list of every figure you made, with one sentence on what each shows</li><li>every assumption or choice Claude made on your behalf</li><li>all of it gathered into one report you can share: a page with the figures, the methods, and the findings</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>We are done for today. Please give me:
-1. one Python script, as a downloadable file, that redoes every step we did from the
-   original data address, with a short comment above each step
-2. a methods paragraph I could adapt for a paper, naming each filter and threshold we used
-3. a list of every figure we made, with one sentence on what each one shows
-4. anything you assumed or chose on my behalf during this conversation
-5. a one-page report as an artifact, with the key figures, the methods paragraph,
-   and three findings in plain language, so I can publish it and share the link</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="say"><b>On claude.ai:</b> ask for the report &ldquo;as an artifact&rdquo;. It opens in a panel next to the chat. Use its <b>Publish</b> button to get a link you can send to your PI or paste into your lab notes. Anyone with the link can see it, so publish only what you are allowed to share.</p>
-        <p class="say"><b>On Codex:</b> ask it to write the report as an HTML or Markdown file in your project and tell you the file name. If your Codex is connected to GitHub, ask it to open a pull request instead, and share that link.</p>
-        <p class="check"><b>Checkpoint</b> You can download a script, and the methods paragraph names the filter (at least 10 counts in at least 3 samples), log2(CPM + 1), and the 500 most variable genes for the heatmap and PCA. If a number in it disagrees with what you saw earlier, ask Claude which one is right.</p>
-        <div class="more"><ul><li>Ask for the same script in R using ggplot2.</li><li>Ask which of today&rsquo;s results Claude would not trust yet, and why.</li></ul></div>
-      </div>
-    </div>
+  <section class="band" aria-labelledby="covers-h">
+    <div class="band-head"><h2 id="covers-h">What the talk covers</h2></div>
+    <ul class="plain">
+      <li><b>Why code at all.</b> Ask a language model the same question twice and you can get two different answers. A script gives the same answer every time. So do not ask AI for the answer; ask it for the thing that produces the answer: &ldquo;Write a script that reads my data and generates a scatter plot&rdquo;, not &ldquo;Create a scatter plot from my data&rdquo;. That turns &ldquo;is this answer right?&rdquo; into &ldquo;is this code right?&rdquo;, which you can test.</li>
+      <li><b>The problem.</b> A transcript has roughly 3,000 candidate siRNAs, and a lab can synthesize and screen about 100. The lab was choosing with a basic design portal and a chain of hand-edited Excel templates, because improving them needed a programmer nobody had.</li>
+      <li><b>The build.</b> One toolkit that goes from gene to siRNA in a few clicks, written with Claude, Python, Streamlit (which turns a Python script into a web app), and GitHub for save points. A little terminal, less than you would think. Cost: a $100 a month subscription, paid by the lab.</li>
+      <li><b>How the work goes.</b> Start with what a user should be able to do. Ask for a plan in chunks, read it, and approve it before any code is written. Then loop: prompt, test, review, debug. Commit after each chunk that works. In Eric&rsquo;s words, it feels like supervising &ldquo;a very fast, very capable, occasionally overconfident rotation student.&rdquo;</li>
+      <li><b>The honest caveat.</b> AI-written code fails silently and plausibly, not loudly. A gene lookup for BCAM also returned BCAT2, and 26 automated tests still passed, because the tests checked his assumption rather than reality. Every failure was caught because he knew what the answer should look like.</li>
+      <li><b>Trust through verification.</b> The same controls you use at the bench: a positive control (do I get a known right answer?), a negative control (do I get noise from noise?), a gold standard (can I reproduce another tool?), plus variation, integration, hold-out, and nonsense tests. His positive control: scored against a drug already in the clinic, the model ranked the real drug&rsquo;s site second of 516.</li>
+      <li><b>Checking the literature.</b> When AI writes prose instead of code, ask for DOIs or PMIDs and actually check one or two, and prefer tools grounded in documents or databases you trust.</li>
+    </ul>
   </section>
 
-  <section class="band" aria-labelledby="stretch-h">
-    <div class="band-head"><h2 id="stretch-h">Stretch: your own multiple testing problem</h2></div>
-    <p>Done early? This one ties straight back to 2.1. It uses a plain t-test on purpose, to show why RNA-Seq needs better tools. Afterwards, ask for the step 9 wrap-up again so your script and methods include it.</p>
-    <div class="steps">
-      <div class="step">
-        <h4>Test every gene, then correct</h4>
-        <div class="task"><span>Your turn: write the prompt</span><p>Ask Claude to test every gene in the log table with a Welch t-test of hfd_wt against chow_wt (3 against 3). Then ask it to:</p><ul><li>count the genes with p &lt; 0.05, and say how many to expect by chance alone</li><li>draw a histogram of all the p-values with bins 0.05 wide</li><li>adjust the p-values with Benjamini-Hochberg and count the genes with adjusted p &lt; 0.05</li><li>shuffle each gene's six values at random between the two groups, so no real difference is left, and repeat the three steps above</li><li>finish with a volcano plot of the real test: log2 fold change against -log10(p)</li></ul></div>
-        <details class="reveal hint"><summary><span class="lbl">HINT</span> Stuck? One way to write this prompt</summary>
-          <blockquote>For every gene in the log table, run a Welch t-test of hfd_wt against chow_wt (3 against 3).
-1. How many genes have p &lt; 0.05? How many would you expect by chance alone?
-2. Draw a histogram of all the p-values with bins 0.05 wide.
-3. Adjust with Benjamini-Hochberg. How many genes have adjusted p &lt; 0.05?
-4. Now shuffle each gene's six values at random between the two groups, so there is
-   no real difference left, and repeat steps 1 to 3 on the shuffled data.
-5. Finish with a volcano plot of the real test: log2 fold change against -log10(p).</blockquote>
-          <div class="ans">Compare it with yours. Notice how it names the data, lists exactly what to do, and says what to hand back. Your wording can be completely different and still work.</div>
-        </details>
-        <p class="check"><b>Checkpoint</b> About 16,000 genes tested and 2,722 with p &lt; 0.05, far more than the roughly 800 chance alone would give. The histogram has a spike near zero. After Benjamini-Hochberg: <b>zero</b> genes. The shuffled data give about 600 genes with p &lt; 0.05 (about 4%), a flat histogram, and zero after correction.</p>
-        <div class="more"><ul><li>Ask for a two-sentence explanation, for lab meeting, of why no gene survived correction.</li><li>Ask for the real and shuffled p-value histograms side by side on the same y axis.</li></ul></div>
-        <details class="reveal"><summary><span class="lbl">2.1</span> There is a spike near zero, so why does nothing survive?</summary>
-          <div class="ans">The spike says real differences exist somewhere. But with three mice per group, a t-test has so little power that no single gene's p-value is small enough to beat correction across 16,000 tests. The shuffle shows the other side: hundreds of &ldquo;hits&rdquo; appear from pure noise, and correction removes them all. Tools like DESeq2 share information across genes to get more power from few samples. That is Session 4.</div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section class="band" aria-labelledby="wrap-h">
-    <div class="band-head"><h2 id="wrap-h">What you practiced</h2></div>
+  <section class="band" aria-labelledby="prompt-h">
+    <div class="band-head"><h2 id="prompt-h">What made his first prompt work</h2></div>
     <ol class="checklist">
-      <li><span class="q">Metadata is data: build it, then check it with a cross-table.</span><span class="src">Step 2</span></li>
-      <li><span class="q">A barplot for one value per category, never for a hidden distribution.</span><span class="src">2.2, step 3</span></li>
-      <li><span class="q">Log transform before you look at count data.</span><span class="src">2.2, step 4</span></li>
-      <li><span class="q">Violins and dots over bars when n is small.</span><span class="src">2.2, steps 5 and 7</span></li>
-      <li><span class="q">Fix overplotting before you read a scatter plot.</span><span class="src">2.2, step 6</span></li>
-      <li><span class="q">Heatmap and PCA first, to see what drives the data.</span><span class="src">2.2, step 8</span></li>
-      <li><span class="q">Thousands of tests make noise look significant; correct for it.</span><span class="src">2.1, stretch</span></li>
-      <li><span class="q">Brief Claude first, then ask, check, and keep talking.</span><span class="src">Every step</span></li>
-      <li><span class="q">When your number differs from the checkpoint, ask why before moving on.</span><span class="src">Every step</span></li>
-      <li><span class="q">Leave with the code, the methods, and the assumptions, not just the plots.</span><span class="src">Step 9</span></li>
+      <li><span class="q">Ask the basic question first, and let it confirm or correct your intuition.</span><span class="src">Do not dive in headfirst</span></li>
+      <li><span class="q">Describe the workflow in your own domain language.</span><span class="src">No technical vocabulary needed</span></li>
+      <li><span class="q">Ask for a plan before any code, then work in chunks you can test one at a time.</span><span class="src">Plan first</span></li>
+      <li><span class="q">End with &ldquo;ask me questions&rdquo;, and let it find the holes in your request.</span><span class="src">Make it interview you</span></li>
     </ol>
-    <p>Tell us how it went: <a href="../feedback/?session=2">Session 2 feedback</a>.</p>
+    <details class="reveal"><summary><span class="lbl">PROMPT</span>Read Eric&rsquo;s very first prompt, as he wrote it</summary>
+      <blockquote>I want to build a application and toolkit for designing siRNAs. What is the best programming language(s) to accomplish this? List a couple options and list the pros and cons of each. The general workflow should look like this: User defines/or selects a species, gene of interest. The application should then look up all accession numbers associated with that gene and let the user select one. Then the application should download that specific gene and then compute every possible siRNA against that genetic code. The output should be a table of every siRNA and their properties. Help me plan out a work plan to be able to use Claude Code to build this application. Ask me for clarification and context whenever possible.</blockquote>
+      <div class="ans">He did not know Python or GitHub when he wrote this. None of that stopped the first day being productive.</div>
+    </details>
+  </section>
+
+  <section class="band" aria-labelledby="case-h">
+    <div class="band-head"><h2 id="case-h">Two cases to think about</h2></div>
+    <details class="reveal"><summary><span class="lbl">CASE 1</span>The cell counter: what would you tell her to check?</summary>
+      <blockquote>A postdoc with no coding experience builds a tool in one afternoon: drag in folders of fluorescence images, it counts cells and reports the percent GFP-positive per well, with a bar chart. 24 images, 8 wells. Control 11% positive, treatment 42%, p &lt; 0.001. The chart is beautiful, and she wants it in Thursday&rsquo;s lab meeting.</blockquote>
+      <div class="ans">She ran the treatment folder by itself, without the controls, and treatment dropped from 42% to 29%. The tool set its brightness threshold from the brightest image in whatever folder it was given, so the answer depended on which images were in the folder, not on the biology. A variation test would have caught it.</div>
+    </details>
+    <details class="reveal"><summary><span class="lbl">CASE 2</span>The extractor: how would you verify it?</summary>
+      <blockquote>A clinical fellow asks AI to read 200 trial reports and extract drug, dose, primary outcome, and whether serious adverse events were reported. Ten minutes later he has a clean spreadsheet: 200 rows, every cell filled.</blockquote>
+      <div class="ans">The talk leaves this one open. Which rows would you check by hand, and what would a positive and a negative control look like here? &ldquo;Every cell filled&rdquo; is itself a warning sign.</div>
+    </details>
+  </section>
+
+  <section class="band" aria-labelledby="home-h">
+    <div class="band-head"><h2 id="home-h">Take home</h2></div>
+    <ol class="checklist">
+      <li><span class="q">Ask for the script, not the answer. That is how a result becomes reproducible.</span><span class="src">Reproducibility</span></li>
+      <li><span class="q">&ldquo;Make me a plan&rdquo; and &ldquo;ask me questions&rdquo; are the two highest-value phrases you can learn.</span><span class="src">Prompting</span></li>
+      <li><span class="q">Work in chunks. Commit after each one.</span><span class="src">Save points</span></li>
+      <li><span class="q">The AI writes the code. You own whether it is right.</span><span class="src">Verification</span></li>
+    </ol>
+    <p><b>Start on Monday.</b> Pick the smallest annoying thing you already do by hand every week. Open an AI tool, start a project, point it at a folder with a real file in it, and tell it what you want in your own words. Expect a working first version within an hour, and expect to fix it three times.</p>
+    <details class="reveal"><summary><span class="lbl">PROMPT</span>Eric&rsquo;s starter prompt</summary>
+      <blockquote>I want to build a small tool that does [X]. I'm a biologist with little coding experience. Ask me clarifying questions first, then give me a step-by-step plan in chunks I can test one at a time. Don't write any code until I approve the plan.</blockquote>
+    </details>
+    <p>Then try it in <a href="../session2.4/">2.4 Hands-on</a>: the wrap-up asks Claude for the script rather than only the plots, and the stretch step&rsquo;s shuffled data is a negative control, noise from noise.</p>
+  </section>
+
+  <section class="band" aria-labelledby="who-h">
+    <div class="band-head"><h2 id="who-h">About the speaker</h2></div>
+    <p>Eric Kercher is a postdoc in the Alterman Lab at the RNA Therapeutics Institute, UMass Chan, where he makes siRNAs. He is not a software engineer: some prior coding, no formal computer science training, and beginner Python when this project started. Five months before this talk he could not build a web app. His lab now runs one he built.</p>
   </section>
 
   <section class="band" aria-labelledby="mat-h">
     <div class="band-head"><h2 id="mat-h">Materials</h2></div>
     <div class="links">
-      <a href="../data/session2/genes_expression_expected_count.tsv" download><span class="k">Data</span><strong>genes_expression_expected_count.tsv</strong><span class="d">Liver RNA-Seq expected counts, 24 samples. About 16 MB.</span><span class="u">data/session2</span></a>
-      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/"><span class="k">Paper</span><strong>Vernia et al., 2014, Cell Metabolism</strong><span class="d">The PPAR&alpha;-FGF21 hormone axis and hepatic JNK signaling. Open access.</span><span class="u">pmc.ncbi.nlm.nih.gov</span></a>
-      <a href="../session2.1/"><span class="k">Session 2.1</span><strong>Basic statistics</strong><span class="d">P-values, their histogram, and multiple testing.</span><span class="u">session2.1</span></a>
-      <a href="../session2.2/"><span class="k">Session 2.2</span><strong>Six plots</strong><span class="d">What each plot shows and how it misleads.</span><span class="u">session2.2</span></a>
+      <a href="https://docs.google.com/presentation/d/1NdPUL_T_B5S4zD5dwTE8DLrDU51kpiuj/edit"><span class="k">Slides</span><strong>AI-assisted development of webapps for scientific applications</strong><span class="d">Eric&rsquo;s deck for this part.</span><span class="u">docs.google.com</span></a>
+      <a href="https://sirna-toolkit.streamlit.io"><span class="k">Demo</span><strong>siRNA toolkit</strong><span class="d">The tool from the talk. In beta testing: email Eric for access.</span><span class="u">sirna-toolkit.streamlit.io</span></a>
+      <a href="https://streamlit.io"><span class="k">Tool</span><strong>Streamlit</strong><span class="d">Turns a Python script into a web app without writing web code.</span><span class="u">streamlit.io</span></a>
     </div>
   </section>
 
   <nav class="pager" aria-label="Previous and next part">
     <a class="prev" href="../session2.2/"><span class="k">&larr; Previous</span><strong>2.2 Six plots</strong></a>
-    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+    <a class="next" href="../session2.4/"><span class="k">Next &rarr;</span><strong>2.4 Hands-on</strong></a>
   </nav>
 
   <footer class="foot">

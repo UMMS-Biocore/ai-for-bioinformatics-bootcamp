@@ -178,6 +178,42 @@
         <p class="err" aria-live="polite"></p>
       </fieldset>
 
+      <fieldset data-field="s2Talk" data-session-only="2" data-when-attended hidden>
+        <legend>How useful was Eric Kercher&rsquo;s talk on building tools with AI?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s2Talk" value="Not useful"><span>Not useful</span></label>
+          <label><input type="radio" name="s2Talk" value="Somewhat useful"><span>Somewhat useful</span></label>
+          <label><input type="radio" name="s2Talk" value="Useful"><span>Useful</span></label>
+          <label><input type="radio" name="s2Talk" value="Very useful"><span>Very useful</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset data-field="s2Handson" data-session-only="2" data-when-attended hidden>
+        <legend>How far did you get in the hands-on (2.4)?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s2Handson" value="Did not start"><span>Did not start</span></label>
+          <label><input type="radio" name="s2Handson" value="Got set up only"><span>Got set up only</span></label>
+          <label><input type="radio" name="s2Handson" value="Some of the tasks"><span>Some of the tasks</span></label>
+          <label><input type="radio" name="s2Handson" value="All of the core tasks"><span>All of the core tasks</span></label>
+          <label><input type="radio" name="s2Handson" value="Core tasks and the stretch"><span>Core tasks and the stretch</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset data-field="s2Where" data-session-only="2" data-when-attended hidden>
+        <legend>Where did you do the hands-on?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s2Where" value="Claude in the browser"><span>Claude in the browser</span></label>
+          <label><input type="radio" name="s2Where" value="Claude desktop app"><span>Claude desktop app</span></label>
+          <label><input type="radio" name="s2Where" value="Claude Science"><span>Claude Science</span></label>
+          <label><input type="radio" name="s2Where" value="ChatGPT or Codex"><span>ChatGPT or Codex</span></label>
+          <label><input type="radio" name="s2Where" value="VS Code"><span>VS Code</span></label>
+          <label><input type="radio" name="s2Where" value="Did not do it"><span>Did not do it</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
       <div class="q" data-field="useful" data-optional>
         <label class="qlabel" for="f-useful">What was the most useful part?<span class="req opt">Optional</span></label>
         <textarea id="f-useful" name="useful" rows="3"></textarea>
@@ -254,7 +290,8 @@
   // Session-specific questions: field name -> the column label stored in the sheet.
   var EXTRA = {
     '1': { s1Confidence: 'S1 confidence about safe AI data use (after)', s1Setup: 'S1 setup status' },
-    '2': { s2Stats: 'S2 confidence with p-values and FDR (after)', s2Plots: 'S2 confidence choosing plots (after)' }
+    '2': { s2Stats: 'S2 confidence with p-values and FDR (after)', s2Plots: 'S2 confidence choosing plots (after)',
+           s2Talk: 'S2 usefulness of Eric Kercher talk', s2Handson: 'S2 hands-on progress', s2Where: 'S2 hands-on tool' }
   };
 
   var form = document.getElementById('fb');

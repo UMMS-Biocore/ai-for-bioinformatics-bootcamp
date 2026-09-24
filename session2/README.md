@@ -17,7 +17,8 @@ Read and reason about the statistics and figures behind a genomics result: what 
 | Before | 2.0 Get set up (pre-work) | Bioinformatics Core | [session2.0](https://biocore.umassmed.edu/session2.0/) |
 | 1:00 | 2.1 Basic statistics for biologists | Tommy Tang | [session2.1](https://biocore.umassmed.edu/session2.1/) |
 | | 2.2 Master six plots | Tommy Tang | [session2.2](https://biocore.umassmed.edu/session2.2/) |
-| | 2.3 Hands-on: a real RNA-Seq table with Claude | Bioinformatics Core | [session2.3](https://biocore.umassmed.edu/session2.3/) |
+| | 2.3 Building with AI: web apps for science | Eric Kercher | [session2.3](https://biocore.umassmed.edu/session2.3/) |
+| | 2.4 Hands-on: a real RNA-Seq table with Claude | Bioinformatics Core | [session2.4](https://biocore.umassmed.edu/session2.4/) |
 
 Times are approximate and the running order is not final.
 
@@ -33,7 +34,11 @@ Starting from the null hypothesis, what a p-value is and is not, p-value distrib
 
 Barplot, scatter plot, line graph, histogram, boxplot and violin, and heatmap: what each shows, when to use it, and how each one misleads. Then what the fancier plots (clustered dot plots, volcanoes, UMAP panels) are made of underneath, worked through two published figures.
 
-## 2.3 Hands-on: a real RNA-Seq table with Claude
+## 2.3 Building with AI: web apps for science
+
+Eric Kercher (RNA Therapeutics Institute, UMass Chan) on how a wet-lab postdoc with beginner Python built an siRNA design web app with Claude, Python, Streamlit, and GitHub in five months. Why to ask AI for the script rather than the answer, how to prompt (ask for a plan, make it interview you, work in chunks), and how to verify AI-written code with positive and negative controls, gold standards, and nonsense tests. [Slides](https://docs.google.com/presentation/d/1NdPUL_T_B5S4zD5dwTE8DLrDU51kpiuj/edit).
+
+## 2.4 Hands-on: a real RNA-Seq table with Claude
 
 Participants use Claude in the browser (Python, no installs) on liver RNA-Seq counts from [Vernia et al., 2014, *Cell Metabolism*](https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/): 2 diets by 4 genotypes by 3 mice. They build a metadata table from the sample names, then make a barplot, histograms, violins, scatter plots, a correlation heatmap, and a PCA, each checked against a stated result. A stretch step runs a per-gene t-test, a p-value histogram, Benjamini-Hochberg correction, and a shuffled null. The same dataset returns in Session 4.
 
@@ -45,6 +50,7 @@ After the session, fill in the short feedback form. It records attendance too:
 ## Materials
 
 - Tommy Tang, [Basic statistics for biologists](https://docs.google.com/presentation/d/13zkZ0Wc5bmNFbWn1cawBkmcdcXAAsZGLBbX87oUnqz0/edit) (slides, work in progress)
+- Eric Kercher, [AI-assisted development of webapps for scientific applications](https://docs.google.com/presentation/d/1NdPUL_T_B5S4zD5dwTE8DLrDU51kpiuj/edit) (slides)
 - Tommy Tang, [Six types of plots](https://docs.google.com/presentation/d/1yMV3pJjYVnTr1xjP-_6BDO_wT2JKSms0dK1kswwCKeM/edit) (slides, work in progress)
 - Reading: [P-values, multiple comparisons, FDR, and q-values](https://divingintogeneticsandgenomics.com/post/understanding-p-value-multiple-comparisons-fdr-and-q-value/)
 - Reading: [How to interpret a p-value histogram](http://varianceexplained.org/statistics/interpreting-pvalue-histogram/)
