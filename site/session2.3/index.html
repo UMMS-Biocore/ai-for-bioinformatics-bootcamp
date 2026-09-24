@@ -73,7 +73,7 @@
       <li><span class="q">Ask for a plan before any code, then work in chunks you can test one at a time.</span><span class="src">Plan first</span></li>
       <li><span class="q">End with &ldquo;ask me questions&rdquo;, and let it find the holes in your request.</span><span class="src">Make it interview you</span></li>
     </ol>
-    <details class="reveal"><summary><span class="lbl">PROMPT</span>Read Eric&rsquo;s very first prompt, as he wrote it</summary>
+    <details class="reveal"><summary><span class="lbl">PROMPT</span> Read Eric&rsquo;s very first prompt, as he wrote it</summary>
       <blockquote>I want to build a application and toolkit for designing siRNAs. What is the best programming language(s) to accomplish this? List a couple options and list the pros and cons of each. The general workflow should look like this: User defines/or selects a species, gene of interest. The application should then look up all accession numbers associated with that gene and let the user select one. Then the application should download that specific gene and then compute every possible siRNA against that genetic code. The output should be a table of every siRNA and their properties. Help me plan out a work plan to be able to use Claude Code to build this application. Ask me for clarification and context whenever possible.</blockquote>
       <div class="ans">He did not know Python or GitHub when he wrote this. None of that stopped the first day being productive.</div>
     </details>
@@ -81,11 +81,11 @@
 
   <section class="band" aria-labelledby="case-h">
     <div class="band-head"><h2 id="case-h">Two cases to think about</h2></div>
-    <details class="reveal"><summary><span class="lbl">CASE 1</span>The cell counter: what would you tell her to check?</summary>
+    <details class="reveal"><summary><span class="lbl">CASE 1</span> The cell counter: what would you tell her to check?</summary>
       <blockquote>A postdoc with no coding experience builds a tool in one afternoon: drag in folders of fluorescence images, it counts cells and reports the percent GFP-positive per well, with a bar chart. 24 images, 8 wells. Control 11% positive, treatment 42%, p &lt; 0.001. The chart is beautiful, and she wants it in Thursday&rsquo;s lab meeting.</blockquote>
       <div class="ans">She ran the treatment folder by itself, without the controls, and treatment dropped from 42% to 29%. The tool set its brightness threshold from the brightest image in whatever folder it was given, so the answer depended on which images were in the folder, not on the biology. A variation test would have caught it.</div>
     </details>
-    <details class="reveal"><summary><span class="lbl">CASE 2</span>The extractor: how would you verify it?</summary>
+    <details class="reveal"><summary><span class="lbl">CASE 2</span> The extractor: how would you verify it?</summary>
       <blockquote>A clinical fellow asks AI to read 200 trial reports and extract drug, dose, primary outcome, and whether serious adverse events were reported. Ten minutes later he has a clean spreadsheet: 200 rows, every cell filled.</blockquote>
       <div class="ans">The talk leaves this one open. Which rows would you check by hand, and what would a positive and a negative control look like here? &ldquo;Every cell filled&rdquo; is itself a warning sign.</div>
     </details>
@@ -100,7 +100,7 @@
       <li><span class="q">The AI writes the code. You own whether it is right.</span><span class="src">Verification</span></li>
     </ol>
     <p><b>Start on Monday.</b> Pick the smallest annoying thing you already do by hand every week. Open an AI tool, start a project, point it at a folder with a real file in it, and tell it what you want in your own words. Expect a working first version within an hour, and expect to fix it three times.</p>
-    <details class="reveal"><summary><span class="lbl">PROMPT</span>Eric&rsquo;s starter prompt</summary>
+    <details class="reveal"><summary><span class="lbl">PROMPT</span> Eric&rsquo;s starter prompt</summary>
       <blockquote>I want to build a small tool that does [X]. I'm a biologist with little coding experience. Ask me clarifying questions first, then give me a step-by-step plan in chunks I can test one at a time. Don't write any code until I approve the plan.</blockquote>
     </details>
     <p>Then try it in <a href="../session2.4/">2.4 Hands-on</a>: the wrap-up asks Claude for the script rather than only the plots, and the stretch step&rsquo;s shuffled data is a negative control, noise from noise.</p>
