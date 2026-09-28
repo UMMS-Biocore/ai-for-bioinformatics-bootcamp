@@ -165,10 +165,23 @@ Write these rules into AGENTS.md so every future session follows them, set every
   <section class="band" aria-labelledby="extra-h">
     <div class="band-head"><h2 id="extra-h">Extra: a video transcript</h2></div>
     <p>A paper is not the only kind of source. These two steps add the transcript of a conference session, with timestamps, and use it to jump to one moment in the video.</p>
+    <p><b>The video:</b> <a href="https://www.youtube.com/watch?v=9SrnO-UkaQA">Psoriasis or Dermatitis? When boundaries blur and treatments flip the script</a>, a joint symposium of the International Eczema Council and the International Psoriasis Council at the AAD 2026 Global Education Day in Denver (March 26, 2026). Across almost three hours of talks and a closing panel, clinicians and researchers look at where atopic dermatitis and psoriasis overlap: patients whose disease does not fit cleanly into either diagnosis, and &ldquo;paradoxical&rdquo; reactions, where a treatment for one disease brings on the other. It is exactly the kind of source that is hard to search by hand and easy for an agent once it is text.</p>
     <div class="steps">
       <div class="step">
+        <h4>Get the transcript</h4>
+        <p><b>We did this for you.</b> Download <a href="../data/session3/AAD-2026-Denver-global-education-day-transcript.txt" download>AAD-2026-Denver-global-education-day-transcript.txt</a> and save it into your knowledge base&rsquo;s <code>raw/</code> folder.</p>
+        <p>To do the same for any other YouTube video:</p>
+        <ol>
+          <li>Open the video on youtube.com and click <b>&hellip;more</b> under the title to expand the description.</li>
+          <li>Scroll to the end of the description and click <b>Show transcript</b>. The transcript opens beside the video, one line per few seconds, each with its timestamp.</li>
+          <li>Click and drag from the first line to the last to select it all, then copy with <kbd>Cmd</kbd>+<kbd>C</kbd> (macOS) or <kbd>Ctrl</kbd>+<kbd>C</kbd> (Windows).</li>
+          <li>Paste it into a plain text file (TextEdit, after <b>Format, Make Plain Text</b>, on macOS; Notepad on Windows) and save it as a <code>.txt</code> file in <code>raw/</code>.</li>
+        </ol>
+        <p class="say">Keep the timestamps. They are what lets the agent send you to the right moment in the next step. A little page clutter copied along with it (buttons, view counts) does no harm; the agent reads past it.</p>
+      </div>
+      <div class="step">
         <h4>Ingest a transcript with timestamps</h4>
-        <p>Download <a href="../data/session3/AAD-2026-Denver-global-education-day-transcript.txt" download>AAD-2026-Denver-global-education-day-transcript.txt</a> and save it into your knowledge base&rsquo;s <code>raw/</code> folder. Then:</p>
+        <p>With the file in <code>raw/</code>, type:</p>
         <blockquote class="prompt">Ingest the new file in the raw folder. This is the transcript (with timestamps) from the 2026 AAD Global Education Day session from Denver. Video here: https://www.youtube.com/watch?v=9SrnO-UkaQA</blockquote>
         <div class="more"><b>What did you observe?</b><ul><li>How did the agent fit a video transcript alongside the scientific papers?</li><li>What information from the transcript showed up in the wiki?</li></ul></div>
       </div>
