@@ -1,0 +1,209 @@
+PREREQUISITES:
+
+1. An active Claude or ChatGPT subscription (must be on a paid plan)
+2. Command line interface (CLI) AI agent installed (choose one)
+2a. Claude Code Terminal (https://code.claude.com/docs/en/terminal-guide) 
+2b. Codex CLI (https://learn.chatgpt.com/docs/codex/cli#getting-started)
+
+SETUP (do this before class day):
+1. Open terminal application
+Mac:
+> Press Cmd+Space, type Terminal, press Enter.
+
+Windows:
+> Click Start, type PowerShell, press Enter. 
+
+2. Install Claude Code or Codex CLI:
+Claude Code:
+Mac:
+> curl -fsSL https://claude.ai/install.sh | bash
+Windows PowerShell:
+> irm https://claude.ai/install.ps1 | iex
+
+Codex:
+Mac:
+> curl -fsSL https://chatgpt.com/codex/install.sh | sh
+Windows PowerShell:
+> powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+
+3. Paperclip (scientific paper index):
+Create Paperclip account (free)
+https://paperclip.gxl.ai/login
+
+Install Paperclip:
+> curl -fsSL https://paperclip.gxl.ai/install.sh | bash
+
+Configure Paperclip for your agent:
+> paperclip install
+
+3. 
+Start your agent from the terminal:
+Claude Code: 
+> claude
+
+Codex CLI:
+> codex
+
+Follow login instructions
+
+4. 
+Verify your agent works, type:
+> What can I do with coding agents?
+
+
+CLASS DAY:
+
+Build a personal, AI-powered knowledge base on atopic dermatitis using Claude Code or Codex CLI. Based on Andrej Karpathy’s LLM Wiki design, the knowledge base combines immutable raw source storage with an AI-maintained linked wiki that distills and organizes what those sources contain. You’ll learn how to ingest research, search scientific literature with Paperclip, track research tasks, delegate work to agents, visualize the resulting knowledge graph, and use the knowledge base as a persistent research system that AI agents can query on your behalf in response to your questions.
+
+1. Open Terminal 
+Mac: Cmd + Spacebar Terminal
+Windows: Win + R → type cmd → Enter
+
+2. Make new folder for your knowledge base
+Mac or Windows: 
+mkdir my-kb-atopic-dermatitis
+cd my-kb-atopic-dermatitis
+
+3. Start Claude Code or Codex CLI
+claude
+codex
+
+**What did you observe?**
+- How is interacting with the agent here different from using Claude or ChatGPT in a browser?
+
+4. Create kb
+> Turn this folder into my personal knowledge base about atopic dermatitis. Here's how it works:
+
+> - I collect sources (articles, papers, notes) in raw/. You never change them.
+> - You read them and write a wiki in wiki/: one page per idea, person, or thing, linked with [[page-name]], and every fact cites the raw/ file it came from. Keep wiki/index.md as a list of every page and wiki/log.md as a history of changes.
+> - When I say "ingest", find all files in raw/ that no wiki page cites yet, read closely and choose 3-5 key takeaways from each, turn them into wiki pages, and list the pages you created or changed. If existing wiki pages exist, check the wiki/index.md page to a) ensure you're not ingesting duplicate data; b) see if existing page exists for which you can add the new data; c) note any inconsistencies or contradictions within the wiki. Note that every wiki page must include a created-on date and last-updated date.
+> - When I ask a question, read the wiki/index.md to see which pages are likely to contain relevant information, then answer from the wiki with citations. If the wiki lacks information you think would be needed, alert the user and ask if they'd like you to do a web search. At any point during a user session, if interesting insights arise, offer to save them back to the wiki.
+
+> Write these rules into AGENTS.md so every future session follows them, set everything up, and tell me in five bullets what you built.
+
+**What did you observe?**
+- What files and folders did the agent create?
+- What is the difference between the `raw/` documents and the `wiki/`?
+
+5. Manually add an article to the kb
+From your browser, download this review to your my-kb-atopic-dermatitis/raw folder: https://www.jacionline.org/action/showPdf?pii=S0091-6749%2825%2900064-8
+From Claude Code (or Codex) 
+> ingest
+
+**What did you observe?**
+- Did the agent tell you what it was doing along the way?
+- Open wiki/index.md, what does it show?
+- Open AGENTS.md, does it capture all the rules from your prompt?
+- How did the agent transform the raw paper into wiki content?
+
+6. Use Paperclip to search for articles
+Paperclip gives your agent direct CLI access to 8M+ papers—standard search and retrieval functions, plus several powerful tools that, when used together, let agents actually explore, deep-dive, and synthesize. You can sign up for a free account and install the cli and skill for your agents to use
+
+> Using paperclip, find three recent open-access articles on atopic dermatitis.
+
+Once the search has completed, bring the papers into your kb
+
+> Save them to raw and ingest
+
+**What did you observe?**
+- Did the new papers create new wiki pages, update existing pages, or both?
+
+6. Review 
+> Summarize the contents of the knowledge base so far.
+
+**What did you observe?**
+- Is the summary combining information from multiple raw sources?
+
+7. Add a research tracker
+> Add a research task tracker to this knowledge base.
+
+> The tracker: keep tasks in research_tasks/tasks.jsonl at this knowledge base's root (a sibling of raw/ and wiki/, not inside either), one task per line, with id, question, priority (high, medium, low), status (to do, in progress, done), created and updated dates, notes, and the path to the findings once done. I may edit this file by hand, so never drop fields you don't recognize.
+
+**What did you observe?**
+- Where did the agent store the research tracker?
+- Open the file in a plain text editor, what information does each research task contain?
+
+8. Ask AI for additional research ideas
+> Give me 3 ideas for what to research next
+
+Iterate until you're satisfied with the research ideas then have the AI to add them to the tracker.
+> Add these to my research tracker
+
+**What did you observe?**
+- How were the initial questions the AI produced? Were they insightful? Basic?
+
+9. Execute the research and make a web page to view the kb (Note that you can move onto step 9b once 9a part is running; you don't have to wait for 9a to finish.)
+
+9a. Perform research in parallel
+> Spin up agents to execute the research. Use paperclip where you think it could help. Results should be written to this knowledge base's raw/ folder.
+The agents should finish in about 10 mins. Go get a coffee. 
+
+**What did you observe?**
+- Did you see multiple agents working simultaneously?
+- Did they put the results in the right location?
+
+9b. Build a viewer while the research is running
+> Write a small script that reads every page in wiki/ and generates
+  wiki-map.html: a 3-D interactive force-directed graph with one node per page
+  and one edge per [[link]]. Support standard graph exploration and controls,
+  e.g. moving, zooming, rotating, back and forward buttons similar to browser history controls 
+  re-navigating between selected nodes (each click centers the previous/next selected node on the screen and 
+  shows the page in the sidebar), etc. Include a search bar. Node labels should fade in
+  and out based on zoom.  Size nodes by
+  number of links, color them by page type, and show each page's summary on
+  hover. When a node is clicked, open a side panel showing the complete wiki
+  page. Load the graph library from a CDN so the file works on its own. Run the
+  script, open wiki-map.html in my browser, and add a rule to AGENTS.md: rerun
+  the script after every ingest.
+
+**What did you observe?**
+- Which ideas are most connected to other ideas?
+- Does the visual graph reveal relationships that were less obvious when reading individual pages?
+
+10. The agent should automatically ingest, but if not type:
+> ingest the new research
+
+**What did you observe?**
+- Did the new research create new topics or deepen existing ones?
+- Did the agent identify any inconsistencies or contradictions?
+
+11. Interrogate
+> Summarize what we learned
+
+**What did you observe?**
+- Is the agent answering from the knowledge base rather than starting from scratch?
+- Which parts of the knowledge base did it use?
+
+12. Write back to kb
+> Save this summary back to the kb
+
+**What did you observe?**
+- Where did the agent save the new summary?
+- How might saving insights back to the kb improve future answers?
+
+13. Create a "skill" to easily make new knowledge bases on any topic
+> Turn this into a personal skill called create-kb so I can easily create new knowledge bases on any topic. Each knowledgebase should live in 
+a dedicated folder with the name, my-kb-<TOPIC>. The skill should add the kb to a central registry at ~/.my-kbs/registry.json 
+that records and lists my knowledge bases (name, topic, folder path), and add this one. Create the registry if it doesn't exist.
+
+**What did you observe?**
+- What parts of the knowledge-base workflow did the agent make reusable?
+- What would you need to do to create another knowledge base on a completely different topic?
+
+
+
+EXTRA:
+
+13. Include full video transcript with timestamps
+Copy AAD-2026-Denver-global-education-day-transcript.txt (class materials) into your kb's raw/ folder
+> Ingest the new file in the raw folder. This is the transcript (with timestamps) from the 2026 AAD Global Education Day session from Denver. Video here: https://www.youtube.com/watch?v=9SrnO-UkaQA
+
+**What did you observe?**
+- How did the agent incorporate a video transcript alongside scientific papers?
+- What information from the transcript appeared in the wiki?
+
+14. Have your agent help you find specific part of the video
+> Using the raw transcript with timestamps, make a url to take me to the part of the video with the ISDS poster Gordon described.
+
+**What did you observe?**
+- How did the agent use information stored in the raw transcript to locate a specific moment in the video?

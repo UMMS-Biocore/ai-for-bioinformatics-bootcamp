@@ -167,6 +167,11 @@ details.hint blockquote { white-space: pre-wrap; overflow-wrap: anywhere; }
 .more ul { margin: 0; padding-left: 1.1rem; }
 .step .more li { font-size: .88rem; margin: .2rem 0; }
 .more li::marker { color: var(--pen); }
+.more > b:first-child { display: block; font-size: .88rem; margin-bottom: .2rem; }
+
+/* ---------- commands and prompts to copy as written ---------- */
+
+.step pre.cmd, .step blockquote.prompt { max-width: 50rem; margin: .6rem 0 0; font-family: var(--mono); font-size: .8rem; line-height: 1.55; color: var(--ink); background: var(--pen-wash); border: 1px solid var(--rule); padding: .7rem .9rem; border-radius: 3px; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 /* ---------- recordings ---------- */
 

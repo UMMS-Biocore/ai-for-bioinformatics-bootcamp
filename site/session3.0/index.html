@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 3.0 · Get set up · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Pre-work for Session 3: install Claude Code or Codex CLI and Paperclip on your own computer, on macOS or Windows, and check that the agent answers.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session3">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 3 / 3.0</p>
+  <nav class="parts" aria-label="Session 3 parts">
+    <a href="../session3.0/" aria-current="page"><b>3.0</b> Get set up</a>
+    <a href="../session3.1/"><b>3.1</b> Your own knowledge base</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 3.0 · Pre-work</p>
+    <h1>Install a terminal agent before Friday.</h1>
+    <p class="deck">In <a href="../session3.1/">3.1</a> you build a knowledge base with an AI agent that works on files on your own computer, so it will not run in Claude or ChatGPT in the browser. Do this page before class: install Claude Code or Codex CLI, install Paperclip, and check that the agent answers. It takes about 20 minutes.</p>
+    <div class="cta-row">
+      <a class="btn" href="mailto:biocore@umassmed.edu">Stuck? Email biocore@umassmed.edu <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">macOS or Windows &middot; Your own computer, with permission to install software</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="setup-h">
+    <div class="band-head"><h2 id="setup-h">Set up</h2></div>
+    <p>If anything below fails to install, or your computer does not let you install software, contact us at <a href="mailto:biocore@umassmed.edu">biocore@umassmed.edu</a> before Friday. We would rather sort it out this week than in class.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>Check what you need</h4>
+        <ul>
+          <li>A paid Claude or ChatGPT subscription. Free plans do not include the terminal agents.</li>
+          <li>One terminal AI agent, your choice: <a href="https://code.claude.com/docs/en/terminal-guide">Claude Code</a> or <a href="https://learn.chatgpt.com/docs/codex/cli#getting-started">Codex CLI</a>. The next steps install it.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <h4>Open a terminal</h4>
+        <p><b>macOS:</b> press <kbd>Cmd</kbd>+<kbd>Space</kbd>, type <b>Terminal</b>, and press <kbd>Enter</kbd>.</p>
+        <p><b>Windows:</b> click <b>Start</b>, type <b>PowerShell</b>, and press <kbd>Enter</kbd>.</p>
+        <p class="say">Paste each command below into the terminal and press <kbd>Enter</kbd>.</p>
+      </div>
+      <div class="step">
+        <h4>Install Claude Code or Codex CLI</h4>
+        <p>You only need one of the two agents.</p>
+        <p><b>Claude Code</b>, macOS:</p>
+<pre class="cmd">curl -fsSL https://claude.ai/install.sh | bash</pre>
+        <p><b>Claude Code</b>, Windows PowerShell:</p>
+<pre class="cmd">irm https://claude.ai/install.ps1 | iex</pre>
+        <p><b>Codex CLI</b>, macOS:</p>
+<pre class="cmd">curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre>
+        <p><b>Codex CLI</b>, Windows PowerShell:</p>
+<pre class="cmd">powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre>
+      </div>
+      <div class="step">
+        <h4>Install Paperclip, the scientific paper index</h4>
+        <p>Paperclip gives your agent search and retrieval over more than 8 million papers. First <a href="https://paperclip.gxl.ai/login">create a free Paperclip account</a>. Then install it.</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">curl -fsSL https://paperclip.gxl.ai/install.sh | bash</pre>
+        <p><b>Windows:</b> Paperclip has no Windows installer yet, so install it with Python.</p>
+        <ol>
+          <li>If you do not have Python, install it from <a href="https://www.python.org/downloads/windows/">python.org</a>. On the installer&rsquo;s first screen, tick <b>Add python.exe to PATH</b>. Then close PowerShell and open a new one.</li>
+          <li>Paste these three lines into PowerShell:</li>
+        </ol>
+<pre class="cmd">Invoke-WebRequest https://paperclip.gxl.ai/paperclip.whl -OutFile "$env:TEMP\gxl_paperclip-0-py3-none-any.whl"
+python -m pip install --no-deps "$env:TEMP\gxl_paperclip-0-py3-none-any.whl"
+python -m pip install requests click pyyaml</pre>
+        <ol start="3">
+          <li>Close PowerShell and open a new one, so it finds the new <code>paperclip</code> command.</li>
+        </ol>
+        <details class="reveal"><summary><span class="lbl">WHY</span> Why three lines instead of one?</summary>
+          <div class="ans">The download is a standard Python package, but its file name is too short for Python&rsquo;s installer to accept, so the first line saves it under a name it will take. The second line installs Paperclip, and the third installs the three packages it needs. This is the same thing the macOS installer does.</div>
+        </details>
+        <p><b>Both:</b> set Paperclip up for your agent. It asks you to sign in with the account you just made.</p>
+<pre class="cmd">paperclip install</pre>
+        <p class="check"><b>Checkpoint</b> <code>paperclip config</code> shows your email next to <b>Auth</b>.</p>
+      </div>
+      <div class="step">
+        <h4>Start your agent and log in</h4>
+        <p>From the terminal, type <code>claude</code> for Claude Code or <code>codex</code> for Codex CLI, press <kbd>Enter</kbd>, and follow the login instructions.</p>
+      </div>
+      <div class="step">
+        <h4>Check that it works</h4>
+        <p>Type this and press <kbd>Enter</kbd>:</p>
+        <blockquote class="prompt">What can I do with coding agents?</blockquote>
+        <p class="check"><b>Checkpoint</b> The agent answers in the terminal. If it does, you are ready for Friday. Type <code>/exit</code> (Claude Code) or press <kbd>Ctrl</kbd>+<kbd>C</kbd> twice to leave.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../"><span class="k">&larr; Back to</span><strong>Bootcamp home</strong></a>
+    <a class="next" href="../session3.1/"><span class="k">Next &rarr;</span><strong>3.1 Your own knowledge base</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

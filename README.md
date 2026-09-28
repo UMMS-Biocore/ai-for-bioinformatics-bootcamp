@@ -25,6 +25,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 |---|---|---|---|
 | 1 | Fri Sep 18, 2026 · Amphitheater II (S4-102) | **AI Foundations and Responsible AI** | [Plan](session1/README.md) · [Web pages](https://biocore.umassmed.edu/session1.1/) · [Slides](session1/) |
 | 2 | Fri Sep 25, 2026 · Amphitheater II (S4-102) | **Statistics and Visualization You Can Trust** | [Plan](session2/README.md) · [Web pages](https://biocore.umassmed.edu/session2.0/) |
+| 3 | Fri Oct 2, 2026 · Amphitheater II (S4-102) | **AI as a Research Co-pilot** | [Plan](session3/README.md) · [Web pages](https://biocore.umassmed.edu/session3.0/) |
 
 ### Session 1 at a glance
 
@@ -50,6 +51,15 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 
 ---
 
+### Session 3 at a glance
+
+| Part | Who | Web page |
+|---|---|---|
+| 3.0 Get set up (pre-work) | Bioinformatics Core | [session3.0](https://biocore.umassmed.edu/session3.0/) |
+| 3.1 Your own AI knowledge base in the terminal | John Damask (Amroja LLC) | [session3.1](https://biocore.umassmed.edu/session3.1/) |
+
+---
+
 ## Repository layout
 
 | Path | What it is |
@@ -57,6 +67,8 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | `session1/README.md` | Session 1 overview, homework, and materials |
 | `session1/AI in Bioinformatics.pptx` | Tommy Tang's slides |
 | `session2/README.md` | Session 2 overview and materials |
+| `session3/README.md` | Session 3 overview, pre-work, and materials |
+| `session3/personal-kb-lesson-v2.txt` | John Damask's exercise, as he wrote it |
 | `site/` | The bootcamp website |
 
 ## Grounded in
