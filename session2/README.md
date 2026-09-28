@@ -42,6 +42,19 @@ Eric Kercher (RNA Therapeutics Institute, UMass Chan) on how a wet-lab postdoc w
 
 Participants use Claude in the browser (Python, no installs) on liver RNA-Seq counts from [Vernia et al., 2014, *Cell Metabolism*](https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/): 2 diets by 4 genotypes by 3 mice. They build a metadata table from the sample names, then make a barplot, histograms, violins, scatter plots, a correlation heatmap, and a PCA, each checked against a stated result. A stretch step runs a per-gene t-test, a p-value histogram, Benjamini-Hochberg correction, and a shuffled null. The same dataset returns in Session 4.
 
+## Recordings
+
+In the order the afternoon was taught. Each video also sits on its own page.
+
+| # | Part | Who | Length | Video |
+|---|---|---|---|---|
+| 1 | Welcome | Alper Kucukural | 3 min | [watch](https://biocore.umassmed.edu/session2.1/#recording) |
+| 2 | Basic statistics for biologists | Tommy Tang | 36 min | [watch](https://biocore.umassmed.edu/session2.1/#recording) |
+| 3 | Master six plots | Tommy Tang | 30 min | [watch](https://biocore.umassmed.edu/session2.2/#recording) |
+| 4 | Why stats and plots matter | Alper Kucukural | 1 min | [watch](https://biocore.umassmed.edu/session2.3/#recording) |
+| 5 | AI-assisted development of web apps for science | Eric Kercher | 1 h 11 min | [watch](https://biocore.umassmed.edu/session2.3/#recording) |
+| 6 | Hands-on introduction and closing | Alper Kucukural | 6 min | [watch](https://biocore.umassmed.edu/session2.4/#recording) |
+
 ## Feedback
 
 After the session, fill in the short feedback form. It records attendance too:
@@ -56,4 +69,4 @@ After the session, fill in the short feedback form. It records attendance too:
 - Reading: [How to interpret a p-value histogram](http://varianceexplained.org/statistics/interpreting-pvalue-histogram/)
 - Reading: [Common statistical tests are linear models](https://lindeloev.github.io/tests-as-linear/) and [an introduction to linear mixed models](https://gkhajduk.github.io/2017-03-09-mixed-models/)
 - Reference: [Directory of visualizations](https://clauswilke.com/dataviz/directory-of-visualizations.html), the [ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf), and [ComplexHeatmap annotations](https://jokergoo.github.io/ComplexHeatmap-reference/book/heatmap-annotations.html)
-- Recording: added after the session
+- Recordings: see the table above
