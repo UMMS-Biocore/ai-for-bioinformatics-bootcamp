@@ -103,6 +103,11 @@ Write these rules into AGENTS.md so every future session follows them, set every
         <blockquote class="prompt">Using paperclip, find three recent open-access articles on atopic dermatitis.</blockquote>
         <p>When the search has finished, bring the papers into your knowledge base:</p>
         <blockquote class="prompt">Save them to raw and ingest</blockquote>
+        <details class="reveal"><summary><span class="lbl">NO PAPERCLIP?</span> Search NCBI instead</summary>
+          <p>If Paperclip did not install, have the agent search NCBI directly. PubMed and PubMed Central have a free public search interface (E-utilities) that needs no install and no account:</p>
+          <blockquote>Search PubMed Central using NCBI's E-utilities (https://eutils.ncbi.nlm.nih.gov/entrez/eutils/) for three recent open-access articles on atopic dermatitis. Show me the title, journal, year, and PMCID of each and why you picked it. Then download each full text into raw/ and ingest.</blockquote>
+          <div class="ans">Compare the results with a neighbor who used Paperclip. <a href="https://europepmc.org/">Europe PMC</a> is another free option with open-access full text. Whichever you use, check that the PMCIDs the agent reports are real: look one up on <a href="https://pmc.ncbi.nlm.nih.gov/">PubMed Central</a>.</div>
+        </details>
         <div class="more"><b>What did you observe?</b><ul><li>Did the new papers create new wiki pages, update existing pages, or both?</li></ul></div>
       </div>
 
@@ -131,6 +136,7 @@ Write these rules into AGENTS.md so every future session follows them, set every
         <h4>Run the research in parallel</h4>
         <p>This step and the next one run at the same time. Start this one, and move on to the viewer while it runs.</p>
         <blockquote class="prompt">Spin up agents to execute the research. Use paperclip where you think it could help. Results should be written to this knowledge base's raw/ folder.</blockquote>
+        <p class="say">No Paperclip? Replace &ldquo;Use paperclip&rdquo; with &ldquo;Search PubMed and PubMed Central through NCBI&rsquo;s E-utilities&rdquo;.</p>
         <p>The agents should finish in about 10 minutes.</p>
         <div class="more"><b>What did you observe?</b><ul><li>Did you see several agents working at the same time?</li><li>Did they put the results in the right place?</li></ul></div>
       </div>
