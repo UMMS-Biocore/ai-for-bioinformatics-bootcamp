@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 3.0 · Get set up · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Pre-work for Session 3: install an AI agent on your own computer (the Claude or ChatGPT desktop app, or Claude Code or Codex CLI in the terminal), optionally Paperclip, and check that the agent answers.">
+<meta name="description" content="Pre-work for Session 3: install an AI agent on your own computer (the Claude or ChatGPT desktop app, Claude Science, or Claude Code or Codex CLI in the terminal), optionally Paperclip, and check that the agent answers.">
 <script src="../assets/theme.js"></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
@@ -49,10 +49,11 @@
         <h4>Check what you need</h4>
         <ul>
           <li>A paid Claude or ChatGPT subscription. Free plans do not include these agents.</li>
-          <li>One AI agent that can work on a folder on your computer. Pick <b>one</b> of these four:
+          <li>One AI agent that can work on a folder on your computer. Pick <b>one</b> of these five:
             <ul>
               <li><b>Claude desktop app</b>, using its <b>Code</b> tab</li>
               <li><b>ChatGPT desktop app</b> (formerly the Codex app)</li>
+              <li><b>Claude Science</b>, Anthropic&rsquo;s research app (in beta)</li>
               <li><b>Claude Code</b> in the terminal</li>
               <li><b>Codex CLI</b> in the terminal</li>
             </ul>
@@ -80,6 +81,15 @@
           </ol>
         </details>
 
+        <details class="reveal"><summary><span class="lbl">SCIENCE</span> Claude Science</summary>
+          <ol>
+            <li>Download Claude Science for macOS, Windows 11, or Linux from <a href="https://claude.com/product/claude-science">claude.com/product/claude-science</a>, install it, and sign in with your Claude account. It needs about 5&nbsp;GB of free disk space. It is a separate app from the Claude desktop app.</li>
+            <li>Claude Science runs its code in a sandbox, so it asks your permission for each new folder, command, and website. In class, give it <b>Read &amp; write</b> access to your knowledge base folder, and allow the websites it asks for.</li>
+            <li>Skip Paperclip: use Claude Science&rsquo;s built-in PubMed connector, or the NCBI prompts in 3.1, for the literature steps.</li>
+          </ol>
+          <p class="say">If your Claude account comes from your lab, your PI has to turn Claude Science on first (see the note below).</p>
+        </details>
+
         <details class="reveal"><summary><span class="lbl">TERMINAL</span> Claude Code or Codex CLI</summary>
           <p><b>Open a terminal.</b> On macOS, press <kbd>Cmd</kbd>+<kbd>Space</kbd>, type <b>Terminal</b>, and press <kbd>Enter</kbd>. On Windows, click <b>Start</b>, type <b>PowerShell</b>, and press <kbd>Enter</kbd>. Paste one line below and press <kbd>Enter</kbd>.</p>
           <p><b>Claude Code</b>, macOS:</p>
@@ -95,8 +105,19 @@
       </div>
 
       <div class="step">
+        <h4>Account through your lab? Check with your PI</h4>
+        <p>If your Claude seat comes from a lab or department plan (a Claude Team plan, including Anthropic&rsquo;s <a href="https://claude.com/programs/team-plan-for-scientists">Team plan for scientists</a>, or Enterprise), a few things are switched off until an Owner, usually the PI, turns them on. A personal Pro or Max plan needs none of this.</p>
+        <ul>
+          <li><b>Claude Science</b> is off for every Team and Enterprise organization by default. The PI signs in at claude.ai, goes to <a href="https://claude.ai/admin-settings/claude-science"><b>Organization settings, Claude Science</b></a>, turns on <b>Enable for your organization</b>, and finishes the short dialog. Only an Owner or Primary Owner can do this; an Admin cannot.</li>
+          <li><b>The Code tab in the Claude desktop app, and Claude Code</b>: if the Code tab is missing or asks you to upgrade, the PI should check the <a href="https://claude.ai/admin-settings/claude-code"><b>Claude Code</b> admin settings</a> and make sure <b>Code in the desktop</b> is allowed and your seat includes Claude Code.</li>
+          <li><b>ChatGPT through a lab or school workspace</b>: ask your workspace admin to confirm that Codex is allowed for your account.</li>
+        </ul>
+        <p class="say">Sign in and try it this week. If Claude Science tells you your organization has not turned it on yet, use its <b>Request access</b> button, which notifies your admins, and tell your PI.</p>
+      </div>
+
+      <div class="step">
         <h4>Check that it works</h4>
-        <p><b>App:</b> in the Claude <b>Code</b> tab choose <b>Local</b> and <b>Select folder</b>, or in the ChatGPT app open a folder, and pick any folder (your Documents folder is fine). <b>Terminal:</b> start <code>claude</code> or <code>codex</code>. Then type:</p>
+        <p><b>App:</b> in the Claude <b>Code</b> tab choose <b>Local</b> and <b>Select folder</b>, in the ChatGPT app open a folder, or in Claude Science start a new session, and pick any folder (your Documents folder is fine). <b>Terminal:</b> start <code>claude</code> or <code>codex</code>. Then type:</p>
         <blockquote class="prompt">What can I do with coding agents?</blockquote>
         <p class="check"><b>Checkpoint</b> The agent answers. If it does, you are ready for Friday. In the terminal, type <code>/exit</code> (Claude Code) or press <kbd>Ctrl</kbd>+<kbd>C</kbd> twice to leave.</p>
       </div>
