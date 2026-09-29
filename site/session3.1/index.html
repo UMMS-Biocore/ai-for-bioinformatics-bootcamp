@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 3.1 · Your own AI knowledge base · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Hands-on for Session 3 with John Damask: use Claude Code or Codex CLI in the terminal to build a personal, AI-maintained knowledge base on atopic dermatitis, search the literature with Paperclip, run research agents in parallel, and map it all as a graph.">
+<meta name="description" content="Hands-on for Session 3 with John Damask: use an AI agent on your own computer (the Claude or ChatGPT desktop app, or Claude Code or Codex CLI in the terminal) to build a personal, AI-maintained knowledge base on atopic dermatitis, search the literature with Paperclip, run research agents in parallel, and map it all as a graph.">
 <script src="../assets/theme.js"></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
@@ -33,8 +33,8 @@
 
   <header class="hero compact">
     <p class="eyebrow">Session 3.1 · Hands-on · John Damask, Amroja LLC</p>
-    <h1>Build a personal, AI-powered knowledge base in the terminal.</h1>
-    <p class="deck">You will build a knowledge base on atopic dermatitis with a terminal coding agent, Claude Code or Codex CLI, working on files on your own computer. It follows Andrej Karpathy&rsquo;s LLM Wiki design: raw sources you never change, plus a linked wiki that the AI writes and keeps up to date from them. Along the way you ingest papers, search the literature with Paperclip, track research tasks, send agents off to do research in parallel, draw the result as a graph, and turn the whole workflow into a reusable skill. Part of the lesson is to stop fearing terminal agents.</p>
+    <h1>Build a personal, AI-powered knowledge base on your own computer.</h1>
+    <p class="deck">You will build a knowledge base on atopic dermatitis with an AI agent that works on files on your own computer: the Claude or ChatGPT desktop app, or Claude Code or Codex CLI in the terminal. It follows Andrej Karpathy&rsquo;s LLM Wiki design: raw sources you never change, plus a linked wiki that the AI writes and keeps up to date from them. Along the way you ingest papers, search the literature with Paperclip, track research tasks, send agents off to do research in parallel, draw the result as a graph, and turn the whole workflow into a reusable skill. John works in the terminal, and part of his lesson is that there is nothing to fear there, but the apps do the same work.</p>
     <div class="cta-row">
       <a class="btn" href="../session3.0/">Do the setup first <span class="arw" aria-hidden="true">&rarr;</span></a>
       <span class="cta-meta">Fri Oct 2, 1:00 to 4:00 pm &middot; Needs installs on your own computer, before class</span>
@@ -46,8 +46,8 @@
     <div class="steps">
       <div class="step">
         <h4>Get set up first</h4>
-        <p>Do <a href="../session3.0/">3.0 Get set up</a> before class. It installs Claude Code or Codex CLI and Paperclip on your own computer, on macOS or Windows, and checks that the agent answers. If an install fails, contact us at <a href="mailto:biocore@umassmed.edu">biocore@umassmed.edu</a> before Friday.</p>
-        <p class="say">This page says &ldquo;the agent&rdquo; throughout. The prompts work the same in Claude Code and in Codex CLI.</p>
+        <p>Do <a href="../session3.0/">3.0 Get set up</a> before class. It installs your agent (a desktop app or a terminal tool, your choice) and, optionally, Paperclip, on macOS or Windows, and checks that the agent answers. If an install fails, contact us at <a href="mailto:biocore@umassmed.edu">biocore@umassmed.edu</a> before Friday.</p>
+        <p class="say">This page says &ldquo;the agent&rdquo; throughout. The prompts work the same in the Claude and ChatGPT desktop apps, Claude Code, and Codex CLI. When the agent asks permission to create or edit files in your knowledge base folder, allow it.</p>
       </div>
     </div>
   </section>
@@ -64,16 +64,20 @@
     <div class="steps">
 
       <div class="step">
-        <h4>Open a terminal and make a folder</h4>
-        <p>Open a terminal as in <a href="../session3.0/">3.0</a>, then make a folder for your knowledge base and move into it. The same two lines work on macOS and Windows:</p>
+        <h4>Make a folder for your knowledge base</h4>
+        <p><b>App:</b> in Finder (macOS) or File Explorer (Windows), make a new folder called <code>my-kb-atopic-dermatitis</code>, for example in Documents.</p>
+        <p><b>Terminal:</b> open a terminal as in <a href="../session3.0/">3.0</a>, then make the folder and move into it. The same two lines work on macOS and Windows:</p>
 <pre class="cmd">mkdir my-kb-atopic-dermatitis
 cd my-kb-atopic-dermatitis</pre>
       </div>
 
       <div class="step">
         <h4>Start the agent</h4>
-        <p>Type <code>claude</code> or <code>codex</code> and press <kbd>Enter</kbd>. The agent now works inside this folder.</p>
-        <div class="more"><b>What did you observe?</b><ul><li>How is working with the agent here different from using Claude or ChatGPT in a browser?</li></ul></div>
+        <p><b>Claude desktop app:</b> open the <b>Code</b> tab, choose <b>Local</b>, click <b>Select folder</b>, and pick <code>my-kb-atopic-dermatitis</code>.</p>
+        <p><b>ChatGPT desktop app:</b> open <code>my-kb-atopic-dermatitis</code> as your project folder.</p>
+        <p><b>Terminal:</b> type <code>claude</code> or <code>codex</code> and press <kbd>Enter</kbd>.</p>
+        <p>Either way, the agent now works inside this folder.</p>
+        <div class="more"><b>What did you observe?</b><ul><li>How is working with the agent here different from using Claude or ChatGPT in a browser?</li><li>If you used an app, open the same folder in Finder or File Explorer as you go. Watch the files appear.</li></ul></div>
       </div>
 
       <div class="step">
@@ -208,7 +212,7 @@ Write these rules into AGENTS.md so every future session follows them, set every
   <section class="band" aria-labelledby="wrap-h">
     <div class="band-head"><h2 id="wrap-h">What you practiced</h2></div>
     <ol class="checklist">
-      <li><span class="q">A terminal agent works on real files on your computer, not only in a chat window.</span><span class="src">Steps 1 and 2</span></li>
+      <li><span class="q">An agent on your computer, in an app or the terminal, works on real files, not only in a chat window.</span><span class="src">Steps 1 and 2</span></li>
       <li><span class="q">Write the rules down once, in AGENTS.md, and every future session follows them.</span><span class="src">Step 3</span></li>
       <li><span class="q">Keep raw sources untouched and let the AI maintain the distilled, cited layer on top.</span><span class="src">Steps 3 and 4</span></li>
       <li><span class="q">Give the agent a trusted literature tool instead of letting it recall papers from memory.</span><span class="src">Step 5</span></li>
@@ -227,6 +231,8 @@ Write these rules into AGENTS.md so every future session follows them, set every
     <div class="band-head"><h2 id="mat-h">Materials</h2></div>
     <div class="links">
       <a href="../data/session3/AAD-2026-Denver-global-education-day-transcript.txt" download><span class="k">Data</span><strong>AAD-2026-Denver-global-education-day-transcript.txt</strong><span class="d">The timestamped transcript for the extra steps. About 165 KB.</span><span class="u">data/session3</span></a>
+      <a href="https://code.claude.com/docs/en/desktop-quickstart"><span class="k">Tool</span><strong>Claude desktop app, Code tab</strong><span class="d">Anthropic&rsquo;s guide to working on a local folder in the Claude app.</span><span class="u">code.claude.com</span></a>
+      <a href="https://learn.chatgpt.com/docs/app"><span class="k">Tool</span><strong>ChatGPT desktop app</strong><span class="d">OpenAI&rsquo;s desktop app, formerly the Codex app.</span><span class="u">learn.chatgpt.com</span></a>
       <a href="https://code.claude.com/docs/en/terminal-guide"><span class="k">Tool</span><strong>Claude Code in the terminal</strong><span class="d">Anthropic&rsquo;s guide to installing and using Claude Code.</span><span class="u">code.claude.com</span></a>
       <a href="https://learn.chatgpt.com/docs/codex/cli#getting-started"><span class="k">Tool</span><strong>Codex CLI</strong><span class="d">OpenAI&rsquo;s getting started guide for the Codex command line agent.</span><span class="u">learn.chatgpt.com</span></a>
       <a href="https://paperclip.gxl.ai/login"><span class="k">Tool</span><strong>Paperclip</strong><span class="d">A scientific paper index your agent can search. Free account.</span><span class="u">paperclip.gxl.ai</span></a>

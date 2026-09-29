@@ -56,7 +56,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | Part | Who | Web page |
 |---|---|---|
 | 3.0 Get set up (pre-work) | Bioinformatics Core | [session3.0](https://biocore.umassmed.edu/session3.0/) |
-| 3.1 Your own AI knowledge base in the terminal | John Damask (Amroja LLC) | [session3.1](https://biocore.umassmed.edu/session3.1/) |
+| 3.1 Your own AI knowledge base | John Damask (Amroja LLC) | [session3.1](https://biocore.umassmed.edu/session3.1/) |
 
 ---
 
