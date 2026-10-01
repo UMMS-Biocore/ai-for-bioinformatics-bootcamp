@@ -41,6 +41,11 @@ Build a knowledge base on atopic dermatitis with Claude Code or Codex CLI in the
 
 Eric Ma picks up where John's knowledge base hands off: a knowledge base used inside the analysis, next to the data. One enzyme from his Novartis work (IRED-88), four kinds of data (a deep mutational scan, crystal structure PDB 7OG3, an ESMFold prediction, and a six-paper knowledge base), and one question ladder in marimo notebooks: where do activity-improving mutations come from, and could we have seen them coming?
 
+## Feedback
+
+After the session, fill in the short feedback form. It records attendance too:
+<https://biocore.umassmed.edu/feedback/?session=3>
+
 ## Materials
 
 - Eric Ma, [The IRED-88 Research Copilot](https://biocore.umassmed.edu/ired-88/) (the notebooks with code and results; [source](https://github.com/UMMS-Biocore/ired-88-research-copilot))

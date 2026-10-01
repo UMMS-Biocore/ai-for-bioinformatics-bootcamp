@@ -214,6 +214,66 @@
         <p class="err" aria-live="polite"></p>
       </fieldset>
 
+      <!-- Session 3 only -->
+      <fieldset data-field="s3Agent" data-session-only="3" data-when-attended hidden>
+        <legend>After this session, how confident are you giving a terminal coding agent (Claude Code or Codex CLI) a task on your own files?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s3Agent" value="Not confident"><span>Not confident</span></label>
+          <label><input type="radio" name="s3Agent" value="Somewhat confident"><span>Somewhat confident</span></label>
+          <label><input type="radio" name="s3Agent" value="Confident"><span>Confident</span></label>
+          <label><input type="radio" name="s3Agent" value="Could explain it to someone else"><span>I could explain it to someone else</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset data-field="s3John" data-session-only="3" data-when-attended hidden>
+        <legend>How useful was John Damask&rsquo;s talk and hands-on on building a personal knowledge base?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s3John" value="Not useful"><span>Not useful</span></label>
+          <label><input type="radio" name="s3John" value="Somewhat useful"><span>Somewhat useful</span></label>
+          <label><input type="radio" name="s3John" value="Useful"><span>Useful</span></label>
+          <label><input type="radio" name="s3John" value="Very useful"><span>Very useful</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset data-field="s3Handson" data-session-only="3" data-when-attended hidden>
+        <legend>How far did you get in the knowledge base hands-on (3.2)?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s3Handson" value="Did not start"><span>Did not start</span></label>
+          <label><input type="radio" name="s3Handson" value="Got set up only"><span>Got set up only</span></label>
+          <label><input type="radio" name="s3Handson" value="Built the knowledge base (steps 1 to 6)"><span>Built the knowledge base (steps 1 to 6)</span></label>
+          <label><input type="radio" name="s3Handson" value="Ran the research and the map (steps 7 to 11)"><span>Ran the research and the map (steps 7 to 11)</span></label>
+          <label><input type="radio" name="s3Handson" value="Everything, including the create-kb skill"><span>Everything, including the create-kb skill</span></label>
+          <label><input type="radio" name="s3Handson" value="Watched John instead"><span>Watched John on the projector instead</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset data-field="s3Where" data-session-only="3" data-when-attended hidden>
+        <legend>Where did you do the hands-on?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s3Where" value="Claude Code"><span>Claude Code</span></label>
+          <label><input type="radio" name="s3Where" value="Codex CLI"><span>Codex CLI</span></label>
+          <label><input type="radio" name="s3Where" value="Claude desktop app"><span>Claude desktop app</span></label>
+          <label><input type="radio" name="s3Where" value="ChatGPT desktop app"><span>ChatGPT desktop app</span></label>
+          <label><input type="radio" name="s3Where" value="Watched only"><span>Watched only</span></label>
+          <label><input type="radio" name="s3Where" value="Did not do it"><span>Did not do it</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset data-field="s3Eric" data-session-only="3" data-when-attended hidden>
+        <legend>How useful was Eric Ma&rsquo;s research copilot demo (IRED-88)?<span class="req">Required</span></legend>
+        <div class="scale">
+          <label><input type="radio" name="s3Eric" value="Not useful"><span>Not useful</span></label>
+          <label><input type="radio" name="s3Eric" value="Somewhat useful"><span>Somewhat useful</span></label>
+          <label><input type="radio" name="s3Eric" value="Useful"><span>Useful</span></label>
+          <label><input type="radio" name="s3Eric" value="Very useful"><span>Very useful</span></label>
+        </div>
+        <p class="err" aria-live="polite"></p>
+      </fieldset>
+
       <div class="q" data-field="useful" data-optional>
         <label class="qlabel" for="f-useful">What was the most useful part?<span class="req opt">Optional</span></label>
         <textarea id="f-useful" name="useful" rows="3"></textarea>
@@ -291,7 +351,9 @@
   var EXTRA = {
     '1': { s1Confidence: 'S1 confidence about safe AI data use (after)', s1Setup: 'S1 setup status' },
     '2': { s2Stats: 'S2 confidence with p-values and FDR (after)', s2Plots: 'S2 confidence choosing plots (after)',
-           s2Talk: 'S2 usefulness of Eric Kercher talk', s2Handson: 'S2 hands-on progress', s2Where: 'S2 hands-on tool' }
+           s2Talk: 'S2 usefulness of Eric Kercher talk', s2Handson: 'S2 hands-on progress', s2Where: 'S2 hands-on tool' },
+    '3': { s3Agent: 'S3 confidence using a terminal coding agent (after)', s3John: 'S3 usefulness of John Damask talk and hands-on',
+           s3Handson: 'S3 hands-on progress', s3Where: 'S3 hands-on tool', s3Eric: 'S3 usefulness of Eric Ma demo' }
   };
 
   var form = document.getElementById('fb');
