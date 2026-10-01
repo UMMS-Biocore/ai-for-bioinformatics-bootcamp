@@ -33,7 +33,10 @@ os.rename(top, 'demo'); \
 shutil.rmtree('demo/notebooks/live', ignore_errors=True)" "$REPO" "$REF"
 
 WORKDIR /home/app/demo
-ENV UV_LINK_MODE=copy UV_COMPILE_BYTECODE=1
+# No UV_COMPILE_BYTECODE: on the 128-core server, compiling site-packages in
+# parallel runs out of file descriptors inside the build. Capping concurrency
+# keeps installs within the build's limits too.
+ENV UV_LINK_MODE=copy UV_CONCURRENT_INSTALLS=4
 RUN uv sync --frozen --no-dev \
     && uv pip install --quiet "marimo==${MARIMO_VERSION}" \
     && uv run --no-sync python scripts/fetch_data.py
