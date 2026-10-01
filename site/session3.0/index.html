@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 3.0 · Get set up · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Pre-work for Session 3: install an AI agent on your own computer (the Claude or ChatGPT desktop app, Claude Science, or Claude Code or Codex CLI in the terminal), optionally Paperclip, and check that the agent answers.">
+<meta name="description" content="Pre-work for Session 3: install Claude Code or Codex CLI in the terminal on your own computer (a desktop app only as a fallback), optionally Paperclip, and check that the agent answers.">
 <script src="../assets/theme.js"></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
@@ -28,14 +28,15 @@
   <p class="crumbs"><a href="../">Bootcamp</a> / Session 3 / 3.0</p>
   <nav class="parts" aria-label="Session 3 parts">
     <a href="../session3.0/" aria-current="page"><b>3.0</b> Get set up</a>
-    <a href="../session3.1/"><b>3.1</b> Your own knowledge base</a>
-    <a href="../session3.2/"><b>3.2</b> Research copilot</a>
+    <a href="../session3.1/"><b>3.1</b> Why a knowledge base</a>
+    <a href="../session3.2/"><b>3.2</b> Your own knowledge base</a>
+    <a href="../session3.3/"><b>3.3</b> Research copilot</a>
   </nav>
 
   <header class="hero compact">
     <p class="eyebrow">Session 3.0 · Pre-work</p>
-    <h1>Set up an AI agent on your computer before Friday.</h1>
-    <p class="deck">In <a href="../session3.1/">3.1</a> you build a knowledge base with an AI agent that works on files on your own computer, so it will not run in Claude or ChatGPT in a web browser. Do this page before class: install one agent, either as a desktop app or in the terminal, and check that it answers. Paperclip, a literature search tool, is optional. It takes about 20 minutes.</p>
+    <h1>Set up a terminal AI agent before Friday.</h1>
+    <p class="deck">In <a href="../session3.2/">3.2</a> you build a knowledge base with an AI agent that works on files on your own computer, so it will not run in Claude or ChatGPT in a web browser. Do this page before class: install Claude Code or Codex CLI in the terminal, and check that it answers. Paperclip, a literature search tool, is optional. It takes about 20 minutes.</p>
     <div class="cta-row">
       <a class="btn" href="mailto:biocore@umassmed.edu">Stuck? Email biocore@umassmed.edu <span class="arw" aria-hidden="true">&rarr;</span></a>
       <span class="cta-meta">macOS or Windows &middot; Your own computer, with permission to install software</span>
@@ -45,87 +46,75 @@
   <section class="band" aria-labelledby="setup-h">
     <div class="band-head"><h2 id="setup-h">Set up</h2></div>
     <p>If anything below fails to install, or your computer does not let you install software, contact us at <a href="mailto:biocore@umassmed.edu">biocore@umassmed.edu</a> before Friday. We would rather sort it out this week than in class.</p>
+    <p class="say">Can&rsquo;t install, or no paid subscription? Come anyway. John does every step of the exercise live on the projector, so you can follow along and watch what the agent does.</p>
     <div class="steps">
       <div class="step">
         <h4>Check what you need</h4>
         <ul>
           <li>A paid Claude or ChatGPT subscription. Free plans do not include these agents.</li>
-          <li>One AI agent that can work on a folder on your computer. Pick <b>one</b> of these five:
-            <ul>
-              <li><b>Claude desktop app</b>, using its <b>Code</b> tab</li>
-              <li><b>ChatGPT desktop app</b> (formerly the Codex app)</li>
-              <li><b>Claude Science</b>, Anthropic&rsquo;s research app (in beta)</li>
-              <li><b>Claude Code</b> in the terminal</li>
-              <li><b>Codex CLI</b> in the terminal</li>
-            </ul>
-          </li>
+          <li>One terminal AI agent, your choice: <b>Claude Code</b> (with a Claude plan) or <b>Codex CLI</b> (with a ChatGPT plan). The next step installs it.</li>
         </ul>
-        <p class="say">Never used a terminal? Pick an app: you click and type in a window like any other program. The terminal versions do exactly the same work, and they are what John uses in class. Both routes work for the whole exercise.</p>
+        <p class="say">Never used a terminal? That is fine, and part of the point of the session: you paste one line to install, type one word to start, and from then on you talk to the agent in plain English.</p>
       </div>
 
       <div class="step">
-        <h4>Install your agent</h4>
-        <p>Open the one you picked and follow its steps.</p>
+        <h4>Open a terminal</h4>
+        <p><b>macOS:</b> press <kbd>Cmd</kbd>+<kbd>Space</kbd>, type <b>Terminal</b>, and press <kbd>Enter</kbd>.</p>
+        <p><b>Windows:</b> click <b>Start</b>, type <b>PowerShell</b>, and press <kbd>Enter</kbd>.</p>
+        <p class="say">Paste each command below into the terminal and press <kbd>Enter</kbd>.</p>
+      </div>
 
-        <details class="reveal"><summary><span class="lbl">APP</span> Claude desktop app</summary>
+      <div class="step">
+        <h4>Install Claude Code or Codex CLI</h4>
+        <p>You only need one of the two.</p>
+        <p><b>Claude Code</b>, macOS:</p>
+<pre class="cmd">curl -fsSL https://claude.ai/install.sh | bash</pre>
+        <p><b>Claude Code</b>, Windows PowerShell:</p>
+<pre class="cmd">irm https://claude.ai/install.ps1 | iex</pre>
+        <p><b>Codex CLI</b>, macOS:</p>
+<pre class="cmd">curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre>
+        <p><b>Codex CLI</b>, Windows PowerShell:</p>
+<pre class="cmd">powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre>
+        <p>Then start it: type <code>claude</code> for Claude Code or <code>codex</code> for Codex CLI, press <kbd>Enter</kbd>, and follow the login instructions.</p>
+      </div>
+
+      <div class="step">
+        <h4>Check that it works</h4>
+        <p>With your agent started, type:</p>
+        <blockquote class="prompt">What can I do with coding agents?</blockquote>
+        <p class="check"><b>Checkpoint</b> The agent answers in the terminal. If it does, you are ready for Friday. Type <code>/exit</code> (Claude Code) or press <kbd>Ctrl</kbd>+<kbd>C</kbd> twice to leave.</p>
+      </div>
+
+      <div class="step">
+        <h4>Only if the terminal will not work: a desktop app</h4>
+        <p>The terminal agents are what the exercise is built and tested for. The desktop apps are a fallback: you will very likely run into trouble with some of the exercise steps in them. Use one only if you cannot get Claude Code or Codex CLI to run, and expect to watch John for the steps that misbehave.</p>
+        <details class="reveal"><summary><span class="lbl">FALLBACK</span> Claude desktop app (Code tab)</summary>
           <ol>
             <li>Download Claude for macOS or Windows from <a href="https://claude.com/download">claude.com/download</a>, install it, open it, and sign in.</li>
-            <li>Click the <b>Code</b> tab at the top. If it asks you to upgrade, your account is not on a paid plan yet.</li>
+            <li>Click the <b>Code</b> tab at the top, choose <b>Local</b>, and click <b>Select folder</b>. If it asks you to upgrade, your account is not on a paid plan yet.</li>
             <li><b>Windows only:</b> the Code tab needs <a href="https://git-scm.com/downloads/win">Git for Windows</a>. Install it with the default options, then restart Claude.</li>
           </ol>
         </details>
-
-        <details class="reveal"><summary><span class="lbl">APP</span> ChatGPT desktop app</summary>
+        <details class="reveal"><summary><span class="lbl">FALLBACK</span> ChatGPT desktop app</summary>
           <ol>
-            <li>Download the ChatGPT desktop app from <a href="https://learn.chatgpt.com/docs/app">OpenAI&rsquo;s app page</a>, install it, open it, and sign in with your ChatGPT account. On a Mac it needs Apple Silicon (M1 or newer); on an older Intel Mac, use Codex CLI instead.</li>
-            <li>Check that you can open a folder on your computer as a project. That is how you will work in class.</li>
+            <li>Download the ChatGPT desktop app from <a href="https://learn.chatgpt.com/docs/app">OpenAI&rsquo;s app page</a>, install it, open it, and sign in. On a Mac it needs Apple Silicon (M1 or newer).</li>
+            <li>Check that you can open a folder on your computer as a project.</li>
           </ol>
-        </details>
-
-        <details class="reveal"><summary><span class="lbl">SCIENCE</span> Claude Science</summary>
-          <ol>
-            <li>Download Claude Science for macOS, Windows 11, or Linux from <a href="https://claude.com/product/claude-science">claude.com/product/claude-science</a>, install it, and sign in with your Claude account. It needs about 5&nbsp;GB of free disk space. It is a separate app from the Claude desktop app.</li>
-            <li>Claude Science runs its code in a sandbox, so it asks your permission for each new folder, command, and website. In class, give it <b>Read &amp; write</b> access to your knowledge base folder, and allow the websites it asks for.</li>
-            <li>Skip Paperclip: use Claude Science&rsquo;s built-in PubMed connector, or the NCBI prompts in 3.1, for the literature steps.</li>
-          </ol>
-          <p class="say">If your Claude account comes from your lab, your PI has to turn Claude Science on first (see the note below).</p>
-        </details>
-
-        <details class="reveal"><summary><span class="lbl">TERMINAL</span> Claude Code or Codex CLI</summary>
-          <p><b>Open a terminal.</b> On macOS, press <kbd>Cmd</kbd>+<kbd>Space</kbd>, type <b>Terminal</b>, and press <kbd>Enter</kbd>. On Windows, click <b>Start</b>, type <b>PowerShell</b>, and press <kbd>Enter</kbd>. Paste one line below and press <kbd>Enter</kbd>.</p>
-          <p><b>Claude Code</b>, macOS:</p>
-<pre class="cmd">curl -fsSL https://claude.ai/install.sh | bash</pre>
-          <p><b>Claude Code</b>, Windows PowerShell:</p>
-<pre class="cmd">irm https://claude.ai/install.ps1 | iex</pre>
-          <p><b>Codex CLI</b>, macOS:</p>
-<pre class="cmd">curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre>
-          <p><b>Codex CLI</b>, Windows PowerShell:</p>
-<pre class="cmd">powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre>
-          <p>Then start it: type <code>claude</code> for Claude Code or <code>codex</code> for Codex CLI, press <kbd>Enter</kbd>, and follow the login instructions.</p>
         </details>
       </div>
 
       <div class="step">
         <h4>Account through your lab? Check with your PI</h4>
-        <p>If your Claude seat comes from a lab or department plan (a Claude Team plan, including Anthropic&rsquo;s <a href="https://claude.com/programs/team-plan-for-scientists">Team plan for scientists</a>, or Enterprise), a few things are switched off until an Owner, usually the PI, turns them on. A personal Pro or Max plan needs none of this.</p>
+        <p>If your Claude seat comes from a lab or department plan (a Claude Team plan, including Anthropic&rsquo;s <a href="https://claude.com/programs/team-plan-for-scientists">Team plan for scientists</a>, or Enterprise), Claude Code may be switched off until an Owner, usually the PI, allows it. A personal Pro or Max plan needs none of this.</p>
         <ul>
-          <li><b>Claude Science</b> is off for every Team and Enterprise organization by default. The PI signs in at claude.ai, goes to <a href="https://claude.ai/admin-settings/claude-science"><b>Organization settings, Claude Science</b></a>, turns on <b>Enable for your organization</b>, and finishes the short dialog. Only an Owner or Primary Owner can do this; an Admin cannot.</li>
-          <li><b>The Code tab in the Claude desktop app, and Claude Code</b>: if the Code tab is missing or asks you to upgrade, the PI should check the <a href="https://claude.ai/admin-settings/claude-code"><b>Claude Code</b> admin settings</a> and make sure <b>Code in the desktop</b> is allowed and your seat includes Claude Code.</li>
+          <li><b>Claude Code</b>: if it will not let you sign in, or says your plan does not include it, the PI should check the <a href="https://claude.ai/admin-settings/claude-code"><b>Claude Code</b> admin settings</a> and make sure your seat includes Claude Code.</li>
           <li><b>ChatGPT through a lab or school workspace</b>: ask your workspace admin to confirm that Codex is allowed for your account.</li>
         </ul>
-        <p class="say">Sign in and try it this week. If Claude Science tells you your organization has not turned it on yet, use its <b>Request access</b> button, which notifies your admins, and tell your PI.</p>
-      </div>
-
-      <div class="step">
-        <h4>Check that it works</h4>
-        <p><b>App:</b> in the Claude <b>Code</b> tab choose <b>Local</b> and <b>Select folder</b>, in the ChatGPT app open a folder, or in Claude Science start a new session, and pick any folder (your Documents folder is fine). <b>Terminal:</b> start <code>claude</code> or <code>codex</code>. Then type:</p>
-        <blockquote class="prompt">What can I do with coding agents?</blockquote>
-        <p class="check"><b>Checkpoint</b> The agent answers. If it does, you are ready for Friday. In the terminal, type <code>/exit</code> (Claude Code) or press <kbd>Ctrl</kbd>+<kbd>C</kbd> twice to leave.</p>
       </div>
 
       <div class="step">
         <h4>Optional: install Paperclip for literature search</h4>
-        <p>Paperclip is a scientific paper index that gives your agent search and retrieval over more than 8 million papers. It makes the literature steps in 3.1 better, but you do not need it: without it, your agent searches PubMed Central through NCBI instead, with no install and no account. Paperclip installs from a terminal even if you use an app, and it then works in both.</p>
+        <p>Paperclip is a scientific paper index that gives your agent search and retrieval over more than 8 million papers. It makes the literature steps in 3.2 better, but you do not need it: without it, your agent searches PubMed Central through NCBI instead, with no install and no account.</p>
         <p>First <a href="https://paperclip.gxl.ai/login">create a free Paperclip account</a>. Then open a terminal (on macOS, <b>Terminal</b>; on Windows, <b>PowerShell</b>) and install it.</p>
         <p><b>macOS:</b></p>
 <pre class="cmd">curl -fsSL https://paperclip.gxl.ai/install.sh | bash</pre>
@@ -145,14 +134,14 @@ python -m pip install requests click pyyaml</pre>
         </details>
         <p><b>Both:</b> set Paperclip up for your agent. It asks you to sign in with the account you just made.</p>
 <pre class="cmd">paperclip install</pre>
-        <p class="check"><b>Checkpoint</b> <code>paperclip config</code> shows your email next to <b>Auth</b>. If Paperclip will not install, skip it and let us know at <a href="mailto:biocore@umassmed.edu">biocore@umassmed.edu</a>; each step in 3.1 that uses it shows an NCBI prompt to use instead.</p>
+        <p class="check"><b>Checkpoint</b> <code>paperclip config</code> shows your email next to <b>Auth</b>. If Paperclip will not install, skip it and let us know at <a href="mailto:biocore@umassmed.edu">biocore@umassmed.edu</a>; each step in 3.2 that uses it shows an NCBI prompt to use instead.</p>
       </div>
     </div>
   </section>
 
   <nav class="pager" aria-label="Previous and next part">
     <a class="prev" href="../"><span class="k">&larr; Back to</span><strong>Bootcamp home</strong></a>
-    <a class="next" href="../session3.1/"><span class="k">Next &rarr;</span><strong>3.1 Your own knowledge base</strong></a>
+    <a class="next" href="../session3.1/"><span class="k">Next &rarr;</span><strong>3.1 Why a knowledge base</strong></a>
   </nav>
 
   <footer class="foot">

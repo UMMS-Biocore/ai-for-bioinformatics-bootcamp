@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Session 3.2 · AI as a research copilot · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 3 part taught by Eric Ma: AI as a research copilot, shown on one enzyme where a deep mutational scan, a crystal structure, a structure prediction, and a literature knowledge base answer one question together.">
+<title>Session 3.2 · Your own AI knowledge base · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Hands-on for Session 3 with John Damask: use Claude Code or Codex CLI in the terminal to build a personal, AI-maintained knowledge base on atopic dermatitis, search the literature with Paperclip, run research agents in parallel, and map it all as a graph.">
 <script src="../assets/theme.js"></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
@@ -28,74 +28,224 @@
   <p class="crumbs"><a href="../">Bootcamp</a> / Session 3 / 3.2</p>
   <nav class="parts" aria-label="Session 3 parts">
     <a href="../session3.0/"><b>3.0</b> Get set up</a>
-    <a href="../session3.1/"><b>3.1</b> Your own knowledge base</a>
-    <a href="../session3.2/" aria-current="page"><b>3.2</b> Research copilot</a>
+    <a href="../session3.1/"><b>3.1</b> Why a knowledge base</a>
+    <a href="../session3.2/" aria-current="page"><b>3.2</b> Your own knowledge base</a>
+    <a href="../session3.3/"><b>3.3</b> Research copilot</a>
   </nav>
 
   <header class="hero compact">
-    <p class="eyebrow">Session 3.2 · Eric Ma, Moderna</p>
-    <h1>AI as a research copilot.</h1>
-    <p class="deck">John&rsquo;s knowledge base is read by an agent. Eric&rsquo;s goes one step further: it is used inside the analysis, side by side with the data. One enzyme, four kinds of data, and one question, worked through live, so you can see where each kind of evidence helps, where it misleads, and how an AI copilot keeps every claim traceable.</p>
+    <p class="eyebrow">Session 3.2 · Hands-on · John Damask, Amroja LLC</p>
+    <h1>Build a personal, AI-powered knowledge base on your own computer.</h1>
+    <p class="deck">You will build a knowledge base on atopic dermatitis with a terminal AI agent, Claude Code or Codex CLI, working on files on your own computer. It follows Andrej Karpathy&rsquo;s LLM Wiki design: raw sources you never change, plus a linked wiki that the AI writes and keeps up to date from them. Along the way you ingest papers, search the literature with Paperclip, track research tasks, send agents off to do research in parallel, draw the result as a graph, and turn the whole workflow into a reusable skill. Part of the lesson is that there is nothing to fear in the terminal. John does every step live on the projector, so you can follow along even if your own setup does not work.</p>
     <div class="cta-row">
-      <a class="btn" href="../ired-88/">Open Eric&rsquo;s demo <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <span class="cta-meta">Seven notebooks with code and results &middot; Nothing to install to read them</span>
+      <a class="btn" href="../session3.0/">Do the setup first <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Fri Oct 2, 1:00 to 4:00 pm &middot; Needs installs on your own computer, before class</span>
     </div>
   </header>
 
-  <section class="band" aria-labelledby="q-h">
-    <div class="band-head"><h2 id="q-h">The question</h2></div>
-    <div class="pull">
-      <p>Where do activity-improving mutations of the enzyme IRED-88 come from, and could we have seen them coming by combining DMS data, structure, prediction, and literature?</p>
+  <section class="band" id="setup" aria-labelledby="setup-h">
+    <div class="band-head"><h2 id="setup-h">Before you start</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Get set up first</h4>
+        <p>Do <a href="../session3.0/">3.0 Get set up</a> before class. It installs Claude Code or Codex CLI and, optionally, Paperclip, on macOS or Windows, and checks that the agent answers. If an install fails, contact us at <a href="mailto:biocore@umassmed.edu">biocore@umassmed.edu</a> before Friday.</p>
+        <p class="say">This page says &ldquo;the agent&rdquo; throughout. The prompts work the same in Claude Code and Codex CLI. When the agent asks permission to create or edit files in your knowledge base folder, allow it.</p>
+        <p class="say">John works through every step live on the projector. If you have no subscription, could not install an agent, or get stuck on a step, watch him and pick up again at the next step. If you fell back to a desktop app in 3.0, expect some steps to misbehave there; follow John for those.</p>
+      </div>
     </div>
-    <p>IRED-88 is an imine reductase from an enzyme engineering campaign Eric worked on at Novartis, published in <a href="https://doi.org/10.1021/acscatal.1c02786">ACS Catalysis in 2021</a>. The campaign measured 4,720 single mutants, the enantioselectivity of 310 engineered variants, and a crystal structure. Next to it sits a six-paper knowledge base in the format you built in <a href="../session3.1/">3.1</a>.</p>
   </section>
 
-  <section class="band" aria-labelledby="outline-h">
-    <div class="band-head"><h2 id="outline-h">The question ladder</h2></div>
-    <ol class="outcomes">
-      <li><b>Which mutations improve activity?</b> The deep mutational scan shows which single mutations help, and where they sit along the sequence.</li>
-      <li><b>Are the hits where the structure says they should be?</b> Each position&rsquo;s distance to the NADP cofactor in the crystal structure.</li>
-      <li><b>What does prior work already know?</b> The top hits, checked against the knowledge base.</li>
-      <li><b>What does prediction see that the crystal cannot?</b> ESMFold fills in the residues the crystal leaves out, with a confidence score attached.</li>
-      <li><b>Additive or epistatic?</b> Doubles and triples of the best mutations test whether a claim from the literature survives the data.</li>
-      <li><b>Would we have noticed a hole?</b> Hide part of the scan where the literature matters, and see what the rest of the evidence recovers.</li>
+  <section class="band" aria-labelledby="wiki-h">
+    <div class="band-head"><h2 id="wiki-h">What &ldquo;wiki&rdquo; means here</h2></div>
+    <p><b>Not Wikipedia.</b> Nothing here is public, nothing comes from Wikipedia, and nobody else can edit it. In this exercise a wiki is simply a folder of plain text pages on your own computer, one page per idea, gene, drug, or person, that link to each other by name. The agent writes and updates those pages for you, and it builds them only from the sources you put in <code>raw/</code>, so every fact on a page points back to the file it came from.</p>
+    <p>Think of it as a lab notebook that organizes itself: <code>raw/</code> holds the papers and notes you collected, untouched, and <code>wiki/</code> holds the agent&rsquo;s cross-linked summary of what they say. You can open any page in a text editor, check its sources, and delete or fix it. The word comes from the idea of small pages linked together, which Wikipedia also uses; that is all the two have in common.</p>
+  </section>
+
+  <section class="band" id="exercise" aria-labelledby="core-h">
+    <div class="band-head"><h2 id="core-h">In class: the exercise</h2></div>
+    <p>Each step gives you the prompt to type, then a few questions under <b>What did you observe?</b> Stop at those for a moment. Noticing what the agent did, and where it put things, is the skill.</p>
+    <div class="steps">
+
+      <div class="step">
+        <h4>Make a folder for your knowledge base</h4>
+        <p>Open a terminal as in <a href="../session3.0/">3.0</a>, then make the folder and move into it. The same two lines work on macOS and Windows:</p>
+<pre class="cmd">mkdir my-kb-atopic-dermatitis
+cd my-kb-atopic-dermatitis</pre>
+      </div>
+
+      <div class="step">
+        <h4>Start the agent</h4>
+        <p>Type <code>claude</code> or <code>codex</code> and press <kbd>Enter</kbd>. The agent now works inside this folder.</p>
+        <details class="reveal"><summary><span class="lbl">FALLBACK</span> Using a desktop app instead</summary>
+          <div class="ans">Make the folder in Finder (macOS) or File Explorer (Windows) instead. In the Claude app, open the <b>Code</b> tab, choose <b>Local</b>, click <b>Select folder</b>, and pick <code>my-kb-atopic-dermatitis</code>; in the ChatGPT app, open that folder as your project. Some later steps may not work in the apps; follow John on the projector when that happens.</div>
+        </details>
+        <div class="more"><b>What did you observe?</b><ul><li>How is working with the agent here different from using Claude or ChatGPT in a browser?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Create the knowledge base</h4>
+        <p>Paste the whole prompt. It sets the rules the agent will follow for the rest of the knowledge base&rsquo;s life.</p>
+        <blockquote class="prompt">Turn this folder into my personal knowledge base about atopic dermatitis. Here's how it works:
+
+- I collect sources (articles, papers, notes) in raw/. You never change them.
+- You read them and write a wiki in wiki/: one page per idea, person, or thing, linked with [[page-name]], and every fact cites the raw/ file it came from. Keep wiki/index.md as a list of every page and wiki/log.md as a history of changes.
+- When I say "ingest", find all files in raw/ that no wiki page cites yet, read closely and choose 3-5 key takeaways from each, turn them into wiki pages, and list the pages you created or changed. If existing wiki pages exist, check the wiki/index.md page to a) ensure you're not ingesting duplicate data; b) see if existing page exists for which you can add the new data; c) note any inconsistencies or contradictions within the wiki. Note that every wiki page must include a created-on date and last-updated date.
+- When I ask a question, read the wiki/index.md to see which pages are likely to contain relevant information, then answer from the wiki with citations. If the wiki lacks information you think would be needed, alert the user and ask if they'd like you to do a web search. At any point during a user session, if interesting insights arise, offer to save them back to the wiki.
+
+Write these rules into AGENTS.md so every future session follows them, set everything up, and tell me in five bullets what you built.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>What files and folders did the agent create?</li><li>What is the difference between the <code>raw/</code> documents and the <code>wiki/</code>?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Add an article by hand</h4>
+        <p>In your browser, download <a href="https://www.jacionline.org/action/showPdf?pii=S0091-6749%2825%2900064-8">this review</a> and save it into your <code>my-kb-atopic-dermatitis/raw</code> folder. Then, in the agent:</p>
+        <blockquote class="prompt">ingest</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the agent tell you what it was doing along the way?</li><li>Open <code>wiki/index.md</code>. What does it show?</li><li>Open <code>AGENTS.md</code>. Does it capture all the rules from your prompt?</li><li>How did the agent turn the raw paper into wiki content?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Search the literature with Paperclip</h4>
+        <p>Paperclip gives your agent direct command-line access to more than 8 million papers: standard search and retrieval, plus tools that, used together, let agents explore, dig deep, and synthesize.</p>
+        <blockquote class="prompt">Using paperclip, find three recent open-access articles on atopic dermatitis.</blockquote>
+        <p>When the search has finished, bring the papers into your knowledge base:</p>
+        <blockquote class="prompt">Save them to raw and ingest</blockquote>
+        <details class="reveal"><summary><span class="lbl">NO PAPERCLIP?</span> Search NCBI instead</summary>
+          <p>If Paperclip did not install, have the agent search NCBI directly. PubMed and PubMed Central have a free public search interface (E-utilities) that needs no install and no account:</p>
+          <blockquote>Search PubMed Central using NCBI's E-utilities (https://eutils.ncbi.nlm.nih.gov/entrez/eutils/) for three recent open-access articles on atopic dermatitis. Show me the title, journal, year, and PMCID of each and why you picked it. Skip errata, and make sure each one has a Creative Commons license and the full text, not just the abstract. Then download each full text into raw/ and ingest.</blockquote>
+          <div class="ans">Compare the results with a neighbor who used Paperclip. <a href="https://europepmc.org/">Europe PMC</a> is another free option with open-access full text. Whichever you use, check that the PMCIDs the agent reports are real: look one up on <a href="https://pmc.ncbi.nlm.nih.gov/">PubMed Central</a>.</div>
+        </details>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the new papers create new wiki pages, update existing pages, or both?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Review</h4>
+        <blockquote class="prompt">Summarize the contents of the knowledge base so far.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Is the summary combining information from several raw sources?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Add a research tracker</h4>
+        <p>Paste both paragraphs together, as one message.</p>
+        <blockquote class="prompt">Add a research task tracker to this knowledge base.
+
+The tracker: keep tasks in research_tasks/tasks.jsonl at this knowledge base's root (a sibling of raw/ and wiki/, not inside either), one task per line, with id, question, priority (high, medium, low), status (to do, in progress, done), created and updated dates, notes, and the path to the findings once done. I may edit this file by hand, so never drop fields you don't recognize.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Where did the agent store the research tracker?</li><li>Open the file in a plain text editor. What information does each research task contain?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Ask for research ideas</h4>
+        <blockquote class="prompt">Give me 3 ideas for what to research next</blockquote>
+        <p>Go back and forth until you are happy with the ideas, then have the agent add them to the tracker:</p>
+        <blockquote class="prompt">Add these to my research tracker</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>How good were the first questions the agent suggested? Insightful, or basic?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Run the research in parallel</h4>
+        <p>This step and the next one run at the same time. Start this one, and move on to the viewer while it runs.</p>
+        <blockquote class="prompt">Spin up agents to execute the research. Use paperclip where you think it could help. Results should be written to this knowledge base's raw/ folder.</blockquote>
+        <p class="say">No Paperclip? Replace &ldquo;Use paperclip&rdquo; with &ldquo;Search PubMed and PubMed Central through NCBI&rsquo;s E-utilities&rdquo;.</p>
+        <p>The agents should finish in about 10 minutes.</p>
+        <div class="more"><b>What did you observe?</b><ul><li>Did you see several agents working at the same time?</li><li>Did they put the results in the right place?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Build a viewer while the research runs</h4>
+        <blockquote class="prompt">Write a small script that reads every page in wiki/ and generates wiki-map.html: a 3-D interactive force-directed graph with one node per page and one edge per [[link]]. Support standard graph exploration and controls, e.g. moving, zooming, rotating, back and forward buttons similar to browser history controls re-navigating between selected nodes (each click centers the previous/next selected node on the screen and shows the page in the sidebar), etc. Include a search bar. Node labels should fade in and out based on zoom. Size nodes by number of links, color them by page type, and show each page's summary on hover. When a node is clicked, open a side panel showing the complete wiki page. Load the graph library from a CDN so the file works on its own. Run the script, open wiki-map.html in my browser, and add a rule to AGENTS.md: rerun the script after every ingest.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Which ideas are the most connected to other ideas?</li><li>Does the graph show relationships that were less obvious when you read single pages?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Ingest the new research</h4>
+        <p>The agent should ingest the results on its own. If it does not, type:</p>
+        <blockquote class="prompt">ingest the new research</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the new research create new topics, or deepen existing ones?</li><li>Did the agent find any inconsistencies or contradictions?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Interrogate the knowledge base</h4>
+        <blockquote class="prompt">Summarize what we learned</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Is the agent answering from the knowledge base, rather than starting from scratch?</li><li>Which parts of the knowledge base did it use?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Write back to the knowledge base</h4>
+        <blockquote class="prompt">Save this summary back to the kb</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Where did the agent save the new summary?</li><li>How might saving insights back to the knowledge base improve future answers?</li></ul></div>
+      </div>
+
+      <div class="step">
+        <h4>Turn it into a skill for any topic</h4>
+        <blockquote class="prompt">Turn this into a personal skill called create-kb so I can easily create new knowledge bases on any topic. Each knowledgebase should live in a dedicated folder with the name, my-kb-&lt;TOPIC&gt;. The skill should add the kb to a central registry at ~/.my-kbs/registry.json that records and lists my knowledge bases (name, topic, folder path), and add this one. Create the registry if it doesn't exist.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Which parts of the knowledge base workflow did the agent make reusable?</li><li>What would you need to do to create another knowledge base on a completely different topic?</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="extra-h">
+    <div class="band-head"><h2 id="extra-h">Extra: a video transcript</h2></div>
+    <p>A paper is not the only kind of source. These two steps add the transcript of a conference session, with timestamps, and use it to jump to one moment in the video.</p>
+    <p><b>The video:</b> <a href="https://www.youtube.com/watch?v=9SrnO-UkaQA">Psoriasis or Dermatitis? When boundaries blur and treatments flip the script</a>, a joint symposium of the International Eczema Council and the International Psoriasis Council at the AAD 2026 Global Education Day in Denver (March 26, 2026). Across almost three hours of talks and a closing panel, clinicians and researchers look at where atopic dermatitis and psoriasis overlap: patients whose disease does not fit cleanly into either diagnosis, and &ldquo;paradoxical&rdquo; reactions, where a treatment for one disease brings on the other. It is exactly the kind of source that is hard to search by hand and easy for an agent once it is text.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>Get the transcript</h4>
+        <p><b>We did this for you.</b> Download <a href="../data/session3/AAD-2026-Denver-global-education-day-transcript.txt" download>AAD-2026-Denver-global-education-day-transcript.txt</a> and save it into your knowledge base&rsquo;s <code>raw/</code> folder.</p>
+        <p>To do the same for any other YouTube video:</p>
+        <ol>
+          <li>Open the video on youtube.com and click <b>&hellip;more</b> under the title to expand the description.</li>
+          <li>Scroll to the end of the description and click <b>Show transcript</b>. The transcript opens beside the video, one line per few seconds, each with its timestamp.</li>
+          <li>Click and drag from the first line to the last to select it all, then copy with <kbd>Cmd</kbd>+<kbd>C</kbd> (macOS) or <kbd>Ctrl</kbd>+<kbd>C</kbd> (Windows).</li>
+          <li>Paste it into a plain text file (TextEdit, after <b>Format, Make Plain Text</b>, on macOS; Notepad on Windows) and save it as a <code>.txt</code> file in <code>raw/</code>.</li>
+        </ol>
+        <p class="say">Keep the timestamps. They are what lets the agent send you to the right moment in the next step. A little page clutter copied along with it (buttons, view counts) does no harm; the agent reads past it.</p>
+      </div>
+      <div class="step">
+        <h4>Ingest a transcript with timestamps</h4>
+        <p>With the file in <code>raw/</code>, type:</p>
+        <blockquote class="prompt">Ingest the new file in the raw folder. This is the transcript (with timestamps) from the 2026 AAD Global Education Day session from Denver. Video here: https://www.youtube.com/watch?v=9SrnO-UkaQA</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>How did the agent fit a video transcript alongside the scientific papers?</li><li>What information from the transcript showed up in the wiki?</li></ul></div>
+      </div>
+      <div class="step">
+        <h4>Find a moment in the video</h4>
+        <blockquote class="prompt">Using the raw transcript with timestamps, make a url to take me to the part of the video with the ISDS poster Gordon described.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>How did the agent use the timestamps stored in the raw transcript to find one moment in the video?</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="wrap-h">
+    <div class="band-head"><h2 id="wrap-h">What you practiced</h2></div>
+    <ol class="checklist">
+      <li><span class="q">A terminal agent works on real files on your computer, not only in a chat window.</span><span class="src">Steps 1 and 2</span></li>
+      <li><span class="q">Write the rules down once, in AGENTS.md, and every future session follows them.</span><span class="src">Step 3</span></li>
+      <li><span class="q">Keep raw sources untouched and let the AI maintain the distilled, cited layer on top.</span><span class="src">Steps 3 and 4</span></li>
+      <li><span class="q">Give the agent a trusted literature tool instead of letting it recall papers from memory.</span><span class="src">Step 5</span></li>
+      <li><span class="q">Hand off whole research tasks to agents working in parallel, then check where the results landed.</span><span class="src">Steps 7 to 9</span></li>
+      <li><span class="q">Ask for answers from your own knowledge base, with citations, and save new insights back into it.</span><span class="src">Steps 12 and 13</span></li>
+      <li><span class="q">Once a workflow works, make it a reusable skill.</span><span class="src">Step 14</span></li>
     </ol>
-    <p><a href="../ired-88/">Read every notebook</a>, with its code and results.</p>
   </section>
 
-  <section class="band" aria-labelledby="mod-h">
-    <div class="band-head"><h2 id="mod-h">Four kinds of data, four jobs</h2></div>
-    <div class="table-scroll">
-      <table class="data">
-        <thead><tr><th scope="col">Data</th><th scope="col">What it is good at</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Deep mutational scan</th><td>Discovery: finding hits nobody guessed</td></tr>
-          <tr><th scope="row">Crystal structure</th><td>Mechanism: ruling out bad guesses</td></tr>
-          <tr><th scope="row">Knowledge base</th><td>Explanation: naming what worked, and why</td></tr>
-          <tr><th scope="row">Structure prediction</th><td>Blind spots: reaching what the crystal misses, with a confidence score</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="band" aria-labelledby="try-h">
-    <div class="band-head"><h2 id="try-h">Try it after class</h2></div>
-    <p>The <a href="../ired-88/#run-h">demo page</a> shows how to download the notebooks and their data and run them on your own computer. You can also hand the folder to the agent you set up in <a href="../session3.0/">3.0</a> and ask it questions about the data, the same way you questioned your knowledge base in 3.1.</p>
+  <section class="band" aria-labelledby="who-h">
+    <div class="band-head"><h2 id="who-h">About the speaker</h2></div>
+    <p>John Damask is the owner of Amroja LLC. A learner and builder, he uses AI to shrink the time it takes to bring new ideas into the world: he builds open source and commercial software, and helps life sciences and finance organizations speed up their AI adoption programs. Previously he was VP of Digital Science at Flagship Pioneering and Global Head of Cloud at Novartis.</p>
   </section>
 
   <section class="band" aria-labelledby="mat-h">
     <div class="band-head"><h2 id="mat-h">Materials</h2></div>
     <div class="links">
-      <a href="../ired-88/"><span class="k">Demo</span><strong>The IRED-88 Research Copilot</strong><span class="d">All seven notebooks, with code and results, used in class.</span><span class="u">biocore.umassmed.edu/ired-88</span></a>
-      <a href="https://github.com/UMMS-Biocore/ired-88-research-copilot"><span class="k">Source</span><strong>Run it yourself</strong><span class="d">The notebooks, helper code, and knowledge base. Fetch the data, then <code>marimo edit notebooks/</code>.</span><span class="u">github.com/UMMS-Biocore/ired-88-research-copilot</span></a>
-      <a href="https://doi.org/10.1021/acscatal.1c02786"><span class="k">Paper</span><strong>Machine-directed evolution of an imine reductase</strong><span class="d">Ma et al., ACS Catalysis, 2021. The source of the data.</span><span class="u">doi.org</span></a>
-      <a href="https://marimo.io"><span class="k">Tool</span><strong>marimo</strong><span class="d">The Python notebook the demo is built in. Notebooks are plain Python files that rerun top to bottom.</span><span class="u">marimo.io</span></a>
+      <a href="../data/session3/AAD-2026-Denver-global-education-day-transcript.txt" download><span class="k">Data</span><strong>AAD-2026-Denver-global-education-day-transcript.txt</strong><span class="d">The timestamped transcript for the extra steps. About 165 KB.</span><span class="u">data/session3</span></a>
+      <a href="https://code.claude.com/docs/en/terminal-guide"><span class="k">Tool</span><strong>Claude Code in the terminal</strong><span class="d">Anthropic&rsquo;s guide to installing and using Claude Code.</span><span class="u">code.claude.com</span></a>
+      <a href="https://learn.chatgpt.com/docs/codex/cli#getting-started"><span class="k">Tool</span><strong>Codex CLI</strong><span class="d">OpenAI&rsquo;s getting started guide for the Codex command line agent.</span><span class="u">learn.chatgpt.com</span></a>
+      <a href="https://paperclip.gxl.ai/login"><span class="k">Tool</span><strong>Paperclip</strong><span class="d">A scientific paper index your agent can search. Free account.</span><span class="u">paperclip.gxl.ai</span></a>
+      <a href="https://www.jacionline.org/action/showPdf?pii=S0091-6749%2825%2900064-8"><span class="k">Paper</span><strong>The review for step 4</strong><span class="d">The article you add to raw/ by hand.</span><span class="u">jacionline.org</span></a>
+      <a href="https://www.youtube.com/watch?v=9SrnO-UkaQA"><span class="k">Video</span><strong>2026 AAD Global Education Day, Denver</strong><span class="d">The session behind the transcript in the extra steps.</span><span class="u">youtube.com</span></a>
     </div>
   </section>
 
   <nav class="pager" aria-label="Previous and next part">
-    <a class="prev" href="../session3.1/"><span class="k">&larr; Previous</span><strong>3.1 Your own knowledge base</strong></a>
-    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+    <a class="prev" href="../session3.1/"><span class="k">&larr; Previous</span><strong>3.1 Why a knowledge base</strong></a>
+    <a class="next" href="../session3.3/"><span class="k">Next &rarr;</span><strong>3.3 Research copilot</strong></a>
   </nav>
 
   <footer class="foot">

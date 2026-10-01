@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 3.3 · AI as a research copilot · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 3 part taught by Eric Ma: AI as a research copilot, shown on one enzyme where a deep mutational scan, a crystal structure, a structure prediction, and a literature knowledge base answer one question together.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session3">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 3 / 3.3</p>
+  <nav class="parts" aria-label="Session 3 parts">
+    <a href="../session3.0/"><b>3.0</b> Get set up</a>
+    <a href="../session3.1/"><b>3.1</b> Why a knowledge base</a>
+    <a href="../session3.2/"><b>3.2</b> Your own knowledge base</a>
+    <a href="../session3.3/" aria-current="page"><b>3.3</b> Research copilot</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 3.3 · Eric Ma, Moderna</p>
+    <h1>AI as a research copilot.</h1>
+    <p class="deck">John&rsquo;s knowledge base is read by an agent. Eric&rsquo;s goes one step further: it is used inside the analysis, side by side with the data. One enzyme, four kinds of data, and one question, worked through live, so you can see where each kind of evidence helps, where it misleads, and how an AI copilot keeps every claim traceable.</p>
+    <div class="cta-row">
+      <a class="btn" href="../ired-88/">Open Eric&rsquo;s demo <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Seven notebooks with code and results &middot; Nothing to install to read them</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="q-h">
+    <div class="band-head"><h2 id="q-h">The question</h2></div>
+    <div class="pull">
+      <p>Where do activity-improving mutations of the enzyme IRED-88 come from, and could we have seen them coming by combining DMS data, structure, prediction, and literature?</p>
+    </div>
+    <p>IRED-88 is an imine reductase from an enzyme engineering campaign Eric worked on at Novartis, published in <a href="https://doi.org/10.1021/acscatal.1c02786">ACS Catalysis in 2021</a>. The campaign measured 4,720 single mutants, the enantioselectivity of 310 engineered variants, and a crystal structure. Next to it sits a six-paper knowledge base in the format you built in <a href="../session3.2/">3.2</a>.</p>
+  </section>
+
+  <section class="band" aria-labelledby="outline-h">
+    <div class="band-head"><h2 id="outline-h">The question ladder</h2></div>
+    <ol class="outcomes">
+      <li><b>Which mutations improve activity?</b> The deep mutational scan shows which single mutations help, and where they sit along the sequence.</li>
+      <li><b>Are the hits where the structure says they should be?</b> Each position&rsquo;s distance to the NADP cofactor in the crystal structure.</li>
+      <li><b>What does prior work already know?</b> The top hits, checked against the knowledge base.</li>
+      <li><b>What does prediction see that the crystal cannot?</b> ESMFold fills in the residues the crystal leaves out, with a confidence score attached.</li>
+      <li><b>Additive or epistatic?</b> Doubles and triples of the best mutations test whether a claim from the literature survives the data.</li>
+      <li><b>Would we have noticed a hole?</b> Hide part of the scan where the literature matters, and see what the rest of the evidence recovers.</li>
+    </ol>
+    <p><a href="../ired-88/">Read every notebook</a>, with its code and results.</p>
+  </section>
+
+  <section class="band" aria-labelledby="mod-h">
+    <div class="band-head"><h2 id="mod-h">Four kinds of data, four jobs</h2></div>
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th scope="col">Data</th><th scope="col">What it is good at</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Deep mutational scan</th><td>Discovery: finding hits nobody guessed</td></tr>
+          <tr><th scope="row">Crystal structure</th><td>Mechanism: ruling out bad guesses</td></tr>
+          <tr><th scope="row">Knowledge base</th><td>Explanation: naming what worked, and why</td></tr>
+          <tr><th scope="row">Structure prediction</th><td>Blind spots: reaching what the crystal misses, with a confidence score</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="try-h">
+    <div class="band-head"><h2 id="try-h">Try it after class</h2></div>
+    <p>The <a href="../ired-88/#run-h">demo page</a> shows how to download the notebooks and their data and run them on your own computer. You can also hand the folder to the agent you set up in <a href="../session3.0/">3.0</a> and ask it questions about the data, the same way you questioned your knowledge base in 3.2.</p>
+  </section>
+
+  <section class="band" aria-labelledby="mat-h">
+    <div class="band-head"><h2 id="mat-h">Materials</h2></div>
+    <div class="links">
+      <a href="../ired-88/"><span class="k">Demo</span><strong>The IRED-88 Research Copilot</strong><span class="d">All seven notebooks, with code and results, used in class.</span><span class="u">biocore.umassmed.edu/ired-88</span></a>
+      <a href="https://github.com/UMMS-Biocore/ired-88-research-copilot"><span class="k">Source</span><strong>Run it yourself</strong><span class="d">The notebooks, helper code, and knowledge base. Fetch the data, then <code>marimo edit notebooks/</code>.</span><span class="u">github.com/UMMS-Biocore/ired-88-research-copilot</span></a>
+      <a href="https://doi.org/10.1021/acscatal.1c02786"><span class="k">Paper</span><strong>Machine-directed evolution of an imine reductase</strong><span class="d">Ma et al., ACS Catalysis, 2021. The source of the data.</span><span class="u">doi.org</span></a>
+      <a href="https://marimo.io"><span class="k">Tool</span><strong>marimo</strong><span class="d">The Python notebook the demo is built in. Notebooks are plain Python files that rerun top to bottom.</span><span class="u">marimo.io</span></a>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session3.2/"><span class="k">&larr; Previous</span><strong>3.2 Your own knowledge base</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
