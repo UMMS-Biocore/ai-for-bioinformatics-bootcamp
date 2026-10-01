@@ -26,6 +26,7 @@ The install commands for macOS and Windows, and a quick check, are on [session3.
 | 1:00 | 3.1 Why a knowledge base (talk) | John Damask (Amroja LLC) | [session3.1](https://biocore.umassmed.edu/session3.1/) · [slides](https://claude.ai/artifact/XUV62f1s1dQ3cVcr1kKwYg) |
 | | 3.2 Your own AI knowledge base | John Damask (Amroja LLC) | [session3.2](https://biocore.umassmed.edu/session3.2/) |
 | | 3.3 AI as a research copilot | Eric Ma (Moderna) | [session3.3](https://biocore.umassmed.edu/session3.3/) · [demo](https://biocore.umassmed.edu/ired-88/) |
+| After | Feedback (records attendance) | Everyone | [feedback](https://biocore.umassmed.edu/feedback/?session=3) |
 
 Times are approximate and the running order is not final.
 
