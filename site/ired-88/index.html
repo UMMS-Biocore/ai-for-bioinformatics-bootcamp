@@ -32,8 +32,8 @@
     <h1>The IRED-88 Research Copilot.</h1>
     <p class="deck">One enzyme, four kinds of data, and one question ladder. A deep mutational scan, a crystal structure, a structure prediction, and a small literature knowledge base answer one scientific question together, in seven notebooks you can read here or run yourself.</p>
     <div class="cta-row">
-      <a class="btn" href="notebooks/00_overarching_question.html">Start with the question <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <span class="cta-meta">Read-only notebooks: code and results, nothing to install</span>
+      <a class="btn" href="live/?file=00_overarching_question.py">Start with the question <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Live notebooks running on our server: nothing to install &middot; <a href="notebooks/00_overarching_question.html">Static copy</a> if the live one is slow</span>
     </div>
   </header>
 
@@ -47,15 +47,15 @@
 
   <section class="band" aria-labelledby="ladder-h">
     <div class="band-head"><h2 id="ladder-h">The question ladder</h2></div>
-    <p>Each notebook answers one question; together they answer the big one. Every claim traces back to a cell, a data file, or a knowledge base note.</p>
+    <p>Each notebook answers one question; together they answer the big one. Every claim traces back to a cell, a data file, or a knowledge base note. Each card opens the live notebook, which runs fresh when you open it, so give it a few seconds. Read-only copies of all seven are in <a href="notebooks/00_overarching_question.html">the static snapshots</a>.</p>
     <div class="links">
-      <a href="notebooks/00_overarching_question.html"><span class="k">Start here</span><strong>The overarching question</strong><span class="d">The enzyme, the four kinds of data, and how the notebooks fit together.</span><span class="u">00</span></a>
-      <a href="notebooks/01_dms_activity_map.html"><span class="k">Q1 &middot; DMS</span><strong>Which mutations improve activity?</strong><span class="d">The activity map: which single mutations help, and where they sit along the sequence.</span><span class="u">01</span></a>
-      <a href="notebooks/02_structure_context.html"><span class="k">Q2 &middot; Structure</span><strong>Are the hits where the structure says?</strong><span class="d">Beneficial positions against their distance to the NADP cofactor in PDB 7OG3.</span><span class="u">02</span></a>
-      <a href="notebooks/03_knowledge_base.html"><span class="k">Q3 &middot; Literature</span><strong>What does prior work already know?</strong><span class="d">The top hits, checked against six paper notes in the knowledge base.</span><span class="u">03</span></a>
-      <a href="notebooks/04_structure_prediction.html"><span class="k">Q4 &middot; Prediction</span><strong>What does prediction see that the crystal cannot?</strong><span class="d">ESMFold fills in the residues the crystal leaves out, with a confidence score.</span><span class="u">04</span></a>
-      <a href="notebooks/05_additivity.html"><span class="k">Q5 &middot; Combinations</span><strong>Additive or epistatic?</strong><span class="d">Doubles and triples of the top mutations: does the knowledge base&rsquo;s claim survive the data?</span><span class="u">05</span></a>
-      <a href="notebooks/06_masked_recovery.html"><span class="k">Q6 &middot; Everything</span><strong>Would we have noticed a hole?</strong><span class="d">Hide part of the scan where the literature matters, and see what the other data recover.</span><span class="u">06</span></a>
+      <a href="live/?file=00_overarching_question.py"><span class="k">Start here</span><strong>The overarching question</strong><span class="d">The enzyme, the four kinds of data, and how the notebooks fit together.</span><span class="u">00</span></a>
+      <a href="live/?file=01_dms_activity_map.py"><span class="k">Q1 &middot; DMS</span><strong>Which mutations improve activity?</strong><span class="d">The activity map: which single mutations help, and where they sit along the sequence.</span><span class="u">01</span></a>
+      <a href="live/?file=02_structure_context.py"><span class="k">Q2 &middot; Structure</span><strong>Are the hits where the structure says?</strong><span class="d">Beneficial positions against their distance to the NADP cofactor in PDB 7OG3.</span><span class="u">02</span></a>
+      <a href="live/?file=03_knowledge_base.py"><span class="k">Q3 &middot; Literature</span><strong>What does prior work already know?</strong><span class="d">The top hits, checked against six paper notes in the knowledge base.</span><span class="u">03</span></a>
+      <a href="live/?file=04_structure_prediction.py"><span class="k">Q4 &middot; Prediction</span><strong>What does prediction see that the crystal cannot?</strong><span class="d">ESMFold fills in the residues the crystal leaves out, with a confidence score.</span><span class="u">04</span></a>
+      <a href="live/?file=05_additivity.py"><span class="k">Q5 &middot; Combinations</span><strong>Additive or epistatic?</strong><span class="d">Doubles and triples of the top mutations: does the knowledge base&rsquo;s claim survive the data?</span><span class="u">05</span></a>
+      <a href="live/?file=06_masked_recovery.py"><span class="k">Q6 &middot; Everything</span><strong>Would we have noticed a hole?</strong><span class="d">Hide part of the scan where the literature matters, and see what the other data recover.</span><span class="u">06</span></a>
     </div>
   </section>
 
@@ -76,7 +76,7 @@
 
   <section class="band" aria-labelledby="run-h">
     <div class="band-head"><h2 id="run-h">Run it yourself</h2></div>
-    <p>The pages above are snapshots: you can read the code and every result, but not change anything. To run and edit the notebooks, you need <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> and <a href="https://git-scm.com/downloads">git</a>. In a terminal:</p>
+    <p>The live notebooks above let you read the code and use the widgets, but not change the code. To run and edit the notebooks, you need <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> and <a href="https://git-scm.com/downloads">git</a>. In a terminal:</p>
     <div class="steps">
       <div class="step">
         <h4>Get the code and the data</h4>
