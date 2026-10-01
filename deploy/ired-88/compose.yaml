@@ -1,0 +1,33 @@
+# Live IRED-88 demo at https://biocore.umassmed.edu/ired-88/live/
+#
+# On the server:
+#   docker compose -f deploy/ired-88/compose.yaml up -d --build
+# Apache proxies /ired-88/live/ to 127.0.0.1:8011 (see apache-ired-88.conf).
+services:
+  ired-88:
+    build:
+      context: .
+      args:
+        REF: ${IRED88_REF:-main}
+    image: ired-88-demo:latest
+    ports:
+      - "127.0.0.1:8011:8080"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /home/app/.cache
+      - /home/app/.marimo
+      - /home/app/.config
+      - /home/app/.local
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 16g
+    cpus: 8
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/ired-88/live/')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
