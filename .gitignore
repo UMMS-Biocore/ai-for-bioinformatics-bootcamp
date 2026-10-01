@@ -10,3 +10,6 @@ internal/
 
 # Datasets served by the site (large; deployed by rsync like the videos, not tracked).
 site/data/
+
+# Eric Ma's marimo notebooks, exported from the UMMS-Biocore fork (generated; see CLAUDE.md).
+site/ired-88/notebooks/

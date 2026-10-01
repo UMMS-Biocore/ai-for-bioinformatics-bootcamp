@@ -146,11 +146,18 @@ every page still names the original author.
 | `ericmjl/next-token` | `UMMS-Biocore/next-token` |
 | `crazyhottommy/claude_code_RNAseq_workshop` | `UMMS-Biocore/claude_code_RNAseq_workshop`, published at `umms-biocore.github.io/claude_code_RNAseq_workshop/` (Pages: `main`, `/docs`) |
 | `mzyphur/responsible-ai-in-research-training` | `UMMS-Biocore/responsible-ai-in-research-training` (CC BY-NC-ND: a verbatim copy, attributed, never edited) |
+| `ericmjl/ired-88-research-copilot` | `UMMS-Biocore/ired-88-research-copilot`, its marimo notebooks exported to `site/ired-88/notebooks/` and served at `/ired-88/` |
 
 A fork goes stale the moment upstream moves. Refresh one with
 `gh repo sync UMMS-Biocore/<name> --source <upstream>` before a session that
 uses it. `rstudio/cheatsheets` is deliberately **not** forked: 1.3 GB for one
 PDF, so that link stays upstream.
+
+The IRED-88 notebooks are static exports and are gitignored, like `site/data/`.
+To rebuild them after a sync: clone the fork, run `uv sync`, then
+`uv run scripts/fetch_data.py`, then for each `notebooks/0*.py` run
+`uv run --with marimo marimo export html <nb> -o site/ired-88/notebooks/<name>.html`.
+Then deploy as usual.
 
 ## Content sources
 
