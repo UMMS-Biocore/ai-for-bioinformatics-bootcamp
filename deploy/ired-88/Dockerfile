@@ -37,7 +37,9 @@ WORKDIR /home/app/demo
 # parallel runs out of file descriptors inside the build. Capping concurrency
 # keeps installs within the build's limits too.
 ENV UV_LINK_MODE=copy UV_CONCURRENT_INSTALLS=4
-RUN uv sync --frozen --no-dev \
+# No --frozen: upstream dropped uv.lock (its environment is Pixi), so uv
+# resolves from pyproject.toml at build time.
+RUN uv sync --no-dev \
     && uv pip install --quiet "marimo==${MARIMO_VERSION}" \
     && uv run --no-sync python scripts/fetch_data.py
 
