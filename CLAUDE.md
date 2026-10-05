@@ -146,6 +146,7 @@ every page still names the original author.
 | `ericmjl/next-token` | `UMMS-Biocore/next-token` |
 | `crazyhottommy/claude_code_RNAseq_workshop` | `UMMS-Biocore/claude_code_RNAseq_workshop`, published at `umms-biocore.github.io/claude_code_RNAseq_workshop/` (Pages: `main`, `/docs`) |
 | `mzyphur/responsible-ai-in-research-training` | `UMMS-Biocore/responsible-ai-in-research-training` (CC BY-NC-ND: a verbatim copy, attributed, never edited) |
+| `mgarber/bootcamp-bulk-rnaseq` | `UMMS-Biocore/bootcamp-bulk-rnaseq` (Session 4 notebooks and homework) |
 | `ericmjl/ired-88-research-copilot` | `UMMS-Biocore/ired-88-research-copilot`, its marimo notebooks exported to `site/ired-88/notebooks/` and served at `/ired-88/` |
 
 A fork goes stale the moment upstream moves. Refresh one with

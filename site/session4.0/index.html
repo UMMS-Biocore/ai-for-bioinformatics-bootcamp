@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 4.0 · Get set up · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 4 pre-work: install uv, download the bulk RNA-seq notebooks, and open one in marimo before class.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 4 / 4.0</p>
+  <nav class="parts" aria-label="Session 4 parts">
+    <a href="../session4.0/" aria-current="page"><b>4.0</b> Get set up</a>
+    <a href="../session4.1/"><b>4.1</b> Why DE uses models</a>
+    <a href="../session4.2/"><b>4.2</b> Homework</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 4.0 · Pre-work, about 15 minutes</p>
+    <h1>Get the notebooks running before Friday.</h1>
+    <p class="deck">Session 4 is taught from four <a href="https://marimo.io">marimo</a> notebooks: Python notebooks that run in your browser and rerun every cell that depends on the one you change. One small tool, <b>uv</b>, installs Python, marimo, and every package the notebooks need.</p>
+    <div class="cta-row">
+      <a class="btn" href="mailto:biocore@umassmed.edu">Stuck? Email biocore@umassmed.edu <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">macOS or Windows &middot; Your own computer, with permission to install software</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="setup-h">
+    <div class="band-head"><h2 id="setup-h">Set up</h2></div>
+    <p class="say">Can&rsquo;t install software on your computer? Come anyway. Manuel runs every notebook live, and you can follow on the projector.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>Open a terminal</h4>
+        <p><b>macOS:</b> press <kbd>Cmd</kbd>+<kbd>Space</kbd>, type <b>Terminal</b>, and press <kbd>Enter</kbd>.</p>
+        <p><b>Windows:</b> click <b>Start</b>, type <b>PowerShell</b>, and press <kbd>Enter</kbd>.</p>
+        <p class="say">Paste each command below into the terminal and press <kbd>Enter</kbd>.</p>
+      </div>
+
+      <div class="step">
+        <h4>Install uv</h4>
+        <p><b>macOS:</b></p>
+<pre class="cmd">curl -LsSf https://astral.sh/uv/install.sh | sh</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</pre>
+        <p>Then close the terminal and open a new one, so it finds the new <code>uv</code> command.</p>
+      </div>
+
+      <div class="step">
+        <h4>Download the notebooks</h4>
+        <p>Open <a href="https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq">the course repository</a>, click the green <b>Code</b> button, and choose <b>Download ZIP</b>. Unzip it somewhere you can find it, such as your Desktop.</p>
+        <p>If you already use git, clone it instead:</p>
+<pre class="cmd">git clone https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq.git</pre>
+        <p>In the terminal, move into the folder. For a ZIP unzipped to the Desktop:</p>
+<pre class="cmd">cd ~/Desktop/bootcamp-bulk-rnaseq-main</pre>
+      </div>
+
+      <div class="step">
+        <h4>Open a notebook</h4>
+<pre class="cmd">uvx marimo edit --sandbox 02_ttest_is_lm.py</pre>
+        <p>The first run takes a minute or two while uv downloads Python and the packages listed at the top of the notebook. marimo then opens the notebook in your browser.</p>
+        <p class="check"><b>Checkpoint</b> The notebook shows figures and a table of coefficients, with no red error boxes. Notebook 2 uses only simulated data, so it needs no downloads. If it runs, you are ready for Friday. Press <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal to stop marimo.</p>
+        <details class="reveal"><summary><span class="lbl">WHY</span> Why <code>--sandbox</code>?</summary>
+          <div class="ans">Each notebook lists the packages it needs in its first lines. With <code>--sandbox</code>, uv builds a private environment from that list, so nothing you install here touches any other Python on your computer.</div>
+        </details>
+      </div>
+
+      <div class="step">
+        <h4>Optional: open notebook 1</h4>
+<pre class="cmd">uvx marimo edit --sandbox 01_distributions.py</pre>
+        <p>On its first run it downloads a public microarray dataset from GEO (GSE8658, about 8 MB) into the <code>data/</code> folder, so do this once on a good connection.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../"><span class="k">&larr; Back to</span><strong>Bootcamp home</strong></a>
+    <a class="next" href="../session4.1/"><span class="k">Next &rarr;</span><strong>4.1 Why DE uses models</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
