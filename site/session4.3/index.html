@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 4.3 · Run RNA-seq on Foundry with an AI agent · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 4 hands-on: drive Foundry Connect from an AI agent in VS Code. Prepare an RNA-seq run by prompt and launch it yourself, then compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat.">
+<meta name="description" content="Session 4 hands-on: drive Foundry Connect from an AI agent in VS Code. Prepare an RNA-seq run by prompt and launch it yourself, then compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat, and count DESeq2 genes for every pair of groups.">
 <script src="../assets/theme.js"></script>
 <script src="../assets/copy.js" defer></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
@@ -37,7 +37,7 @@
   <header class="hero compact">
     <p class="eyebrow">Session 4.3 · Hands-on</p>
     <h1>The agent prepares the run. You launch it.</h1>
-    <p class="deck">You drive Foundry Connect from an AI agent in VS Code: set up an RNA-seq run by prompt, check it, and press Run yourself. Then you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it.</p>
+    <p class="deck">You drive Foundry Connect from an AI agent in VS Code: set up an RNA-seq run by prompt, check it, and press Run yourself. Then you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it. Last, you count differentially expressed genes for all 28 pairs of groups and check your chart against ours.</p>
     <div class="cta-row">
       <a class="btn" href="#launch">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
       <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
@@ -230,6 +230,61 @@ Do not open or print the data files. Write a Python script in this folder that d
     </div>
   </section>
 
+  <section class="band" id="de" aria-labelledby="de-h">
+    <div class="band-head"><h2 id="de-h">All-to-all differential expression</h2></div>
+    <p>The same 24 samples, now asking a different question: how many genes change between each pair of groups? Eight groups give 28 pairs. For each pair, DESeq2 counts the genes that go up and the genes that go down, and one chart shows all 28 at once. You then check your numbers against <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">our reference chart</a>.</p>
+    <details class="reveal" open><summary><span class="lbl">RULE</span> Counts for testing, TPM for comparing samples</summary>
+      <div class="ans">DESeq2 needs the raw expected counts, not TPM. It estimates library size and gene variance from the counts itself, and TPM has already thrown that information away. The counts table is not in the 4.0 data file, so it has its own download.</div>
+    </details>
+    <div class="steps">
+      <div class="step">
+        <h4>The analysis</h4>
+        <p>The first lines of the script pin pydeseq2 0.5.4 and every other package as of 1 October 2026. Keep them exactly as written: a newer package can move a gene that sits right on a cutoff, and then your counts no longer match ours.</p>
+        <blockquote class="prompt">I need data/rsem/genes_expression_expected_count.tsv in this folder. If it is not here yet, download https://biocore.umassmed.edu/data/session4/session4_counts.zip and unzip it here.
+It is the RSEM expected count table from Foundry run 11724. Its columns are gene, transcript, then the 24 samples. Sample names are &lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;; the group is the name without .rep&lt;n&gt;.
+
+I want a DESeq2 test for every pair of groups. Write a Python script in this folder named my_de.py that uses pydeseq2. Start it with exactly these lines, so uv installs the same package versions as the course:
+# /// script
+# requires-python = "&gt;=3.11,&lt;3.14"
+# dependencies = ["pydeseq2==0.5.4"]
+#
+# [tool.uv]
+# exclude-newer = "2026-10-01T00:00:00Z"
+# ///
+
+In the script:
+1. Drop the transcript column, add up rows that share a gene name, then round the sums to whole numbers.
+2. Keep genes with at least 10 counts in at least one sample.
+3. Order the groups chow.wt, chow.ALAB, chow.J1c, chow.J2c, hfd.wt, hfd.ALAB, hfd.J1c, hfd.J2c. In each pair, the earlier group is the reference. That gives 28 pairs.
+4. For each reference group, fit one DeseqDataSet on all 24 samples with design ~group, where group is a pandas Categorical whose first category is the reference. Then, for each later group: make a DeseqStats with contrast ["group", later, reference] and alpha 0.05, call summary() and keep padj, then call lfc_shrink(coeff="group[T.&lt;later&gt;]") and keep the shrunken log2FoldChange.
+5. A gene is up if padj &lt; 0.05 and the shrunken log2FoldChange &gt; 1, and down if padj &lt; 0.05 and it is &lt; -1. Genes with no padj count as neither.
+6. Save de_counts.tsv with columns test, ref, up, down: one row per pair, test being the later group.
+
+Before fitting, check there are 24 samples, 8 groups and 3 samples per group, and stop if not. Do not open or print the data file. Run the script with uv run my_de.py; it takes a few minutes. Then show me de_counts.tsv and how many genes were kept.</blockquote>
+        <p>Using the Foundry SDK from <a href="#sdk">the advanced part</a>? Ask the agent to download <code>rsem_summary/genes_expression_expected_count.tsv</code> from run 11724 into <code>data/rsem</code> instead of the ZIP.</p>
+        <p class="check"><b>Checkpoint</b> 17,546 genes kept and 28 rows in <code>de_counts.tsv</code>. A warning about an overflow in <code>exp</code> during one fit is harmless.</p>
+      </div>
+      <div class="step">
+        <h4>Draw it</h4>
+        <blockquote class="prompt">From de_counts.tsv, make one HTML file named de_counts.html in this folder that opens in a browser with no other files and no internet. Draw one horizontal bar per pair, labelled "&lt;test&gt; vs &lt;ref&gt;", centred on a zero line: genes down in blue going left, genes up in red going right, all rows on one shared scale, with the number at the end of each bar. Group the rows into four blocks with headings: hfd against chow in the same genotype, genotypes against each other on chow, genotypes against each other on high-fat diet, and pairs where both diet and genotype differ. Add a title, a legend, and an axis. Then open it in my browser.</blockquote>
+        <p>Using Claude Code signed in with a claude.ai account? You can also ask it to publish the page as a claude.ai artifact, which gives you a private link you can choose to share.</p>
+        <div class="more"><b>What did you observe?</b><ul><li>Which matters more here, diet or genotype?</li><li>Which genotype stands apart, and on which diet?</li></ul></div>
+      </div>
+      <div class="step">
+        <h4>Check against ours</h4>
+        <p>Open <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">our reference chart</a> next to yours. Every number should be the same. Then let the agent run the script that made our chart, <a href="all2all_de.py"><code>all2all_de.py</code></a>, and compare:</p>
+        <blockquote class="prompt">Rename de_counts.tsv to my_de_counts.tsv. Download https://biocore.umassmed.edu/session4.3/all2all_de.py into this folder and run it with: uv run all2all_de.py data/rsem/genes_expression_expected_count.tsv. It writes a new de_counts.tsv. Compare it with my_de_counts.tsv pair by pair and list every row that differs. If any row differs, compare all2all_de.py with my_de.py and tell me which step is different.</blockquote>
+        <details class="reveal"><summary><span class="lbl">READ</span> What we got, and how to read it</summary>
+          <div class="ans">
+            <p>Diet dominates. High-fat against chow changes 483 to 804 genes in wt, J1c and J2c, and 2,137 in ALAB. Between genotypes on chow, no pair reaches 60 genes. On high-fat diet, ALAB stands apart: 1,313 genes against wt and 1,675 against J1c, while J1c against wt changes only 37.</p>
+            <p>Same data, different software, slightly different numbers. For hfd.ALAB against hfd.wt our script gives 541 up and 772 down. R DESeq2 with the same settings gives 504 and 760, and Foundry&rsquo;s own DESeq2 module, which fits each pair on its two groups alone, gives 526 and 765. Genes near a cutoff land on either side. While building this page, one change in package versions moved three of the 28 counts by one gene, which is why the script pins them. The biology does not change; the exact counts do.</p>
+            <p>Each count comes from 3 against 3 samples. Treat it as a size of effect, not a precise number.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section class="band" id="sdk" aria-labelledby="sdk-h">
     <div class="band-head"><h2 id="sdk-h">Advanced: get the files straight from Foundry</h2></div>
     <p>Optional. The same analysis, but the agent fetches the tables from run 11724 itself with the <code>foundry</code> command from the <a href="https://github.com/UMMS-Biocore/foundry-sdk">Foundry SDK</a>, which writes straight to disk at any size. This is the route that works on your own runs after the course, when there is no hosted copy. It works the same on macOS and on Windows (PowerShell).</p>
@@ -270,6 +325,7 @@ uv tool update-shell</pre>
     <div class="links">
       <a href="https://viafoundry.umassmed.edu"><span class="k">Platform</span><strong>Foundry Connect</strong><span class="d">Pipelines on the UMass HPC cluster.</span><span class="u">viafoundry.umassmed.edu</span></a>
       <a href="https://github.com/UMMS-Biocore/foundry-sdk"><span class="k">Advanced</span><strong>Foundry SDK</strong><span class="d">The foundry command used in the advanced part.</span><span class="u">github.com</span></a>
+      <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw"><span class="k">Reference</span><strong>All-to-all DE chart</strong><span class="d">Up and down genes for all 28 pairs, to check yours against.</span><span class="u">claude.ai</span></a>
       <a href="../session4.2/"><span class="k">Homework</span><strong>4.2 JNK-deficient liver</strong><span class="d">The same study, analysed with DESeq2.</span><span class="u">session4.2</span></a>
     </div>
   </section>
