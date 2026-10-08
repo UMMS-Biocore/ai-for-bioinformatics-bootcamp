@@ -60,6 +60,15 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | 3.2 Your own AI knowledge base | John Damask (Amroja LLC) | [session3.2](https://biocore.umassmed.edu/session3.2/) |
 | 3.3 AI as a research copilot | Eric Ma (Moderna) | [session3.3](https://biocore.umassmed.edu/session3.3/) · [demo](https://biocore.umassmed.edu/ired-88/) |
 
+### Session 4 at a glance
+
+| Part | Who | Web page |
+|---|---|---|
+| 4.0 Get set up (pre-work) | Bioinformatics Core | [session4.0](https://biocore.umassmed.edu/session4.0/) |
+| 4.1 Why differential expression uses models | Manuel Garber (UMass Chan) | [session4.1](https://biocore.umassmed.edu/session4.1/) · [notebooks](https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq) |
+| 4.2 Homework: JNK-deficient liver | Manuel Garber (UMass Chan) | [session4.2](https://biocore.umassmed.edu/session4.2/) |
+| 4.3 Run RNA-seq on Foundry with an AI agent | Bioinformatics Core | [session4.3](https://biocore.umassmed.edu/session4.3/) |
+
 ---
 
 ## Repository layout

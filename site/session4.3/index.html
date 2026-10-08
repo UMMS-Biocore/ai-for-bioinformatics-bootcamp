@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 4.3 · Run RNA-seq on Foundry with an AI agent · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 4 hands-on: drive Foundry Connect from an AI agent in VS Code. Prepare an RNA-seq run by prompt and launch it yourself, then compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat.">
+<script src="../assets/theme.js"></script>
+<script src="../assets/copy.js" defer></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 4 / 4.3</p>
+  <nav class="parts" aria-label="Session 4 parts">
+    <a href="../session4.0/"><b>4.0</b> Get set up</a>
+    <a href="../session4.1/"><b>4.1</b> Why DE uses models</a>
+    <a href="../session4.2/"><b>4.2</b> Homework</a>
+    <a href="../session4.3/" aria-current="page"><b>4.3</b> Foundry with an agent</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 4.3 · Hands-on</p>
+    <h1>The agent prepares the run. You launch it.</h1>
+    <p class="deck">You drive Foundry Connect from an AI agent in VS Code: set up an RNA-seq run by prompt, check it, and press Run yourself. Then you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it.</p>
+    <div class="cta-row">
+      <a class="btn" href="#launch">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
+    </div>
+  </header>
+
+  <section class="band" id="foundry" aria-labelledby="foundry-h">
+    <div class="band-head"><h2 id="foundry-h">Foundry in five minutes</h2></div>
+    <p>Foundry Connect runs pipelines on the UMass HPC cluster from a web page. You pick a pipeline, point it at your files, and it runs the jobs on the cluster under your own account. If you finished the <a href="../session1.0/#steps-h">Session 1 pre-work</a>, this is already done; check the last step and move on. That page has screenshots for each step.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>Log in once</h4>
+        <p>Open <a href="https://viafoundry.umassmed.edu">viafoundry.umassmed.edu</a> and sign in.</p>
+      </div>
+      <div class="step">
+        <h4>Make an SSH key</h4>
+        <p>Open the <b>Credentials</b> tab, choose <b>Create Credential</b>, pick <b>SSH</b>, then <b>Generate Keys for Me</b>.</p>
+      </div>
+      <div class="step">
+        <h4>Give the cluster the public key</h4>
+        <p>Copy the public key and paste it at <a href="https://hpcportal.umassmed.edu/PublicKeys/Create">hpcportal.umassmed.edu/PublicKeys/Create</a>.</p>
+      </div>
+      <div class="step">
+        <h4>Set your run environment</h4>
+        <p>Open the <b>Run Environments</b> tab, select that SSH key, press <b>Test Connection</b>, then <b>Save Changes</b>.</p>
+        <p class="check"><b>Checkpoint</b> Test Connection is green. Without it, the run you prepare below stops at step 5 of its prompt.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="tool" aria-labelledby="tool-h">
+    <div class="band-head"><h2 id="tool-h">Today&rsquo;s tool: an agent in a folder</h2></div>
+    <p>Today you work in VS Code, with Claude Code or with Codex. Either one sees the files in one folder, writes and runs scripts there, and saves what it makes next to them. That is what lets it handle files too big to paste into a chat.</p>
+    <p>It asks before it acts only in the right mode. Set it before you start:</p>
+    <ul>
+      <li><b>Claude Code:</b> keep the default mode, <b>Ask before edits</b>. Do not switch to <b>Edit automatically</b> or any bypass mode today. Each file edit shows as a change to accept or reject, and each command and each Foundry action asks you to allow it or deny it.</li>
+      <li><b>Codex:</b> use <b>Agent</b> mode, not <b>Agent (full access)</b>.</li>
+    </ul>
+    <p>The prompts below also say &ldquo;do not launch it&rdquo; in words, so even a wrong mode does not start a job on the cluster.</p>
+  </section>
+
+  <section class="band" id="connector" aria-labelledby="connector-h">
+    <div class="band-head"><h2 id="connector-h">Connect claude.ai to Foundry</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Add the connector</h4>
+        <p>In <a href="https://claude.ai">claude.ai</a>, open <b>Settings</b>, then <b>Connectors</b>, then <b>Add custom connector</b>. Use this URL and sign in to Foundry when asked:</p>
+<pre class="cmd">https://viafoundry.umassmed.edu/mcp</pre>
+      </div>
+      <div class="step">
+        <h4>Check it in a chat</h4>
+        <blockquote class="prompt">List my 5 most recent Foundry runs.</blockquote>
+        <p>Claude Code signed in with the same claude.ai account sees this connector too, so you do not add it again there.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="vscode" aria-labelledby="vscode-h">
+    <div class="band-head"><h2 id="vscode-h">VS Code</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Install VS Code</h4>
+        <p>Follow the steps in <a href="../session2.0/#where-h">2.0</a> if you do not have it yet.</p>
+      </div>
+      <div class="step">
+        <h4>Add the extensions</h4>
+        <p>Open <b>Extensions</b> in the left bar and install <b>Claude Code for VS Code</b> (Anthropic) or <b>Codex</b> (OpenAI), or both.</p>
+      </div>
+      <div class="step">
+        <h4>Make and open the project folder</h4>
+        <p>Choose <b>File</b>, <b>Open Folder</b>, go to <code>Documents</code>, make a <b>New Folder</b> named <code>RNA-Seq</code>, and open it.</p>
+      </div>
+      <div class="step">
+        <h4>Trust the folder</h4>
+        <p>Accept the trust prompt. If you missed it, open <b>Manage</b> (the gear), then <b>Workspace Trust</b>.</p>
+      </div>
+      <div class="step">
+        <h4>A five-minute tour</h4>
+        <p>The <b>Explorer</b> lists the files in the folder. The <b>editor</b> opens them. <b>Terminal</b>, <b>New Terminal</b> opens a terminal already inside the folder: PowerShell on Windows, the usual Terminal shell on macOS. The Claude or Codex panel is where you type prompts. When the agent proposes an edit you see the change and accept or reject it; when it wants to run a command or call Foundry it asks first.</p>
+      </div>
+      <div class="step">
+        <h4>Check uv and Python</h4>
+        <p>The agent runs its Python scripts with <code>uv</code>, which you set up in <a href="../session4.0/#uv">4.0</a>. In the VS Code terminal, on macOS or Windows:</p>
+<pre class="cmd">uv run python --version</pre>
+        <p class="check"><b>Checkpoint</b> It prints a Python version, such as <code>Python 3.13.7</code>. If it says <code>uv</code> is not found or not recognized, quit VS Code completely and open it again. Still not found? Do the <a href="../session4.0/#uv">Install uv and Python</a> step in 4.0, then come back.</p>
+      </div>
+      <div class="step" id="fix-installs">
+        <h4>If an install fails, fix it with the agent</h4>
+        <p>Errors during installs are normal, and the agent is good at reading them. Select the whole error in the terminal, copy it, and paste it into the agent panel inside this prompt, replacing the two lines in angle brackets:</p>
+        <blockquote class="prompt">I ran this command in a terminal on my computer:
+&lt;paste the command&gt;
+It failed with this error:
+&lt;paste the full error&gt;
+Tell me which operating system and terminal you think I am using, explain in plain words what went wrong, and suggest the smallest fix. Do not run anything until I say yes.</blockquote>
+        <ul>
+          <li>Paste the <b>whole</b> error, not just the last line. The cause is often near the top.</li>
+          <li>Before you paste, delete anything that looks like a password or access token.</li>
+          <li>Read the fix before you allow it. If it needs admin rights (<code>sudo</code> on macOS, <b>Run as administrator</b> on Windows), stop and ask an instructor.</li>
+          <li>Still stuck after two tries? Raise your hand. Then try the next step: most of today still works while one install is broken.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <h4>Codex only: add Foundry to Codex</h4>
+        <p>This needs the <code>codex</code> command. If you set it up in <a href="../session3.0/">3.0</a>, skip ahead. Otherwise install it first:</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre>
+        <p>Or ask the agent in the Codex panel:</p>
+        <blockquote class="prompt">Check whether the codex command works in a terminal. If it does not, install the Codex CLI with OpenAI's official installer for my operating system (install.sh on macOS, install.ps1 in PowerShell on Windows, both from chatgpt.com/codex), then run codex --version.</blockquote>
+        <p>Codex keeps its own list of servers. In a new VS Code terminal, add Foundry, then sign in to it in the browser window that opens:</p>
+<pre class="cmd">codex mcp add foundry --url https://viafoundry.umassmed.edu/mcp
+codex mcp login foundry</pre>
+      </div>
+      <div class="step">
+        <h4>Check Foundry from VS Code</h4>
+        <p>In the Claude panel, type <code>/mcp</code>. In Codex, open its MCP server list.</p>
+        <p class="check"><b>Checkpoint</b> Foundry Connect shows as connected. This is where the next section runs, so check it here, not only in claude.ai.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="launch" aria-labelledby="launch-h">
+    <div class="band-head"><h2 id="launch-h">Hands-on: launch a run by prompt</h2></div>
+    <p>The template is run <a href="https://viafoundry.umassmed.edu/runs/12301">12301</a>: the RNA-seq pipeline on six small paired-end mouse samples, three control and three experimental. It finishes in minutes. Type each prompt in the agent panel in your <code>RNA-Seq</code> folder.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>List your runs</h4>
+        <blockquote class="prompt">Using Foundry Connect, list my 5 most recent runs with their ID, name, pipeline, status and date.</blockquote>
+        <p>A brand new account may have none. That is expected.</p>
+      </div>
+      <div class="step">
+        <h4>Duplicate and fill, without launching</h4>
+        <blockquote class="prompt">Duplicate Foundry run 12301 into a new run named "Bootcamp RNA-seq &lt;your name&gt;". Set it up as below, and do not launch it.
+
+1. Samples: the six paired-end samples in /share/data/umw_biocore/genome_data/mousetest/mm10/gz/ (control_rep1, control_rep2, control_rep3, exper_rep1, exper_rep2, exper_rep3; files are named &lt;sample&gt;.1.gz and &lt;sample&gt;.2.gz). If the duplicate lost its sample input, reuse the dataset from run 12301.
+2. Make a metadata file with columns sample_name and group. The control_rep samples are group control; the exper_rep samples are group exper. Save a copy as metadata.tsv in this folder.
+3. Make a comparisons file with columns controls, treats, names and one row: control, exper, exper_vs_control. Save a copy as comparisons.tsv in this folder.
+4. Attach both to the new run as its groups file and comparison file, and turn on DESeq2 after RSEM.
+5. Use my own run environment, not the one copied from 12301. If I do not have one, stop and tell me.
+6. Run the preflight check and show me its result.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Which Foundry actions did the agent ask permission for?</li><li>Open <code>metadata.tsv</code> and <code>comparisons.tsv</code>. Are they what you asked for?</li></ul></div>
+      </div>
+      <div class="step">
+        <h4>Get the link</h4>
+        <blockquote class="prompt">Give me a clickable link to the new run, in the form https://viafoundry.umassmed.edu/runs/&lt;run ID&gt;.</blockquote>
+      </div>
+      <div class="step">
+        <h4>You check, you launch</h4>
+        <p>Open the link and check four things: 6 samples, groups <code>control</code> and <code>exper</code>, the comparison <code>exper_vs_control</code>, and your own run environment. Then press <b>Run</b>.</p>
+        <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="compare" aria-labelledby="compare-h">
+    <div class="band-head"><h2 id="compare-h">Real data: RSEM against Salmon</h2></div>
+    <p>Run 11724 holds 24 mouse liver samples: chow or high-fat diet, crossed with four genotypes (<code>wt</code>, <code>ALAB</code>, <code>J1c</code>, <code>J2c</code>), three replicates each, from Vernia <i>et al.</i> 2014, the study in the <a href="../session4.2/">homework</a>. Foundry quantified it twice, with RSEM and with Salmon. You ask whether replicates agree better with one than the other.</p>
+    <details class="reveal" open><summary><span class="lbl">RULE</span> Small files through the chat, big files straight to disk</summary>
+      <div class="ans">Each gene table is about 16 MB, too large for the Foundry connector, which drops the connection above a few MB. So the agent downloads them to disk, writes a script that reads them, and shows you only a summary. Copies are in the Session 4 data file from <a href="../session4.0/">4.0</a>, the same file the notebooks use.</div>
+    </details>
+    <div class="steps">
+      <div class="step">
+        <h4>The analysis</h4>
+        <p>If you already unzipped the data file in 4.0, copy its <code>data</code> folder into <code>RNA-Seq</code> first. Otherwise the agent downloads it.</p>
+        <blockquote class="prompt">I need data/rsem/genes_expression_tpm.tsv and data/salmon/genes_expression_tpm.tsv in this folder. If they are not here yet, download https://biocore.umassmed.edu/data/session4/session4_data.zip and unzip it here.
+They are gene TPM tables from Foundry run 11724 quantified with RSEM and with Salmon. Sample names are &lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;; the group is the name without .rep&lt;n&gt;.
+
+I want to compare Spearman and Pearson correlations inside each group. In each group, correlate every pair of different replicates once: rep1 with rep2, rep1 with rep3, rep2 with rep3. No sample with itself, no pair twice. Do this for RSEM and for Salmon. Drop the transcript column and add up rows that share a gene name. Keep genes with TPM of at least 1 in some sample. Use log2(TPM+1) for Pearson and TPM for Spearman. Make two box plots, one for Pearson and one for Spearman, with the groups on the x axis and RSEM and Salmon side by side in each group, and show the individual points.
+
+Do not open or print the data files. Write a Python script in this folder that does the work, run it with uv, save the plots and a small table here, and show me only that table: for each tool and each correlation, the number of genes kept, the number of pairs, and the median and minimum over all pairs. Before plotting, check that there are 24 samples, 8 groups and 3 pairs per group, and stop if not.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Which tool looks better, and by how much?</li><li>How many genes did each tool keep?</li></ul></div>
+      </div>
+      <div class="step">
+        <h4>Check before you believe</h4>
+        <blockquote class="prompt">RSEM and Salmon kept different numbers of genes. Redo both plots using only the genes that pass the filter in both. Match the two tables by gene name, with the same genes and the same sample columns in the same order, and tell me how many genes are shared. Did the conclusion change, and why?</blockquote>
+        <details class="reveal"><summary><span class="lbl">READ</span> What we got, and how to read it</summary>
+          <div class="ans">
+            <p>The summary number is, for each tool and each correlation, the median over all 24 replicate pairs (8 groups, 3 pairs each). It is not a median of group medians.</p>
+            <p>With each tool&rsquo;s own genes, RSEM looks better: higher in all 8 groups, median Spearman 0.961 against 0.929. On the 16,201 genes both tools keep, RSEM is still a little higher in all 8 groups, but the gap shrinks to 0.966 against 0.961. Most of the first difference came from low-count genes that Salmon keeps and RSEM does not. Only a small part is a real difference in quantification.</p>
+            <p>Each box holds only 3 points. The plots show spread, not a test.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="sdk" aria-labelledby="sdk-h">
+    <div class="band-head"><h2 id="sdk-h">Advanced: get the files straight from Foundry</h2></div>
+    <p>Optional. The same analysis, but the agent fetches the tables from run 11724 itself with the <code>foundry</code> command from the <a href="https://github.com/UMMS-Biocore/foundry-sdk">Foundry SDK</a>, which writes straight to disk at any size. This is the route that works on your own runs after the course, when there is no hosted copy. It works the same on macOS and on Windows (PowerShell).</p>
+    <div class="steps">
+      <div class="step">
+        <h4>Install the SDK</h4>
+        <p>In the VS Code terminal:</p>
+<pre class="cmd">uv tool install https://github.com/UMMS-Biocore/foundry-sdk/archive/refs/heads/main.zip
+uv tool update-shell</pre>
+        <p>Close and reopen the terminal, then check:</p>
+<pre class="cmd">foundry --version</pre>
+        <p>No Git needed. <code>uv</code>, which you set up in <a href="../session4.0/#uv">4.0</a>, keeps the SDK in its own environment and puts <code>foundry</code> on your PATH. On Windows, if a new terminal still says <code>foundry</code> is not recognized, quit VS Code completely and open it again.</p>
+        <p>Or ask the agent to install it. Only the install: the login in the next step is yours to do.</p>
+        <blockquote class="prompt">Install the Foundry SDK with: uv tool install https://github.com/UMMS-Biocore/foundry-sdk/archive/refs/heads/main.zip. Then run uv tool update-shell, and check it with foundry --version. Do not run foundry configure; I will log in myself.</blockquote>
+        <p>If a step here fails, use the troubleshooting prompt from <a href="#vscode">the VS Code section</a>.</p>
+      </div>
+      <div class="step">
+        <h4>Log the SDK in, yourself</h4>
+        <p>Do this in the terminal, not through the agent:</p>
+<pre class="cmd">foundry configure --hostname https://viafoundry.umassmed.edu</pre>
+        <p>When it asks for a method, type <b>2</b> (Username and Password) and sign in with your Foundry username, which is your email address, and your password. The password prompt shows nothing as you type. The SDK saves your login in a file named <code>.viaenv</code> in your home folder.</p>
+        <p class="say">UMass Foundry does not use a second sign-in factor yet. If it is turned on later, the SDK also asks for the 6-digit code from your authenticator app.</p>
+      </div>
+      <div class="step">
+        <h4>Check it works</h4>
+<pre class="cmd">foundry reports list-processes 11724</pre>
+      </div>
+      <div class="step">
+        <h4>Hand it to the agent</h4>
+        <blockquote class="prompt">Use the foundry command line tool to download rsem_summary/genes_expression_tpm.tsv and salmon_count/genes_expression_tpm.tsv from Foundry run 11724 into data/rsem and data/salmon in this folder. Do not open or print them. Then do the same analysis as before on these files.</blockquote>
+        <div class="more"><b>Rules</b><ul><li>Never paste a password or access token into a chat. If an agent asks for one, say no.</li><li>The SDK reads its own saved login. The agent has no reason to open <code>.viaenv</code>.</li><li>On a shared computer, delete <code>.viaenv</code> when you are done.</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="links-h">
+    <div class="band-head"><h2 id="links-h">Links</h2></div>
+    <div class="links">
+      <a href="https://viafoundry.umassmed.edu"><span class="k">Platform</span><strong>Foundry Connect</strong><span class="d">Pipelines on the UMass HPC cluster.</span><span class="u">viafoundry.umassmed.edu</span></a>
+      <a href="https://github.com/UMMS-Biocore/foundry-sdk"><span class="k">Advanced</span><strong>Foundry SDK</strong><span class="d">The foundry command used in the advanced part.</span><span class="u">github.com</span></a>
+      <a href="../session4.2/"><span class="k">Homework</span><strong>4.2 JNK-deficient liver</strong><span class="d">The same study, analysed with DESeq2.</span><span class="u">session4.2</span></a>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session4.2/"><span class="k">&larr; Previous</span><strong>4.2 Homework</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
