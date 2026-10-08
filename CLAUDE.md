@@ -76,6 +76,25 @@ then `sessionN.1/`, `sessionN.2/`, and so on in teaching order. Adding a part
 means updating the `.parts` nav and `.pager` links on **every** sibling page,
 plus the tables in `README.md` and `sessionN/README.md`.
 
+### Where participants keep their files
+
+Every session puts its files under one folder on the participant's computer,
+`Documents/bootcamp/sessionN` (Session 4: `Documents/bootcamp/session4`).
+Repositories are cloned or unzipped inside it, and the folder an agent works in
+(Session 4.3: `RNA-Seq`) is a subfolder of it. That subfolder is what VS Code
+opens with File, Open Folder. Write every command from a fresh terminal, which
+starts in the home folder, and give macOS and Windows PowerShell versions:
+
+- macOS: `mkdir -p ~/Documents/bootcamp/sessionN` and `cd ~/Documents/bootcamp/sessionN/...`
+- Windows: build the path with `Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\sessionN'`,
+  never `~\Documents`, because OneDrive often moves Documents; create folders
+  with `New-Item -ItemType Directory -Force`, not `mkdir -Force`.
+- Downloads use `curl` (macOS) or `curl.exe` (Windows) with `unzip -o` or
+  `Expand-Archive -Force`, so a rerun is safe. A git clone names its target folder
+  so it matches the ZIP's folder name.
+- Each page links back to the session's 4.0 style "go back to the folder" step
+  instead of repeating paths in prose.
+
 ### Theming
 
 Colors are CSS custom properties defined on `:root`, with dark overriding them

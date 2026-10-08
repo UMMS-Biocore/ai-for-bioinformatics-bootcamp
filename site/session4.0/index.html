@@ -62,12 +62,16 @@
 <pre class="cmd">curl -LsSf https://astral.sh/uv/install.sh | sh</pre>
         <p><b>Windows PowerShell:</b></p>
 <pre class="cmd">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</pre>
-        <p>Close the terminal and open a new one, so it finds the new <code>uv</code> command. If you use the terminal inside VS Code and <code>uv</code> is still not found, quit VS Code completely and open it again. Then, on either system:</p>
-<pre class="cmd">uv python install
+        <p>Close the terminal and open a new one, so it finds the new <code>uv</code> command. If you use the terminal inside VS Code and <code>uv</code> is still not found, quit VS Code completely and open it again.</p>
+        <p>Had <code>uv</code> already, from before today? Update it, because the notebooks need uv 0.7.21 or newer. If it answers that uv was installed another way (pip or Homebrew), update it that way, or use the troubleshooting prompt in the next step.</p>
+<pre class="cmd">uv self update</pre>
+        <p>Then, on either system:</p>
+<pre class="cmd">uv --version
+uv python install
 uv run python --version</pre>
         <p>Already set up Claude Code or Codex in <a href="../session3.0/">3.0</a>? You can ask it to do this step instead. It asks before each command it runs, so read each one and allow it:</p>
-        <blockquote class="prompt">Check whether uv is installed. If it is not, install it with the official installer from astral.sh for my operating system (the install.sh script on macOS, the install.ps1 script in PowerShell on Windows). Then run uv python install, and show me the output of uv run python --version. If a step fails, stop and tell me what it said.</blockquote>
-        <p class="check"><b>Checkpoint</b> The last command prints a Python version, such as <code>Python 3.13.7</code>. If an install fails, see <a href="#fix-installs">the next step</a>.</p>
+        <blockquote class="prompt">Check whether uv is installed and is version 0.7.21 or newer. If it is older, update it. If it is missing, install it with the official installer from astral.sh for my operating system (the install.sh script on macOS, the install.ps1 script in PowerShell on Windows). Then run uv python install, and show me the output of uv run python --version. If a step fails, stop and tell me what it said.</blockquote>
+        <p class="check"><b>Checkpoint</b> The first command prints uv 0.7.21 or newer, and the last prints a Python version, such as <code>Python 3.13.7</code>. If an install fails, see <a href="#fix-installs">the next step</a>.</p>
       </div>
 
       <div class="step" id="fix-installs">
@@ -86,9 +90,23 @@ Tell me which operating system and terminal you think I am using, explain in pla
         </ul>
       </div>
 
+      <div class="step" id="folder">
+        <h4>Make your Session 4 folder</h4>
+        <p>Everything for Session 4 goes in one folder, <code>Documents/bootcamp/session4</code>: the notebooks, their data, and the folder you work in during <a href="../session4.3/">4.3</a>. Later sessions get their own folder next to it. Make it and move into it:</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">mkdir -p ~/Documents/bootcamp/session4
+cd ~/Documents/bootcamp/session4</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">$S4 = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session4'
+New-Item -ItemType Directory -Force $S4 | Out-Null
+cd $S4</pre>
+        <p>macOS may ask whether Terminal can use your Documents folder; click <b>Allow</b>. On Windows, the first line finds your real Documents folder, also when OneDrive keeps it, so it is the same <b>Documents</b> you see in File Explorer.</p>
+        <p class="check"><b>Checkpoint</b> <code>pwd</code> prints a path that ends in <code>Documents/bootcamp/session4</code> (on Windows, <code>Documents\bootcamp\session4</code>).</p>
+      </div>
+
       <div class="step">
         <h4>Download the notebooks</h4>
-        <p>In the terminal, download <a href="https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq">the course repository</a> into your home folder, unzip it, and move into it. No git needed.</p>
+        <p>From the session folder, download <a href="https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq">the course repository</a>, unzip it, and move into it. No git needed.</p>
         <p><b>macOS:</b></p>
 <pre class="cmd">curl -L -o bootcamp-bulk-rnaseq.zip https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq/archive/refs/heads/main.zip
 unzip -o bootcamp-bulk-rnaseq.zip
@@ -97,27 +115,24 @@ cd bootcamp-bulk-rnaseq-main</pre>
 <pre class="cmd">curl.exe -L -o bootcamp-bulk-rnaseq.zip https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq/archive/refs/heads/main.zip
 Expand-Archive bootcamp-bulk-rnaseq.zip -DestinationPath . -Force
 cd bootcamp-bulk-rnaseq-main</pre>
-        <p class="check"><b>Checkpoint</b> You are in the notebook folder: <code>ls</code> (on either system) lists files such as <code>02_ttest_is_lm.py</code>. Every command below runs from this folder. When you open a new terminal later, go back with <code>cd bootcamp-bulk-rnaseq-main</code>.</p>
-        <details class="reveal"><summary><span class="lbl">OTHER WAYS</span> Downloaded it in the browser, or use git</summary>
-          <div class="ans">
-            <ul>
-              <li><b>Browser:</b> on the repository page, the green <b>Code</b> button, then <b>Download ZIP</b>. On Windows, <b>Extract All</b> puts a folder inside a folder of the same name; use the inner one, the one with the <code>.py</code> files. In the terminal, <code>cd</code> into it. Unzipped to the Desktop, that is <code>cd ~/Desktop/bootcamp-bulk-rnaseq-main</code>; on Windows with a Desktop synced to OneDrive, <code>cd ~/OneDrive/Desktop/bootcamp-bulk-rnaseq-main</code>, plus one more <code>/bootcamp-bulk-rnaseq-main</code> for the inner folder.</li>
-              <li><b>git:</b> <code>git clone https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq.git</code>, then <code>cd bootcamp-bulk-rnaseq</code> (no <code>-main</code> on a clone).</li>
-            </ul>
-          </div>
+        <details class="reveal"><summary><span class="lbl">GIT</span> Use git instead</summary>
+          <div class="ans">From the session folder, on either system. The last word names the folder the same as the ZIP does, so every later step still fits.</div>
+<pre class="cmd">git clone https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq.git bootcamp-bulk-rnaseq-main
+cd bootcamp-bulk-rnaseq-main</pre>
         </details>
+        <p class="say">Already downloaded it somewhere else, such as your Desktop? Run these lines anyway, so all of Session 4 sits in one folder.</p>
+        <p class="check"><b>Checkpoint</b> You are in the notebook folder, <code>Documents/bootcamp/session4/bootcamp-bulk-rnaseq-main</code>: <code>ls</code> lists files such as <code>02_ttest_is_lm.py</code>. Every command below runs from here.</p>
       </div>
 
       <div class="step">
         <h4>Download the data</h4>
-        <p>One file holds every dataset Session 4 uses (22 MB). Still in the notebook folder, download it and unzip it there. Its folders match the repository, so each file lands where the notebooks look for it.</p>
+        <p>One file holds every dataset Session 4 uses (22 MB). Still in the notebook folder, <code>bootcamp-bulk-rnaseq-main</code>, download it and unzip it there. Its folders match the repository, so each file lands where the notebooks look for it.</p>
         <p><b>macOS:</b></p>
 <pre class="cmd">curl -LO https://biocore.umassmed.edu/data/session4/session4_data.zip
 unzip -o session4_data.zip</pre>
         <p><b>Windows PowerShell:</b></p>
 <pre class="cmd">curl.exe -LO https://biocore.umassmed.edu/data/session4/session4_data.zip
 Expand-Archive session4_data.zip -DestinationPath . -Force</pre>
-        <p>Or <a href="../data/session4/session4_data.zip">download it in the browser</a>, move it into the notebook folder, and unzip it there.</p>
         <details class="reveal"><summary><span class="lbl">WHAT</span> What is in it</summary>
           <div class="ans">
             <ul>
@@ -125,7 +140,7 @@ Expand-Archive session4_data.zip -DestinationPath . -Force</pre>
               <li><code>data/genes/</code>: gene lengths from GENCODE v44, for computing TPM.</li>
               <li><code>data/rnaseq/</code>: a public dendritic-cell RNA-seq count table, for notebook 4.</li>
               <li><code>homework/data/</code>: counts, TPM, and the sample sheet for the mouse liver homework (GSE55190), plus the scripts that made them.</li>
-              <li><code>data/rsem/</code> and <code>data/salmon/</code>: the RSEM and Salmon gene tables for <a href="../session4.3/">4.3</a>.</li>
+              <li><code>data/rsem/</code> and <code>data/salmon/</code>: the RSEM and Salmon gene tables from Foundry run 11724. In <a href="../session4.3/">4.3</a> the agent downloads its own copy into your <code>RNA-Seq</code> folder.</li>
             </ul>
           </div>
         </details>
@@ -150,6 +165,15 @@ Expand-Archive session4_data.zip -DestinationPath . -Force</pre>
 <pre class="cmd">$env:BULK_RNASEQ_DIR = "data/rnaseq"
 uvx marimo edit --sandbox 04_variance_estimation.py</pre>
         <p class="check"><b>Checkpoint</b> The replicate scatter plots and the variance-versus-mean curves appear, with no yellow &ldquo;Not found&rdquo; box.</p>
+      </div>
+
+      <div class="step" id="return">
+        <h4>Next time: back to the notebook folder</h4>
+        <p>Every new terminal starts in your home folder. Before running a notebook in <a href="../session4.1/">4.1</a> or the <a href="../session4.2/">homework</a>, go back to the notebook folder:</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">cd ~/Documents/bootcamp/session4/bootcamp-bulk-rnaseq-main</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">cd (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session4\bootcamp-bulk-rnaseq-main')</pre>
       </div>
     </div>
   </section>

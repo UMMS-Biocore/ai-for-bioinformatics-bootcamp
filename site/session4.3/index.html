@@ -107,8 +107,13 @@
         <p>Open <b>Extensions</b> in the left bar and install <b>Claude Code for VS Code</b> (Anthropic) or <b>Codex</b> (OpenAI), or both.</p>
       </div>
       <div class="step">
-        <h4>Make and open the project folder</h4>
-        <p>Choose <b>File</b>, <b>Open Folder</b>, go to <code>Documents</code>, make a <b>New Folder</b> named <code>RNA-Seq</code>, and open it.</p>
+        <h4>Make the RNA-Seq folder and open it</h4>
+        <p>Today&rsquo;s work goes in <code>Documents/bootcamp/session4/RNA-Seq</code>, next to the notebooks from <a href="../session4.0/#folder">4.0</a>. Make it in Terminal (macOS) or PowerShell (Windows):</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">mkdir -p ~/Documents/bootcamp/session4/RNA-Seq</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">New-Item -ItemType Directory -Force (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session4\RNA-Seq') | Out-Null</pre>
+        <p>Then in VS Code choose <b>File</b>, <b>Open Folder</b>, go to <b>Documents</b>, <b>bootcamp</b>, <b>session4</b>, select <b>RNA-Seq</b>, and open it. From now on the VS Code terminal starts in this folder, and the agent works and saves its files here.</p>
       </div>
       <div class="step">
         <h4>Trust the folder</h4>

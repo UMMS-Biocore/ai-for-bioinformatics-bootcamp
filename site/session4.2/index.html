@@ -78,7 +78,12 @@
     <div class="band-head"><h2 id="start-h">Start</h2></div>
     <div class="steps"><div class="step">
         <h4>Open the starter notebook</h4>
-        <p>From the repository folder you set up in <a href="../session4.0/">4.0</a>:</p>
+        <p>Open a terminal and go to the notebook folder you set up in <a href="../session4.0/">4.0</a>.</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">cd ~/Documents/bootcamp/session4/bootcamp-bulk-rnaseq-main</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">cd (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session4\bootcamp-bulk-rnaseq-main')</pre>
+        <p>Then, on either system:</p>
 <pre class="cmd">uvx marimo edit --sandbox homework/hw_starter.py</pre>
     <p>The starter notebook loads the counts and sample table and sets <b>WT</b> and <b>chow</b> as reference levels. Hand in a marimo notebook with a markdown cell before every code cell, your figures and tables, and a few sentences for each question.</p>
     </div></div>
