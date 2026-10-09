@@ -72,13 +72,14 @@
         <p>With three replicates, a gene&rsquo;s variance estimate is so noisy that its 95% range spans about 150-fold. Replicate-against-replicate scatters show a constant band for arrays and a funnel for RNA-seq, where Poisson noise dominates at low counts. Mean expression explains most of the gene-to-gene variation in RNA-seq variance, so a curve fitted across all genes, and shrinkage toward it (the idea behind limma&rsquo;s eBayes and DESeq2&rsquo;s dispersion prior), gives better estimates, checked against held-out donors.</p>
       </div>
     </div>
-    <p class="say">The RNA-seq panels in notebooks 1 and 4 read count tables that are not public. Manuel shows those panels live; the microarray and simulated parts run on your computer.</p>
+    <p class="say">The RNA-seq panels in notebook 1 read count tables that are not public, so Manuel shows them live. Everything else runs on your computer. Notebook 4 needs <code>BULK_RNASEQ_DIR</code> set, as in <a href="../session4.0/#nb4">4.0</a>.</p>
   </section>
 
   <section class="band" aria-labelledby="next-h">
-    <div class="band-head"><h2 id="next-h">After class</h2></div>
-    <p>The homework applies all of this to a published experiment: four mouse liver genotypes on two diets, analysed with one model that has interaction terms, and compared with the classical approach of many pairwise tests followed by clustering.</p>
-    <p><a class="btn" href="../session4.3/">The homework <span class="arw" aria-hidden="true">&rarr;</span></a></p>
+    <div class="band-head"><h2 id="next-h">Next</h2></div>
+    <p>In <a href="../session4.2/">4.2</a> you run RNA-seq on Foundry with an AI agent, and compare RSEM with Salmon and DESeq2 results on the same mouse liver study.</p>
+    <p>The <a href="../session4.3/">homework</a> applies all of this to that experiment: four genotypes on two diets, analysed with one model that has interaction terms, and compared with the classical approach of many pairwise tests followed by clustering.</p>
+    <p><a class="btn" href="../session4.2/">4.2 Foundry with an agent <span class="arw" aria-hidden="true">&rarr;</span></a></p>
   </section>
 
   <section class="band" aria-labelledby="read-h">
@@ -92,8 +93,9 @@
   <section class="band" aria-labelledby="mat-h">
     <div class="band-head"><h2 id="mat-h">Materials</h2></div>
     <div class="links">
-      <a href="https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq"><span class="k">Notebooks</span><strong>bootcamp-bulk-rnaseq</strong><span class="d">The four class notebooks and the homework, by Manuel Garber.</span><span class="u">github.com</span></a>
+      <a href="https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq"><span class="k">Notebooks</span><strong>bootcamp-bulk-rnaseq</strong><span class="d">The four class notebooks, by Manuel Garber.</span><span class="u">github.com</span></a>
       <a href="../session4.0/"><span class="k">Setup</span><strong>4.0 Get set up</strong><span class="d">Install uv and open a notebook before class.</span><span class="u">session4.0</span></a>
+      <a href="../session4.2/"><span class="k">Hands-on</span><strong>4.2 Foundry with an agent</strong><span class="d">RNA-seq on Foundry, RSEM against Salmon, all-to-all DE.</span><span class="u">session4.2</span></a>
       <a href="../session4.3/"><span class="k">Homework</span><strong>4.3 JNK-deficient liver</strong><span class="d">Model-based DE on GSE55190.</span><span class="u">session4.3</span></a>
     </div>
   </section>
