@@ -200,31 +200,19 @@ codex mcp login foundry</pre>
 
   <section class="band" id="compare" aria-labelledby="compare-h">
     <div class="band-head"><h2 id="compare-h">Real data: RSEM against Salmon</h2></div>
-    <p>Run 11724 holds 24 mouse liver samples: chow or high-fat diet, crossed with four genotypes (<code>wt</code>, <code>ALAB</code>, <code>J1c</code>, <code>J2c</code>), three replicates each, from Vernia <i>et al.</i> 2014, the study in the <a href="../session4.2/">homework</a>. Foundry quantified it twice, with RSEM and with Salmon. You ask whether replicates agree better with one than the other.</p>
-    <details class="reveal" open><summary><span class="lbl">RULE</span> Small files through the chat, big files straight to disk</summary>
-      <div class="ans">Each gene table is about 16 MB, too large for the Foundry connector, which drops the connection above a few MB. So the agent downloads them to disk, writes a script that reads them, and shows you only a summary. Copies are in the Session 4 data file from <a href="../session4.0/">4.0</a>, the same file the notebooks use.</div>
-    </details>
+    <p>Run 11724: 24 mouse liver samples, chow or high-fat diet, four genotypes, three replicates each (the <a href="../session4.2/">homework</a> study). Do replicates agree better with RSEM or with Salmon?</p>
+    <p class="say">The tables are about 16 MB, too big for the chat, so the agent works on files on disk and shows you a summary.</p>
     <div class="steps">
       <div class="step">
         <h4>The analysis</h4>
-        <p>If you already unzipped the data file in 4.0, copy its <code>data</code> folder into <code>RNA-Seq</code> first. Otherwise the agent downloads it.</p>
-        <blockquote class="prompt">I need data/rsem/genes_expression_tpm.tsv and data/salmon/genes_expression_tpm.tsv in this folder. If they are not here yet, download https://biocore.umassmed.edu/data/session4/session4_data.zip and unzip it here.
-They are gene TPM tables from Foundry run 11724 quantified with RSEM and with Salmon. Sample names are &lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;; the group is the name without .rep&lt;n&gt;.
-
-I want to compare Spearman and Pearson correlations inside each group. In each group, correlate every pair of different replicates once: rep1 with rep2, rep1 with rep3, rep2 with rep3. No sample with itself, no pair twice. Do this for RSEM and for Salmon. Drop the transcript column and add up rows that share a gene name. Keep genes with TPM of at least 1 in some sample. Use log2(TPM+1) for Pearson and TPM for Spearman. Make two box plots, one for Pearson and one for Spearman, with the groups on the x axis and RSEM and Salmon side by side in each group, and show the individual points.
-
-Do not open or print the data files. Write a Python script in this folder that does the work, run it with uv, save the plots and a small table here, and show me only that table: for each tool and each correlation, the number of genes kept, the number of pairs, and the median and minimum over all pairs. Before plotting, check that there are 24 samples, 8 groups and 3 pairs per group, and stop if not.</blockquote>
-        <div class="more"><b>What did you observe?</b><ul><li>Which tool looks better, and by how much?</li><li>How many genes did each tool keep?</li></ul></div>
+        <blockquote class="prompt">If data/rsem and data/salmon are not in this folder, download https://biocore.umassmed.edu/data/session4/session4_data.zip and unzip it here.
+Using the gene TPM tables from RSEM and Salmon (samples are &lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;), correlate each pair of replicates within each group. Sum rows by gene name, keep genes with TPM of at least 1 in some sample, use Pearson on log2(TPM+1) and Spearman on TPM. Make box plots by group with RSEM and Salmon side by side. Do not print the data files: write a Python script, run it with uv, and show me a small summary table.</blockquote>
       </div>
       <div class="step">
         <h4>Check before you believe</h4>
-        <blockquote class="prompt">RSEM and Salmon kept different numbers of genes. Redo both plots using only the genes that pass the filter in both. Match the two tables by gene name, with the same genes and the same sample columns in the same order, and tell me how many genes are shared. Did the conclusion change, and why?</blockquote>
-        <details class="reveal"><summary><span class="lbl">READ</span> What we got, and how to read it</summary>
-          <div class="ans">
-            <p>The summary number is, for each tool and each correlation, the median over all 24 replicate pairs (8 groups, 3 pairs each). It is not a median of group medians.</p>
-            <p>With each tool&rsquo;s own genes, RSEM looks better: higher in all 8 groups, median Spearman 0.961 against 0.929. On the 16,201 genes both tools keep, RSEM is still a little higher in all 8 groups, but the gap shrinks to 0.966 against 0.961. Most of the first difference came from low-count genes that Salmon keeps and RSEM does not. Only a small part is a real difference in quantification.</p>
-            <p>Each box holds only 3 points. The plots show spread, not a test.</p>
-          </div>
+        <blockquote class="prompt">Redo the plots using only the genes both tools keep. Did the conclusion change, and why?</blockquote>
+        <details class="reveal"><summary><span class="lbl">READ</span> What we got</summary>
+          <div class="ans">RSEM looks better at first (median Spearman 0.961 against 0.929), but on shared genes the gap nearly disappears (0.966 against 0.961). Most of the difference was low-count genes that only Salmon keeps.</div>
         </details>
       </div>
     </div>
@@ -232,54 +220,22 @@ Do not open or print the data files. Write a Python script in this folder that d
 
   <section class="band" id="de" aria-labelledby="de-h">
     <div class="band-head"><h2 id="de-h">All-to-all differential expression</h2></div>
-    <p>The same 24 samples, now asking a different question: how many genes change between each pair of groups? Eight groups give 28 pairs. For each pair, DESeq2 counts the genes that go up and the genes that go down, and one chart shows all 28 at once. You then check your numbers against <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">our reference chart</a>.</p>
-    <details class="reveal" open><summary><span class="lbl">RULE</span> Counts for testing, TPM for comparing samples</summary>
-      <div class="ans">DESeq2 needs the raw expected counts, not TPM. It estimates library size and gene variance from the counts itself, and TPM has already thrown that information away. The counts table is not in the 4.0 data file, so it has its own download.</div>
-    </details>
+    <p>How many genes change between each pair of the 8 groups? That is 28 pairs. Compare your result with <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">our reference chart</a>.</p>
     <div class="steps">
       <div class="step">
         <h4>The analysis</h4>
-        <p>The first lines of the script pin pydeseq2 0.5.4 and every other package as of 1 October 2026. Keep them exactly as written: a newer package can move a gene that sits right on a cutoff, and then your counts no longer match ours.</p>
-        <blockquote class="prompt">I need data/rsem/genes_expression_expected_count.tsv in this folder. If it is not here yet, download https://biocore.umassmed.edu/data/session4/session4_counts.zip and unzip it here.
-It is the RSEM expected count table from Foundry run 11724. Its columns are gene, transcript, then the 24 samples. Sample names are &lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;; the group is the name without .rep&lt;n&gt;.
-
-I want a DESeq2 test for every pair of groups. Write a Python script in this folder named my_de.py that uses pydeseq2. Start it with exactly these lines, so uv installs the same package versions as the course:
-# /// script
-# requires-python = "&gt;=3.11,&lt;3.14"
-# dependencies = ["pydeseq2==0.5.4"]
-#
-# [tool.uv]
-# exclude-newer = "2026-10-01T00:00:00Z"
-# ///
-
-In the script:
-1. Drop the transcript column, add up rows that share a gene name, then round the sums to whole numbers.
-2. Keep genes with at least 10 counts in at least one sample.
-3. Order the groups chow.wt, chow.ALAB, chow.J1c, chow.J2c, hfd.wt, hfd.ALAB, hfd.J1c, hfd.J2c. In each pair, the earlier group is the reference. That gives 28 pairs.
-4. For each reference group, fit one DeseqDataSet on all 24 samples with design ~group, where group is a pandas Categorical whose first category is the reference. Then, for each later group: make a DeseqStats with contrast ["group", later, reference] and alpha 0.05, call summary() and keep padj, then call lfc_shrink(coeff="group[T.&lt;later&gt;]") and keep the shrunken log2FoldChange.
-5. A gene is up if padj &lt; 0.05 and the shrunken log2FoldChange &gt; 1, and down if padj &lt; 0.05 and it is &lt; -1. Genes with no padj count as neither.
-6. Save de_counts.tsv with columns test, ref, up, down: one row per pair, test being the later group.
-
-Before fitting, check there are 24 samples, 8 groups and 3 samples per group, and stop if not. Do not open or print the data file. Run the script with uv run my_de.py; it takes a few minutes. Then show me de_counts.tsv and how many genes were kept.</blockquote>
-        <p>Using the Foundry SDK from <a href="#sdk">the advanced part</a>? Ask the agent to download <code>rsem_summary/genes_expression_expected_count.tsv</code> from run 11724 into <code>data/rsem</code> instead of the ZIP.</p>
-        <p class="check"><b>Checkpoint</b> 17,546 genes kept and 28 rows in <code>de_counts.tsv</code>. A warning about an overflow in <code>exp</code> during one fit is harmless.</p>
+        <blockquote class="prompt">If data/rsem/genes_expression_expected_count.tsv is not in this folder, download https://biocore.umassmed.edu/data/session4/session4_counts.zip and unzip it here. It holds RSEM expected counts (columns gene, transcript, then 24 samples).
+With pydeseq2, test every pair of the 8 groups: sum rows by gene name and round, keep genes with at least 10 counts in some sample, design ~group, apeGLM shrinkage. Count genes with padj &lt; 0.05 and shrunken log2 fold change above 1 (up) or below -1 (down). Do not print the data file: write a Python script, run it with uv, and save the counts to de_counts.tsv.</blockquote>
       </div>
       <div class="step">
         <h4>Draw it</h4>
-        <blockquote class="prompt">From de_counts.tsv, make one HTML file named de_counts.html in this folder that opens in a browser with no other files and no internet. Draw one horizontal bar per pair, labelled "&lt;test&gt; vs &lt;ref&gt;", centred on a zero line: genes down in blue going left, genes up in red going right, all rows on one shared scale, with the number at the end of each bar. Group the rows into four blocks with headings: hfd against chow in the same genotype, genotypes against each other on chow, genotypes against each other on high-fat diet, and pairs where both diet and genotype differ. Add a title, a legend, and an axis. Then open it in my browser.</blockquote>
-        <p>Using Claude Code signed in with a claude.ai account? You can also ask it to publish the page as a claude.ai artifact, which gives you a private link you can choose to share.</p>
-        <div class="more"><b>What did you observe?</b><ul><li>Which matters more here, diet or genotype?</li><li>Which genotype stands apart, and on which diet?</li></ul></div>
+        <blockquote class="prompt">From de_counts.tsv, make one self-contained HTML page: a bar per pair centred on zero, down genes in blue to the left, up genes in red to the right, one shared scale, numbers on the bars. Open it in my browser.</blockquote>
       </div>
       <div class="step">
         <h4>Check against ours</h4>
-        <p>Open <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">our reference chart</a> next to yours. Every number should be the same. Then let the agent run the script that made our chart, <a href="all2all_de.py"><code>all2all_de.py</code></a>, and compare:</p>
-        <blockquote class="prompt">Rename de_counts.tsv to my_de_counts.tsv. Download https://biocore.umassmed.edu/session4.3/all2all_de.py into this folder and run it with: uv run all2all_de.py data/rsem/genes_expression_expected_count.tsv. It writes a new de_counts.tsv. Compare it with my_de_counts.tsv pair by pair and list every row that differs. If any row differs, compare all2all_de.py with my_de.py and tell me which step is different.</blockquote>
-        <details class="reveal"><summary><span class="lbl">READ</span> What we got, and how to read it</summary>
-          <div class="ans">
-            <p>Diet dominates. High-fat against chow changes 483 to 804 genes in wt, J1c and J2c, and 2,137 in ALAB. Between genotypes on chow, no pair reaches 60 genes. On high-fat diet, ALAB stands apart: 1,313 genes against wt and 1,675 against J1c, while J1c against wt changes only 37.</p>
-            <p>Same data, different software, slightly different numbers. For hfd.ALAB against hfd.wt our script gives 541 up and 772 down. R DESeq2 with the same settings gives 504 and 760, and Foundry&rsquo;s own DESeq2 module, which fits each pair on its two groups alone, gives 526 and 765. Genes near a cutoff land on either side. While building this page, one change in package versions moved three of the 28 counts by one gene, which is why the script pins them. The biology does not change; the exact counts do.</p>
-            <p>Each count comes from 3 against 3 samples. Treat it as a size of effect, not a precise number.</p>
-          </div>
+        <p>Your counts may differ from <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">ours</a> by a few genes: software versions move genes that sit right on a cutoff. For an exact match, run <a href="all2all_de.py"><code>all2all_de.py</code></a>, the script that made our chart: <code>uv run all2all_de.py data/rsem/genes_expression_expected_count.tsv</code>.</p>
+        <details class="reveal"><summary><span class="lbl">READ</span> What we got</summary>
+          <div class="ans">Diet dominates: high-fat against chow changes about 500 to 800 genes, and over 2,000 in ALAB. Genotypes barely differ on chow. On high-fat diet, ALAB stands apart.</div>
         </details>
       </div>
     </div>
