@@ -81,7 +81,7 @@ plus the tables in `README.md` and `sessionN/README.md`.
 Every session puts its files under one folder on the participant's computer,
 `Documents/bootcamp/sessionN` (Session 4: `Documents/bootcamp/session4`).
 Repositories are cloned or unzipped inside it, and the folder an agent works in
-(Session 4.3: `RNA-Seq`) is a subfolder of it. That subfolder is what VS Code
+(Session 4.2: `RNA-Seq`) is a subfolder of it. That subfolder is what VS Code
 opens with File, Open Folder. Write every command from a fresh terminal, which
 starts in the home folder, and give macOS and Windows PowerShell versions:
 
