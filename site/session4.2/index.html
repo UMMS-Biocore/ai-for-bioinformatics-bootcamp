@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 4.2 · Run RNA-seq on Foundry with an AI agent · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 4 hands-on: drive Foundry Connect from an AI agent in VS Code. Compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat, and count DESeq2 genes for every pair of groups.">
+<meta name="description" content="Session 4 hands-on: drive Foundry from an AI agent in VS Code. Have it set up an RNA-seq run in the browser and launch it yourself, then compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat, and count DESeq2 genes for every pair of groups.">
 <script src="../assets/theme.js"></script>
 <script src="../assets/copy.js" defer></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
@@ -36,10 +36,10 @@
 
   <header class="hero compact">
     <p class="eyebrow">Session 4.2 · Hands-on</p>
-    <h1>The agent reads the results. You check them.</h1>
-    <p class="deck">You drive Foundry Connect from an AI agent in VS Code: you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it. Last, you count differentially expressed genes for all 28 pairs of groups and check your chart against ours.</p>
+    <h1>The agent prepares the run. You launch it.</h1>
+    <p class="deck">You drive Foundry from an AI agent in VS Code: it sets up an RNA-seq run in the browser, and you check it and press Run yourself. Then you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it. Last, you count differentially expressed genes for all 28 pairs of groups and check your chart against ours.</p>
     <div class="cta-row">
-      <a class="btn" href="#compare">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="btn" href="#browser-run">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
       <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
     </div>
   </header>
@@ -162,19 +162,61 @@ codex mcp login foundry</pre>
         <p class="check"><b>Checkpoint</b> Foundry Connect shows as connected. This is where the next section runs, so check it here, not only in claude.ai.</p>
       </div>
       <div class="step" id="playwright-install">
-        <h4>Optional: add Playwright, to follow the demo</h4>
-        <p><a href="https://github.com/microsoft/playwright-mcp">Playwright</a> lets the agent open web pages in a browser window you can watch, read them, and take screenshots. It is used in <a href="#check">the demo below</a>. You can watch it on the projector instead; skip this step if an install gets stuck.</p>
-        <p>Playwright needs <b>Node.js</b>. Check whether you have it, in the VS Code terminal:</p>
+        <h4>Add Playwright</h4>
+        <p><a href="https://github.com/microsoft/playwright-mcp">Playwright</a> lets the agent open web pages in a browser window you can watch, click and type in them, and take screenshots. <a href="#browser-run">The next section</a> uses it to set up a Foundry run.</p>
+        <p><b>The easy way: ask the agent.</b> In the Claude or Codex panel in VS Code:</p>
+        <blockquote class="prompt">Help me add the Playwright MCP server (@playwright/mcp from Microsoft) to this agent on my computer. First tell me which operating system and which agent you think I am using. Check whether Node.js is installed; if it is not, tell me how to install the LTS version and stop there. Then show me the exact command to add Playwright and run it only after I say yes. Finally, tell me how to check that it is connected.</blockquote>
+        <p>Using the <b>Claude desktop app</b> instead of VS Code? Ask the same in a chat there, and say &ldquo;the Claude desktop app&rdquo;. It cannot run the commands for you, so it walks you through them.</p>
+        <p><b>Or do it by hand.</b> Playwright needs <b>Node.js</b>. Check whether you have it, in a terminal:</p>
 <pre class="cmd">node --version</pre>
-        <p>No version number? Download the <b>LTS</b> installer from <a href="https://nodejs.org/en/download">nodejs.org</a> and run it, then quit VS Code completely and open it again. The installer may ask for your computer&rsquo;s password; if you do not have admin rights, watch the demo instead.</p>
-        <p>Then add Playwright to your agent. <b>Claude Code on macOS:</b></p>
+        <p>No version number? Download the <b>LTS</b> installer from <a href="https://nodejs.org/en/download">nodejs.org</a> and run it, then quit VS Code (or the Claude app) completely and open it again. The installer may ask for your computer&rsquo;s password; if you do not have admin rights, ask an instructor.</p>
+        <p>Then add Playwright to your agent. <b>Claude Code in VS Code, on macOS:</b></p>
 <pre class="cmd">claude mcp add playwright -- npx @playwright/mcp@latest</pre>
-        <p><b>Claude Code on Windows PowerShell:</b></p>
+        <p><b>Claude Code in VS Code, on Windows PowerShell:</b></p>
 <pre class="cmd">claude mcp add playwright -- cmd /c npx @playwright/mcp@latest</pre>
         <p><b>Codex, on either system:</b></p>
 <pre class="cmd">codex mcp add playwright -- npx @playwright/mcp@latest</pre>
-        <p>Close and reopen the agent panel, then check its server list as in the step above.</p>
+        <p><b>Claude desktop app:</b> open <b>Settings</b>, then <b>Developer</b>, then <b>Edit Config</b>. Put this in the file that opens, save it, and quit and reopen the app:</p>
+<pre class="cmd">{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}</pre>
+        <p>If the file already has an <code>mcpServers</code> section, add only the <code>playwright</code> entry inside it. In VS Code, close and reopen the agent panel, then check its server list as in the step above.</p>
         <p class="check"><b>Checkpoint</b> <b>playwright</b> shows as connected next to Foundry Connect. It opens Google Chrome; if you have no Chrome, ask the agent to install the browser Playwright needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="browser-run" aria-labelledby="browser-run-h">
+    <div class="band-head"><h2 id="browser-run-h">Hands-on: set up a run in the browser</h2></div>
+    <p>The agent works in Foundry&rsquo;s own web page, in the Playwright browser, clicking through the same forms you would. You sign in, it builds the dataset and fills in the run, and you check it and press Run. The data is six small paired-end mouse samples, three control and three experimental, so the run finishes in minutes.</p>
+    <figure class="video">
+      <video controls preload="metadata" playsinline>
+        <source src="../videos/session4/04_2_Browser_Agent_Run_Setup.mp4" type="video/mp4">
+        Your browser cannot play this video. <a href="../videos/session4/04_2_Browser_Agent_Run_Setup.mp4">Download it instead</a>.
+      </video>
+      <figcaption>Watch it first: the agent running the prompt below, sped up, no sound &middot; 1 minute &middot; <a href="../videos/session4/04_2_Browser_Agent_Run_Setup.mp4" download>Download (2 MB)</a></figcaption>
+    </figure>
+    <div class="steps">
+      <div class="step">
+        <h4>Set it up by prompt</h4>
+        <blockquote class="prompt">Using the Playwright browser, open https://viafoundry.umassmed.edu and stop there so I can sign in myself. When I say I am signed in, do the following in that browser.
+
+1. Create a dataset named bootcamp_mousetest from the paired-end files in /share/data/umw_biocore/genome_data/mousetest/mm10/gz/ on the cluster. There are six samples (control_rep1, control_rep2, control_rep3, exper_rep1, exper_rep2, exper_rep3), each with two files, &lt;sample&gt;.1.gz and &lt;sample&gt;.2.gz.
+2. Create a new RNA-seq run in a project named bootcamp_test. Create the project if it does not exist.
+3. Fill in the run form: choose my own run environment, set the execution directory to /home/&lt;my cluster username&gt;/bootcamp/RNA-Seq, use the new dataset as the reads, set mate to pair, set the genome build to mousetest_mm10, run RSEM and Salmon, turn on FastQC, and turn on sequential mapping with rRNA added as a sequence to map.
+4. Save the run, but do not press Run. Give me a clickable link to the run, save a screenshot of the run page as run_setup.png in this folder, and show me a table of everything you set.</blockquote>
+        <p>A browser window opens on the Foundry sign-in page. Sign in there by hand, then tell the agent you are signed in. The agent never types your password, and if it asks for one, say no.</p>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the agent stop for you to sign in, and stop again before Run?</li><li>Where did it hesitate or retry? Those are the places a person would get stuck too.</li><li>Open <code>run_setup.png</code>. Does it agree with the agent&rsquo;s table?</li></ul></div>
+      </div>
+      <div class="step">
+        <h4>You check, you launch</h4>
+        <p>Open the link and check: 6 paired-end samples, the genome build <code>mousetest_mm10</code>, RSEM and Salmon on, FastQC on, sequential mapping on with rRNA, your own run environment, and an execution directory in your own home folder. Then press <b>Run</b>.</p>
+        <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
       </div>
     </div>
   </section>
