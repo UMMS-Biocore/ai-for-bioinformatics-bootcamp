@@ -63,7 +63,7 @@
       <div class="step">
         <h4>Set your run environment</h4>
         <p>Open the <b>Run Environments</b> tab, select that SSH key, press <b>Test Connection</b>, then <b>Save Changes</b>.</p>
-        <p class="check"><b>Checkpoint</b> Test Connection is green. Without it, the run you prepare below stops at step 5 of its prompt.</p>
+        <p class="check"><b>Checkpoint</b> Test Connection is green. Without it, you have no run environment to select when you duplicate the template below.</p>
       </div>
     </div>
   </section>
@@ -190,24 +190,33 @@ codex mcp login foundry</pre>
         <p>A brand new account may have none. That is expected.</p>
       </div>
       <div class="step">
-        <h4>Duplicate and fill, without launching</h4>
-        <blockquote class="prompt">Duplicate Foundry run 12301 into a new run named "Bootcamp RNA-seq &lt;your name&gt;". Set it up as below, and do not launch it.
-
-1. Samples: the six paired-end samples in /share/data/umw_biocore/genome_data/mousetest/mm10/gz/ (control_rep1, control_rep2, control_rep3, exper_rep1, exper_rep2, exper_rep3; files are named &lt;sample&gt;.1.gz and &lt;sample&gt;.2.gz). If the duplicate lost its sample input, reuse the dataset from run 12301.
-2. Make a metadata file with columns sample_name and group. The control_rep samples are group control; the exper_rep samples are group exper. Save a copy as metadata.tsv in this folder.
-3. Make a comparisons file with columns controls, treats, names and one row: control, exper, exper_vs_control. Save a copy as comparisons.tsv in this folder.
-4. Attach both to the new run as its groups file and comparison file, and turn on DESeq2 after RSEM.
-5. Use my own run environment, not the one copied from 12301. If I do not have one, stop and tell me.
-6. Run the preflight check and show me its result.</blockquote>
-        <div class="more"><b>What did you observe?</b><ul><li>Which Foundry actions did the agent ask permission for?</li><li>Open <code>metadata.tsv</code> and <code>comparisons.tsv</code>. Are they what you asked for?</li></ul></div>
+        <h4>Duplicate the template in Foundry, by hand</h4>
+        <p>The agent cannot create a project, name a run, or pick your run environment, so this part is yours. In Foundry:</p>
+        <ol>
+          <li>Open run <a href="https://viafoundry.umassmed.edu/runs/12301">12301</a>. If the page shows an error, reload it once.</li>
+          <li>Open the <b>&#8942;</b> menu at the top right, next to <b>Current Attempt</b>, and choose <b>Duplicate Run</b>.</li>
+          <li>When it asks for a project, create a new project named <code>test</code>. Name the run <code>RNA-Seq test run</code>.</li>
+          <li>On the new run, open the <b>Settings</b> tab. Under <b>Run Environment</b>, select your own environment, the one you tested in <a href="#foundry">Foundry in five minutes</a>.</li>
+          <li>Set <b>Execution Directory</b> to your folder (see the box below) and save.</li>
+          <li>Copy the run number from the address bar, <code>https://viafoundry.umassmed.edu/runs/&lt;run ID&gt;</code>.</li>
+        </ol>
+        <p class="important"><b>Important</b> Change the <b>Execution Directory</b> before anything else. The duplicate copies the instructor&rsquo;s folder from 12301, which is closed to everyone else, so a run left there fails. Use your cluster home: <code>/home/&lt;your cluster username&gt;/bootcamp/RNA-Seq</code>, for example <code>/home/jane.doe-umw/bootcamp/RNA-Seq</code>. Your cluster username is the one in your run environment. Type the full path, not <code>~</code> or <code>$HOME</code>.</p>
       </div>
       <div class="step">
-        <h4>Get the link</h4>
-        <blockquote class="prompt">Give me a clickable link to the new run, in the form https://viafoundry.umassmed.edu/runs/&lt;run ID&gt;.</blockquote>
+        <h4>Fill it by prompt, without launching</h4>
+        <blockquote class="prompt">My new Foundry run is &lt;run ID&gt;, a duplicate of run 12301. Set it up as below, and do not launch it.
+
+1. First read the run and show me its project, name, run environment and execution folder. The project must be test, the name RNA-Seq test run, the run environment my own (not the one copied from 12301), and the execution folder /home/&lt;cluster username of my run environment&gt;/bootcamp/RNA-Seq. If any of these is wrong, stop, tell me which one, and ask me to fix it on the run's Settings tab. When I say done, read the run again. Do not go on to step 2 until all four are right.
+2. Samples: the six paired-end samples in /share/data/umw_biocore/genome_data/mousetest/mm10/gz/ (control_rep1, control_rep2, control_rep3, exper_rep1, exper_rep2, exper_rep3; files are named &lt;sample&gt;.1.gz and &lt;sample&gt;.2.gz). If the duplicate lost its sample input, reuse the dataset from run 12301.
+3. Make a metadata file with columns sample_name and group. The control_rep samples are group control; the exper_rep samples are group exper. Save a copy as metadata.tsv in this folder.
+4. Make a comparisons file with columns controls, treats, names and one row: control, exper, exper_vs_control. Save a copy as comparisons.tsv in this folder.
+5. Attach both to the new run as its groups file and comparison file, and turn on DESeq2 after RSEM.
+6. Run the preflight check and show me its result.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the agent check your project, run name, run environment and execution folder, and ask you before it wrote anything?</li><li>Which Foundry actions did the agent ask permission for?</li><li>Open <code>metadata.tsv</code> and <code>comparisons.tsv</code>. Are they what you asked for?</li></ul></div>
       </div>
       <div class="step">
         <h4>You check, you launch</h4>
-        <p>Open the link and check four things: 6 samples, groups <code>control</code> and <code>exper</code>, the comparison <code>exper_vs_control</code>, and your own run environment. Then press <b>Run</b>.</p>
+        <p>Open your run and check five things: 6 samples, groups <code>control</code> and <code>exper</code>, the comparison <code>exper_vs_control</code>, your own run environment, and your own execution folder on the Settings tab. Then press <b>Run</b>.</p>
         <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
       </div>
     </div>
@@ -225,7 +234,7 @@ codex mcp login foundry</pre>
       <div class="step">
         <h4>Check the setup against the page</h4>
         <blockquote class="prompt">Using the Playwright browser, open my new run at https://viafoundry.umassmed.edu/runs/&lt;run ID&gt;. Only read the page: do not click Run, Delete, or anything that changes the run.
-Find the samples, the groups, the comparison, the run environment and the status. Compare each with metadata.tsv and comparisons.tsv in this folder and with what you set up through Foundry Connect. Save a screenshot of the run page as run_check.png in this folder. Then show me a table with the columns: item, what I asked for, what the page shows, match.</blockquote>
+Find the samples, the groups, the comparison, the run environment, the execution folder and the status. Compare each with metadata.tsv and comparisons.tsv in this folder and with what you set up through Foundry Connect. Save a screenshot of the run page as run_check.png in this folder. Then show me a table with the columns: item, what I asked for, what the page shows, match.</blockquote>
         <div class="more"><b>What did you observe?</b><ul><li>Did the agent find everything on the page, or did it have to open other tabs?</li><li>Open <code>run_check.png</code>. Does it agree with the table?</li><li>Any row that says no match: is the page wrong, or the agent&rsquo;s first answer?</li></ul></div>
       </div>
       <div class="step">
