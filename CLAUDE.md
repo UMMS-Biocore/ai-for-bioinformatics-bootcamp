@@ -18,7 +18,13 @@ and deploy details. They exist on this machine but are **not** in git and must
 never be committed, quoted into a tracked file, or pasted into a public page.
 
 Everything under `site/`, `session*/`, and `README.md` is student-facing and
-world-readable. When moving material from `internal/` into `site/`, carry the
+world-readable.
+
+Manuel Garber's Session 4 JNK liver material is private: the homework (its
+README, starter notebook, data and explanations) and the Foundry run 11724
+analyses of the same study. Keep it out of `site/`, this repository, the
+`UMMS-Biocore/bootcamp-bulk-rnaseq` fork, and public artifacts. The published
+paper is still taught in Sessions 1.4 and 2.4. When moving material from `internal/` into `site/`, carry the
 teaching content and leave the participant data behind.
 
 ## Commands
@@ -165,7 +171,7 @@ every page still names the original author.
 | `ericmjl/next-token` | `UMMS-Biocore/next-token` |
 | `crazyhottommy/claude_code_RNAseq_workshop` | `UMMS-Biocore/claude_code_RNAseq_workshop`, published at `umms-biocore.github.io/claude_code_RNAseq_workshop/` (Pages: `main`, `/docs`) |
 | `mzyphur/responsible-ai-in-research-training` | `UMMS-Biocore/responsible-ai-in-research-training` (CC BY-NC-ND: a verbatim copy, attributed, never edited) |
-| `mgarber/bootcamp-bulk-rnaseq` | `UMMS-Biocore/bootcamp-bulk-rnaseq` (Session 4 notebooks and homework) |
+| `mgarber/bootcamp-bulk-rnaseq` | `UMMS-Biocore/bootcamp-bulk-rnaseq` (Session 4 class notebooks only) |
 | `ericmjl/ired-88-research-copilot` | `UMMS-Biocore/ired-88-research-copilot`, its marimo notebooks exported to `site/ired-88/notebooks/` and served at `/ired-88/` |
 
 A fork goes stale the moment upstream moves. Refresh one with

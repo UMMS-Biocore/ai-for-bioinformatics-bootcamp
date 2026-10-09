@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 4.2 · Run RNA-seq on Foundry with an AI agent · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 4 hands-on: drive Foundry from an AI agent in VS Code. Have it set up an RNA-seq run in the browser and launch it yourself, then compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat, and count DESeq2 genes for every pair of groups.">
+<meta name="description" content="Session 4 hands-on: drive Foundry from an AI agent in VS Code. Have it set up an RNA-seq run in the browser and launch it yourself.">
 <script src="../assets/theme.js"></script>
 <script src="../assets/copy.js" defer></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
@@ -31,13 +31,12 @@
     <a href="../session4.0/"><b>4.0</b> Get set up</a>
     <a href="../session4.1/"><b>4.1</b> Why DE uses models</a>
     <a href="../session4.2/" aria-current="page"><b>4.2</b> Foundry with an agent</a>
-    <a href="../session4.3/"><b>4.3</b> Homework</a>
   </nav>
 
   <header class="hero compact">
     <p class="eyebrow">Session 4.2 · Hands-on</p>
     <h1>The agent prepares the run. You launch it.</h1>
-    <p class="deck">You drive Foundry from an AI agent in VS Code: it sets up an RNA-seq run in the browser, and you check it and press Run yourself. Then you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it. Last, you count differentially expressed genes for all 28 pairs of groups and check your chart against ours.</p>
+    <p class="deck">You drive Foundry from an AI agent in VS Code: it sets up an RNA-seq run in the browser, and you check it and press Run yourself.</p>
     <div class="cta-row">
       <a class="btn" href="#browser-run">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
       <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
@@ -237,59 +236,9 @@ codex mcp login foundry</pre>
     </div>
   </section>
 
-  <section class="band" id="compare" aria-labelledby="compare-h">
-    <div class="band-head"><h2 id="compare-h">Real data: RSEM against Salmon</h2></div>
-    <p>Run 11724: 24 mouse liver samples, chow or high-fat diet, four genotypes, three replicates each (the <a href="../session4.3/">homework</a> study). Do replicates agree better with RSEM or with Salmon?</p>
-    <p class="say">The tables are about 16 MB, too big for the chat, so the agent works on files on disk and shows you a summary.</p>
-    <div class="steps">
-      <div class="step">
-        <h4>The analysis</h4>
-        <blockquote class="prompt">If data/rsem and data/salmon are not in this folder, download https://biocore.umassmed.edu/data/session4/session4_data.zip and unzip it here.
-Using the gene TPM tables from RSEM and Salmon (samples are &lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;), correlate each pair of replicates within each group. Sum rows by gene name, keep genes with TPM of at least 1 in some sample, use Pearson on log2(TPM+1) and Spearman on TPM. Make box plots by group with RSEM and Salmon side by side. Do not print the data files: write a Python script, run it with uv, and show me a small summary table.</blockquote>
-      </div>
-      <div class="step">
-        <h4>Check before you believe</h4>
-        <blockquote class="prompt">Redo the plots using only the genes both tools keep. Did the conclusion change, and why?</blockquote>
-        <details class="reveal"><summary><span class="lbl">READ</span> What we got</summary>
-          <div class="ans">RSEM looks better at first (median Spearman 0.961 against 0.929), but on shared genes the gap nearly disappears (0.966 against 0.961). Most of the difference was low-count genes that only Salmon keeps.</div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section class="band" id="de" aria-labelledby="de-h">
-    <div class="band-head"><h2 id="de-h">All-to-all differential expression</h2></div>
-    <p>How many genes change between each pair of the 8 groups? That is 28 pairs. Compare your result with <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">our reference chart</a>.</p>
-    <div class="steps">
-      <div class="step">
-        <h4>The analysis</h4>
-        <blockquote class="prompt">If data/rsem/genes_expression_expected_count.tsv is not in this folder, download https://biocore.umassmed.edu/data/session4/session4_counts.zip and unzip it here. It holds RSEM expected counts (columns gene, transcript, then 24 samples).
-With pydeseq2, test every pair of the 8 groups: sum rows by gene name and round, keep genes with at least 10 counts in some sample, design ~group, apeGLM shrinkage. Count genes with padj &lt; 0.05 and shrunken log2 fold change above 1 (up) or below -1 (down). Do not print the data file: write a Python script, run it with uv, and save the counts to de_counts.tsv.</blockquote>
-      </div>
-      <div class="step">
-        <h4>Draw it</h4>
-        <blockquote class="prompt">From de_counts.tsv, make one self-contained HTML page: a bar per pair centred on zero, down genes in blue to the left, up genes in red to the right, one shared scale, numbers on the bars. Open it in my browser.</blockquote>
-      </div>
-      <div class="step">
-        <h4>Check against ours</h4>
-        <p>Your counts may differ from <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">ours</a> by a few genes: software versions move genes that sit right on a cutoff. For an exact match, run <a href="all2all_de.py"><code>all2all_de.py</code></a>, the script that made our chart. In the VS Code terminal, in your <code>RNA-Seq</code> folder, download it:</p>
-        <p><b>macOS:</b></p>
-<pre class="cmd">curl -fsSL -o all2all_de.py https://biocore.umassmed.edu/session4.2/all2all_de.py</pre>
-        <p><b>Windows PowerShell:</b></p>
-<pre class="cmd">curl.exe -fsSL -o all2all_de.py https://biocore.umassmed.edu/session4.2/all2all_de.py</pre>
-        <p>Then, on either system:</p>
-<pre class="cmd">uv run all2all_de.py data/rsem/genes_expression_expected_count.tsv</pre>
-        <p>It takes a few minutes and writes <code>de_counts.tsv</code>, so rename yours first if you want to keep it.</p>
-        <details class="reveal"><summary><span class="lbl">READ</span> What we got</summary>
-          <div class="ans">Diet dominates: high-fat against chow changes about 500 to 800 genes, and over 2,000 in ALAB. Genotypes barely differ on chow. On high-fat diet, ALAB stands apart.</div>
-        </details>
-      </div>
-    </div>
-  </section>
-
   <section class="band" id="sdk" aria-labelledby="sdk-h">
     <div class="band-head"><h2 id="sdk-h">Advanced: get the files straight from Foundry</h2></div>
-    <p>Optional. The same analysis, but the agent fetches the tables from run 11724 itself with the <code>foundry</code> command from the <a href="https://github.com/UMMS-Biocore/foundry-sdk">Foundry SDK</a>, which writes straight to disk at any size. This is the route that works on your own runs after the course, when there is no hosted copy. It works the same on macOS and on Windows (PowerShell).</p>
+    <p>Optional. Once your run from <a href="#browser-run">the hands-on</a> finishes, the agent can fetch its result tables with the <code>foundry</code> command from the <a href="https://github.com/UMMS-Biocore/foundry-sdk">Foundry SDK</a>, which writes straight to disk at any size. Result tables are often too big for the Foundry connector, which drops the connection above a few MB. This is the route that works on your own runs after the course. It works the same on macOS and on Windows (PowerShell).</p>
     <div class="steps">
       <div class="step">
         <h4>Install the SDK</h4>
@@ -312,11 +261,12 @@ uv tool update-shell</pre>
       </div>
       <div class="step">
         <h4>Check it works</h4>
-<pre class="cmd">foundry reports list-processes 11724</pre>
+<pre class="cmd">foundry reports list-processes &lt;your run ID&gt;</pre>
+        <p>The run ID is the number at the end of the run&rsquo;s link, <code>viafoundry.umassmed.edu/runs/&lt;run ID&gt;</code>.</p>
       </div>
       <div class="step">
         <h4>Hand it to the agent</h4>
-        <blockquote class="prompt">Use the foundry command line tool to download rsem_summary/genes_expression_tpm.tsv and salmon_count/genes_expression_tpm.tsv from Foundry run 11724 into data/rsem and data/salmon in this folder. Do not open or print them. Then do the same analysis as before on these files.</blockquote>
+        <blockquote class="prompt">Use the foundry command line tool to list the result files of Foundry run &lt;your run ID&gt;. Download rsem_summary/genes_expression_expected_count.tsv into data/rsem in this folder. Do not open or print it. Write a Python script that reads it, run it with uv, and tell me how many genes and samples it has and the total count in each sample.</blockquote>
         <div class="more"><b>Rules</b><ul><li>Never paste a password or access token into a chat. If an agent asks for one, say no.</li><li>The SDK reads its own saved login. The agent has no reason to open <code>.viaenv</code>.</li><li>On a shared computer, delete <code>.viaenv</code> when you are done.</li></ul></div>
       </div>
     </div>
@@ -328,8 +278,6 @@ uv tool update-shell</pre>
       <a href="https://viafoundry.umassmed.edu"><span class="k">Platform</span><strong>Foundry Connect</strong><span class="d">Pipelines on the UMass HPC cluster.</span><span class="u">viafoundry.umassmed.edu</span></a>
       <a href="https://github.com/microsoft/playwright-mcp"><span class="k">Tool</span><strong>Playwright MCP</strong><span class="d">Lets the agent open, read and screenshot web pages.</span><span class="u">github.com</span></a>
       <a href="https://github.com/UMMS-Biocore/foundry-sdk"><span class="k">Advanced</span><strong>Foundry SDK</strong><span class="d">The foundry command used in the advanced part.</span><span class="u">github.com</span></a>
-      <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw"><span class="k">Reference</span><strong>All-to-all DE chart</strong><span class="d">Up and down genes for all 28 pairs, to check yours against.</span><span class="u">claude.ai</span></a>
-      <a href="../session4.3/"><span class="k">Homework</span><strong>4.3 JNK-deficient liver</strong><span class="d">The same study, analysed with DESeq2.</span><span class="u">session4.3</span></a>
     </div>
   </section>
 
@@ -341,7 +289,7 @@ uv tool update-shell</pre>
 
   <nav class="pager" aria-label="Previous and next part">
     <a class="prev" href="../session4.1/"><span class="k">&larr; Previous</span><strong>4.1 Why DE uses models</strong></a>
-    <a class="next" href="../session4.3/"><span class="k">Next &rarr;</span><strong>4.3 Homework</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
   </nav>
 
   <footer class="foot">
