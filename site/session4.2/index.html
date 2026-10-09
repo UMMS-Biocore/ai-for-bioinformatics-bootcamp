@@ -162,6 +162,21 @@ codex mcp login foundry</pre>
         <p>In the Claude panel, type <code>/mcp</code>. In Codex, open its MCP server list.</p>
         <p class="check"><b>Checkpoint</b> Foundry Connect shows as connected. This is where the next section runs, so check it here, not only in claude.ai.</p>
       </div>
+      <div class="step" id="playwright-install">
+        <h4>Optional: add Playwright, to follow the demo</h4>
+        <p><a href="https://github.com/microsoft/playwright-mcp">Playwright</a> lets the agent open web pages in a browser window you can watch, read them, and take screenshots. It is used in <a href="#check">the demo after the hands-on</a>. You can watch it on the projector instead; skip this step if an install gets stuck.</p>
+        <p>Playwright needs <b>Node.js</b>. Check whether you have it, in the VS Code terminal:</p>
+<pre class="cmd">node --version</pre>
+        <p>No version number? Download the <b>LTS</b> installer from <a href="https://nodejs.org/en/download">nodejs.org</a> and run it, then quit VS Code completely and open it again. The installer may ask for your computer&rsquo;s password; if you do not have admin rights, watch the demo instead.</p>
+        <p>Then add Playwright to your agent. <b>Claude Code on macOS:</b></p>
+<pre class="cmd">claude mcp add playwright -- npx @playwright/mcp@latest</pre>
+        <p><b>Claude Code on Windows PowerShell:</b></p>
+<pre class="cmd">claude mcp add playwright -- cmd /c npx @playwright/mcp@latest</pre>
+        <p><b>Codex, on either system:</b></p>
+<pre class="cmd">codex mcp add playwright -- npx @playwright/mcp@latest</pre>
+        <p>Close and reopen the agent panel, then check its server list as in the step above.</p>
+        <p class="check"><b>Checkpoint</b> <b>playwright</b> shows as connected next to Foundry Connect. It opens Google Chrome; if you have no Chrome, ask the agent to install the browser Playwright needs.</p>
+      </div>
     </div>
   </section>
 
@@ -196,6 +211,31 @@ codex mcp login foundry</pre>
         <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
       </div>
     </div>
+  </section>
+
+  <section class="band" id="check" aria-labelledby="check-h">
+    <div class="band-head"><h2 id="check-h">Demo: the agent checks its own work</h2></div>
+    <p>The agent told you the run is set up. Do not take its word for it: make it open the run in a browser, read what Foundry actually shows, and bring back a screenshot. The instructor runs this on the projector. If you added <a href="#playwright-install">Playwright</a>, follow along on your own run.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>Open Foundry, then log in yourself</h4>
+        <blockquote class="prompt">Using the Playwright browser, open https://viafoundry.umassmed.edu and stop there. I will log in myself.</blockquote>
+        <p>A browser window opens. Sign in to Foundry in that window, by hand. The agent never types your password, and if it asks for one, say no.</p>
+      </div>
+      <div class="step">
+        <h4>Check the setup against the page</h4>
+        <blockquote class="prompt">Using the Playwright browser, open my new run at https://viafoundry.umassmed.edu/runs/&lt;run ID&gt;. Only read the page: do not click Run, Delete, or anything that changes the run.
+Find the samples, the groups, the comparison, the run environment and the status. Compare each with metadata.tsv and comparisons.tsv in this folder and with what you set up through Foundry Connect. Save a screenshot of the run page as run_check.png in this folder. Then show me a table with the columns: item, what I asked for, what the page shows, match.</blockquote>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the agent find everything on the page, or did it have to open other tabs?</li><li>Open <code>run_check.png</code>. Does it agree with the table?</li><li>Any row that says no match: is the page wrong, or the agent&rsquo;s first answer?</li></ul></div>
+      </div>
+      <div class="step">
+        <h4>Watch it finish</h4>
+        <p>Once you have pressed <b>Run</b> yourself:</p>
+        <blockquote class="prompt">Reload the run page every minute until the status is completed or failed, for at most 20 minutes. Then save a screenshot as run_done.png. If it completed, open the run's report tab and save a screenshot of the first report as run_report.png. Finally, ask Foundry Connect for the status of the same run and tell me whether it agrees with the page.</blockquote>
+        <p class="check"><b>The rule</b> An agent&rsquo;s report is a claim. A screenshot of the real page is evidence. Ask for the evidence.</p>
+      </div>
+    </div>
+    <div class="more"><b>Rules for a browser agent</b><ul><li>You log in. The agent reads.</li><li>Say in the prompt which buttons it must not press. The browser is signed in as you, so a click there is your click.</li><li>On a shared computer, log out of Foundry in the Playwright window when you are done.</li></ul></div>
   </section>
 
   <section class="band" id="compare" aria-labelledby="compare-h">
@@ -280,6 +320,7 @@ uv tool update-shell</pre>
     <div class="band-head"><h2 id="links-h">Links</h2></div>
     <div class="links">
       <a href="https://viafoundry.umassmed.edu"><span class="k">Platform</span><strong>Foundry Connect</strong><span class="d">Pipelines on the UMass HPC cluster.</span><span class="u">viafoundry.umassmed.edu</span></a>
+      <a href="https://github.com/microsoft/playwright-mcp"><span class="k">Demo</span><strong>Playwright MCP</strong><span class="d">Lets the agent open, read and screenshot web pages.</span><span class="u">github.com</span></a>
       <a href="https://github.com/UMMS-Biocore/foundry-sdk"><span class="k">Advanced</span><strong>Foundry SDK</strong><span class="d">The foundry command used in the advanced part.</span><span class="u">github.com</span></a>
       <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw"><span class="k">Reference</span><strong>All-to-all DE chart</strong><span class="d">Up and down genes for all 28 pairs, to check yours against.</span><span class="u">claude.ai</span></a>
       <a href="../session4.3/"><span class="k">Homework</span><strong>4.3 JNK-deficient liver</strong><span class="d">The same study, analysed with DESeq2.</span><span class="u">session4.3</span></a>
