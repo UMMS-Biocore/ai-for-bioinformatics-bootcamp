@@ -273,7 +273,14 @@ With pydeseq2, test every pair of the 8 groups: sum rows by gene name and round,
       </div>
       <div class="step">
         <h4>Check against ours</h4>
-        <p>Your counts may differ from <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">ours</a> by a few genes: software versions move genes that sit right on a cutoff. For an exact match, run <a href="all2all_de.py"><code>all2all_de.py</code></a>, the script that made our chart: <code>uv run all2all_de.py data/rsem/genes_expression_expected_count.tsv</code>.</p>
+        <p>Your counts may differ from <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw">ours</a> by a few genes: software versions move genes that sit right on a cutoff. For an exact match, run <a href="all2all_de.py"><code>all2all_de.py</code></a>, the script that made our chart. In the VS Code terminal, in your <code>RNA-Seq</code> folder, download it:</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">curl -fsSL -o all2all_de.py https://biocore.umassmed.edu/session4.2/all2all_de.py</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">curl.exe -fsSL -o all2all_de.py https://biocore.umassmed.edu/session4.2/all2all_de.py</pre>
+        <p>Then, on either system:</p>
+<pre class="cmd">uv run all2all_de.py data/rsem/genes_expression_expected_count.tsv</pre>
+        <p>It takes a few minutes and writes <code>de_counts.tsv</code>, so rename yours first if you want to keep it.</p>
         <details class="reveal"><summary><span class="lbl">READ</span> What we got</summary>
           <div class="ans">Diet dominates: high-fat against chow changes about 500 to 800 genes, and over 2,000 in ALAB. Genotypes barely differ on chow. On high-fat diet, ALAB stands apart.</div>
         </details>
