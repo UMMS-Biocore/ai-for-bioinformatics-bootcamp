@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 4.2 · Run RNA-seq on Foundry with an AI agent · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 4 hands-on: drive Foundry Connect from an AI agent in VS Code. Prepare an RNA-seq run by prompt and launch it yourself, then compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat, and count DESeq2 genes for every pair of groups.">
+<meta name="description" content="Session 4 hands-on: drive Foundry Connect from an AI agent in VS Code. Compare RSEM and Salmon replicate correlations on a real run without the data passing through the chat, and count DESeq2 genes for every pair of groups.">
 <script src="../assets/theme.js"></script>
 <script src="../assets/copy.js" defer></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
@@ -36,10 +36,10 @@
 
   <header class="hero compact">
     <p class="eyebrow">Session 4.2 · Hands-on</p>
-    <h1>The agent prepares the run. You launch it.</h1>
-    <p class="deck">You drive Foundry Connect from an AI agent in VS Code: set up an RNA-seq run by prompt, check it, and press Run yourself. Then you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it. Last, you count differentially expressed genes for all 28 pairs of groups and check your chart against ours.</p>
+    <h1>The agent reads the results. You check them.</h1>
+    <p class="deck">You drive Foundry Connect from an AI agent in VS Code: you compare RSEM and Salmon on a real 24-sample run, with the data going straight to disk instead of through the chat, and you check the first plot before you believe it. Last, you count differentially expressed genes for all 28 pairs of groups and check your chart against ours.</p>
     <div class="cta-row">
-      <a class="btn" href="#launch">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="btn" href="#compare">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
       <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
     </div>
   </header>
@@ -63,7 +63,7 @@
       <div class="step">
         <h4>Set your run environment</h4>
         <p>Open the <b>Run Environments</b> tab, select that SSH key, press <b>Test Connection</b>, then <b>Save Changes</b>.</p>
-        <p class="check"><b>Checkpoint</b> Test Connection is green. Without it, you have no run environment to select when you duplicate the template below.</p>
+        <p class="check"><b>Checkpoint</b> Test Connection is green. Without it, Foundry cannot run jobs on the cluster for you.</p>
       </div>
     </div>
   </section>
@@ -76,7 +76,6 @@
       <li><b>Claude Code:</b> keep the default mode, <b>Ask before edits</b>. Do not switch to <b>Edit automatically</b> or any bypass mode today. Each file edit shows as a change to accept or reject, and each command and each Foundry action asks you to allow it or deny it.</li>
       <li><b>Codex:</b> use <b>Agent</b> mode, not <b>Agent (full access)</b>.</li>
     </ul>
-    <p>The prompts below also say &ldquo;do not launch it&rdquo; in words, so even a wrong mode does not start a job on the cluster.</p>
   </section>
 
   <section class="band" id="connector" aria-labelledby="connector-h">
@@ -164,7 +163,7 @@ codex mcp login foundry</pre>
       </div>
       <div class="step" id="playwright-install">
         <h4>Optional: add Playwright, to follow the demo</h4>
-        <p><a href="https://github.com/microsoft/playwright-mcp">Playwright</a> lets the agent open web pages in a browser window you can watch, read them, and take screenshots. It is used in <a href="#check">the demo after the hands-on</a>. You can watch it on the projector instead; skip this step if an install gets stuck.</p>
+        <p><a href="https://github.com/microsoft/playwright-mcp">Playwright</a> lets the agent open web pages in a browser window you can watch, read them, and take screenshots. It is used in <a href="#check">the demo below</a>. You can watch it on the projector instead; skip this step if an install gets stuck.</p>
         <p>Playwright needs <b>Node.js</b>. Check whether you have it, in the VS Code terminal:</p>
 <pre class="cmd">node --version</pre>
         <p>No version number? Download the <b>LTS</b> installer from <a href="https://nodejs.org/en/download">nodejs.org</a> and run it, then quit VS Code completely and open it again. The installer may ask for your computer&rsquo;s password; if you do not have admin rights, watch the demo instead.</p>
@@ -180,51 +179,9 @@ codex mcp login foundry</pre>
     </div>
   </section>
 
-  <section class="band" id="launch" aria-labelledby="launch-h">
-    <div class="band-head"><h2 id="launch-h">Hands-on: launch a run by prompt</h2></div>
-    <p>The template is run <a href="https://viafoundry.umassmed.edu/runs/12301">12301</a>: the RNA-seq pipeline on six small paired-end mouse samples, three control and three experimental. It finishes in minutes. Type each prompt in the agent panel in your <code>RNA-Seq</code> folder.</p>
-    <div class="steps">
-      <div class="step">
-        <h4>List your runs</h4>
-        <blockquote class="prompt">Using Foundry Connect, list my 5 most recent runs with their ID, name, pipeline, status and date.</blockquote>
-        <p>A brand new account may have none. That is expected.</p>
-      </div>
-      <div class="step">
-        <h4>Duplicate the template in Foundry, by hand</h4>
-        <p>The agent cannot create a project, name a run, or pick your run environment, so this part is yours. In Foundry:</p>
-        <ol>
-          <li>Open run <a href="https://viafoundry.umassmed.edu/runs/12301">12301</a>. If the page shows an error, reload it once.</li>
-          <li>Open the <b>&#8942;</b> menu at the top right, next to <b>Current Attempt</b>, and choose <b>Duplicate Run</b>.</li>
-          <li>When it asks for a project, create a new project named <code>test</code>. Name the run <code>RNA-Seq test run</code>.</li>
-          <li>On the new run, open the <b>Settings</b> tab. Under <b>Run Environment</b>, select your own environment, the one you tested in <a href="#foundry">Foundry in five minutes</a>.</li>
-          <li>Set <b>Execution Directory</b> to your folder (see the box below) and save.</li>
-          <li>Copy the run number from the address bar, <code>https://viafoundry.umassmed.edu/runs/&lt;run ID&gt;</code>.</li>
-        </ol>
-        <p class="important"><b>Important</b> Change the <b>Execution Directory</b> before anything else. The duplicate copies the instructor&rsquo;s folder from 12301, which is closed to everyone else, so a run left there fails. Use your cluster home: <code>/home/&lt;your cluster username&gt;/bootcamp/RNA-Seq</code>, for example <code>/home/jane.doe-umw/bootcamp/RNA-Seq</code>. Your cluster username is the one in your run environment. Type the full path, not <code>~</code> or <code>$HOME</code>.</p>
-      </div>
-      <div class="step">
-        <h4>Fill it by prompt, without launching</h4>
-        <blockquote class="prompt">My new Foundry run is &lt;run ID&gt;, a duplicate of run 12301. Set it up as below, and do not launch it.
-
-1. First read the run and show me its project, name, run environment and execution folder. The project must be test, the name RNA-Seq test run, the run environment my own (not the one copied from 12301), and the execution folder /home/&lt;cluster username of my run environment&gt;/bootcamp/RNA-Seq. If any of these is wrong, stop, tell me which one, and ask me to fix it on the run's Settings tab. When I say done, read the run again. Do not go on to step 2 until all four are right.
-2. Samples: the six paired-end samples in /share/data/umw_biocore/genome_data/mousetest/mm10/gz/ (control_rep1, control_rep2, control_rep3, exper_rep1, exper_rep2, exper_rep3; files are named &lt;sample&gt;.1.gz and &lt;sample&gt;.2.gz). If the duplicate lost its sample input, reuse the dataset from run 12301.
-3. Make a metadata file with columns sample_name and group. The control_rep samples are group control; the exper_rep samples are group exper. Save a copy as metadata.tsv in this folder.
-4. Make a comparisons file with columns controls, treats, names and one row: control, exper, exper_vs_control. Save a copy as comparisons.tsv in this folder.
-5. Attach both to the new run as its groups file and comparison file, and turn on DESeq2 after RSEM.
-6. Run the preflight check and show me its result.</blockquote>
-        <div class="more"><b>What did you observe?</b><ul><li>Did the agent check your project, run name, run environment and execution folder, and ask you before it wrote anything?</li><li>Which Foundry actions did the agent ask permission for?</li><li>Open <code>metadata.tsv</code> and <code>comparisons.tsv</code>. Are they what you asked for?</li></ul></div>
-      </div>
-      <div class="step">
-        <h4>You check, you launch</h4>
-        <p>Open your run and check five things: 6 samples, groups <code>control</code> and <code>exper</code>, the comparison <code>exper_vs_control</code>, your own run environment, and your own execution folder on the Settings tab. Then press <b>Run</b>.</p>
-        <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
-      </div>
-    </div>
-  </section>
-
   <section class="band" id="check" aria-labelledby="check-h">
     <div class="band-head"><h2 id="check-h">Demo: the agent checks its own work</h2></div>
-    <p>The agent told you the run is set up. Do not take its word for it: make it open the run in a browser, read what Foundry actually shows, and bring back a screenshot. The instructor runs this on the projector. If you added <a href="#playwright-install">Playwright</a>, follow along on your own run.</p>
+    <p>When an agent says a run is set up, do not take its word for it: make it open the run in a browser, read what Foundry actually shows, and bring back a screenshot. The instructor runs this on the projector, on a run prepared before class. Watch; you do not need a run of your own.</p>
     <div class="steps">
       <div class="step">
         <h4>Open Foundry, then log in yourself</h4>
@@ -239,7 +196,7 @@ Find the samples, the groups, the comparison, the run environment, the execution
       </div>
       <div class="step">
         <h4>Watch it finish</h4>
-        <p>Once you have pressed <b>Run</b> yourself:</p>
+        <p>Once the run is launched:</p>
         <blockquote class="prompt">Reload the run page every minute until the status is completed or failed, for at most 20 minutes. Then save a screenshot as run_done.png. If it completed, open the run's report tab and save a screenshot of the first report as run_report.png. Finally, ask Foundry Connect for the status of the same run and tell me whether it agrees with the page.</blockquote>
         <p class="check"><b>The rule</b> An agent&rsquo;s report is a claim. A screenshot of the real page is evidence. Ask for the evidence.</p>
       </div>
