@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 4.3 · Homework: JNK-deficient liver · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 4 homework: differential expression with DESeq2 on the public liver RNA-seq counts from Vernia et al. 2014, done with an AI agent.">
+<script src="../assets/theme.js"></script>
+<script src="../assets/copy.js" defer></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 4 / 4.3</p>
+  <nav class="parts" aria-label="Session 4 parts">
+    <a href="../session4.0/"><b>4.0</b> Get set up</a>
+    <a href="../session4.1/"><b>4.1</b> Why DE uses models</a>
+    <a href="../session4.2/"><b>4.2</b> Foundry with an agent</a>
+    <a href="../session4.3/" aria-current="page"><b>4.3</b> Homework</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 4.3 · Homework</p>
+    <h1>Does losing liver JNK switch on PPAR&alpha; targets?</h1>
+    <p class="deck">Back to the liver count table from <a href="../session2.4/">Session 2.4</a>, now with DESeq2. You and an AI agent test which genes change with diet and with each JNK knockout, and check the paper&rsquo;s main claim yourself.</p>
+    <div class="cta-row">
+      <a class="btn" href="#setup">Start the homework <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Python with uv</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="data-h">
+    <div class="band-head"><h2 id="data-h">The data</h2></div>
+    <p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/">Vernia et al., 2014, <i>Cell Metabolism</i></a> (open access) report that liver JNK holds back PPAR&alpha;, so livers without JNK switch on PPAR&alpha; target genes such as <i>Fgf21</i>, especially on a high-fat diet. The table is the one from 2.4: RNA-seq expected counts for 24 mouse livers, four genotypes (<code>wt</code>, <code>ALAB</code>, <code>J1c</code>, <code>J2c</code>) on chow or high-fat diet (<code>hfd</code>), three mice each. Sample names are <code>&lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;</code>.</p>
+  </section>
+
+  <section class="band" id="setup" aria-labelledby="setup-h">
+    <div class="band-head"><h2 id="setup-h">Set up</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Make the homework folder and download the table</h4>
+        <p><b>macOS:</b></p>
+<pre class="cmd">mkdir -p ~/Documents/bootcamp/session4/homework
+cd ~/Documents/bootcamp/session4/homework
+curl -fsSL -o genes_expression_expected_count.tsv https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">$hw = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session4\homework'
+New-Item -ItemType Directory -Force $hw | Out-Null
+cd $hw
+curl.exe -fsSL -o genes_expression_expected_count.tsv https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv</pre>
+        <p>Then in VS Code choose <b>File</b>, <b>Open Folder</b>, and open <b>homework</b>, as you did for <code>RNA-Seq</code> in <a href="../session4.2/#vscode">4.2</a>. Keep the agent in the same ask-first mode.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="hw-h">
+    <div class="band-head"><h2 id="hw-h">The homework</h2></div>
+    <p>Give the agent one prompt at a time. Read each answer before the next.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>1. What does the diet do?</h4>
+        <blockquote class="prompt">genes_expression_expected_count.tsv in this folder has RNA-seq expected counts: columns gene, transcript, then 24 samples named &lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;. Do not open or print it. Write a Python script that uses pydeseq2, run it with uv, and save results as files here. Sum rows by gene name and round, keep genes with at least 10 counts in some sample. Using only the 6 wt samples, test hfd against chow. Tell me how many genes go up and down at padj &lt; 0.05 and |log2 fold change| &gt; 1, and make a volcano plot.</blockquote>
+      </div>
+      <div class="step">
+        <h4>2. What does each knockout do?</h4>
+        <blockquote class="prompt">Now fit one DESeq2 model on all 24 samples with one group per diet and genotype. Test ALAB, J1c and J2c against wt, on chow and on hfd separately. Give me a table of up and down genes for these 6 tests, with the same cutoffs.</blockquote>
+      </div>
+      <div class="step">
+        <h4>3. Test the paper&rsquo;s claim</h4>
+        <blockquote class="prompt">Plot normalized counts for Fgf21, Cyp4a14, Cyp4a10, Hmgcs2 and Acot1, all 8 groups side by side, with each mouse as a point. For each gene, tell me in which genotypes and on which diet it is higher than in wt, using the tests from step 2.</blockquote>
+      </div>
+      <div class="step">
+        <h4>4. Stretch: does JNK change the diet response?</h4>
+        <blockquote class="prompt">Fit ~ genotype + diet + genotype:diet with wt and chow as references. How many genes have a significant ALAB:hfd interaction? Plot two of them and explain in plain words what the interaction means for each.</blockquote>
+      </div>
+    </div>
+    <div class="more"><b>Write a few sentences on each</b><ul><li>Which changes more genes in this experiment, diet or genotype?</li><li>Which knockout has the largest effect, and does that fit the gene checks from <a href="../session2.4/">2.4</a> (Mapk8 for JNK1, Mapk9 for JNK2)?</li><li>Do the PPAR&alpha; targets support the paper&rsquo;s claim? On chow, on high-fat diet, or both?</li><li>Each group has 3 mice. Which of your conclusions would you trust least?</li></ul></div>
+  </section>
+
+  <section class="band" aria-labelledby="links-h">
+    <div class="band-head"><h2 id="links-h">Links</h2></div>
+    <div class="links">
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/"><span class="k">Paper</span><strong>Vernia et al., 2014</strong><span class="d">The PPAR&alpha;-FGF21 hormone axis and hepatic JNK signaling. Open access.</span><span class="u">pmc.ncbi.nlm.nih.gov</span></a>
+      <a href="../session2.4/"><span class="k">Earlier</span><strong>2.4 The same table</strong><span class="d">First look at these counts, before any model.</span><span class="u">session2.4</span></a>
+      <a href="../session4.1/"><span class="k">Class</span><strong>4.1 Why DE uses models</strong><span class="d">Why DESeq2 fits a model instead of a t-test.</span><span class="u">session4.1</span></a>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="fb-h">
+    <div class="band-head"><h2 id="fb-h">After the session</h2></div>
+    <p class="lede">Two minutes of feedback, so the next session is pitched better. It also records your attendance, so fill it in whether you were in the room, on Zoom, or catching up on the recording.</p>
+    <p><a class="btn" href="../feedback/?session=4">Session 4 feedback <span class="arw" aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session4.2/"><span class="k">&larr; Previous</span><strong>4.2 Foundry with an agent</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

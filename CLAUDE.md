@@ -18,14 +18,15 @@ and deploy details. They exist on this machine but are **not** in git and must
 never be committed, quoted into a tracked file, or pasted into a public page.
 
 Everything under `site/`, `session*/`, and `README.md` is student-facing and
-world-readable.
+world-readable. When moving material from `internal/` into `site/`, carry the
+teaching content and leave the participant data behind.
 
 Manuel Garber's Session 4 JNK liver material is private: the homework (its
 README, starter notebook, data and explanations) and the Foundry run 11724
 analyses of the same study. Keep it out of `site/`, this repository, the
 `UMMS-Biocore/bootcamp-bulk-rnaseq` fork, and public artifacts. The published
-paper is still taught in Sessions 1.4 and 2.4. When moving material from `internal/` into `site/`, carry the
-teaching content and leave the participant data behind.
+paper is still taught in Sessions 1.4 and 2.4, and the 4.3 homework is our
+own, built on the public 2.4 count table and the paper.
 
 ## Commands
 
