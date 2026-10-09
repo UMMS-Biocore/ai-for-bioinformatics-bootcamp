@@ -89,7 +89,7 @@
       <div class="step">
         <h4>Check it in a chat</h4>
         <blockquote class="prompt">List my 5 most recent Foundry runs.</blockquote>
-        <p>Claude Code signed in with the same claude.ai account sees this connector too, so you do not add it again there.</p>
+        <p>Claude Code signed in with the same claude.ai account usually sees this connector too. If it does not, <a href="#claude-mcp">add Foundry to Claude Code from the terminal</a>.</p>
       </div>
     </div>
   </section>
@@ -142,6 +142,18 @@ Tell me which operating system and terminal you think I am using, explain in pla
           <li>Read the fix before you allow it. If it needs admin rights (<code>sudo</code> on macOS, <b>Run as administrator</b> on Windows), stop and ask an instructor.</li>
           <li>Still stuck after two tries? Raise your hand. Then try the next step: most of today still works while one install is broken.</li>
         </ul>
+      </div>
+      <div class="step" id="claude-mcp">
+        <h4>Claude Code only: add Foundry if it is missing</h4>
+        <p>Claude Code signed in with your claude.ai account usually sees Foundry already. In the Claude panel, type <code>/mcp</code>. If Foundry is not in the list, or it is not connected, add it from the terminal.</p>
+        <p>This needs the <code>claude</code> command. If you set it up in <a href="../session3.0/">3.0</a>, skip ahead. Otherwise install it first:</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">curl -fsSL https://claude.ai/install.sh | bash</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">irm https://claude.ai/install.ps1 | iex</pre>
+        <p>Then, in a new VS Code terminal, on either system:</p>
+<pre class="cmd">claude mcp add --transport http --scope user foundry https://viafoundry.umassmed.edu/mcp</pre>
+        <p><code>--scope user</code> makes Foundry available in every folder, not only this one. Now sign in: in the Claude panel, type <code>/mcp</code>, choose <b>foundry</b>, then <b>Authenticate</b>, and sign in to Foundry in the browser window that opens. Not in the list yet? Start a new conversation in the Claude panel, or reload VS Code, and type <code>/mcp</code> again.</p>
       </div>
       <div class="step">
         <h4>Codex only: add Foundry to Codex</h4>
