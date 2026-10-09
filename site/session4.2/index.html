@@ -225,31 +225,6 @@ codex mcp login foundry</pre>
     </div>
   </section>
 
-  <section class="band" id="check" aria-labelledby="check-h">
-    <div class="band-head"><h2 id="check-h">Demo: the agent checks its own work</h2></div>
-    <p>When an agent says a run is set up, do not take its word for it: make it open the run in a browser, read what Foundry actually shows, and bring back a screenshot. The instructor runs this on the projector, on a run prepared before class. Watch; you do not need a run of your own.</p>
-    <div class="steps">
-      <div class="step">
-        <h4>Open Foundry, then log in yourself</h4>
-        <blockquote class="prompt">Using the Playwright browser, open https://viafoundry.umassmed.edu and stop there. I will log in myself.</blockquote>
-        <p>A browser window opens. Sign in to Foundry in that window, by hand. The agent never types your password, and if it asks for one, say no.</p>
-      </div>
-      <div class="step">
-        <h4>Check the setup against the page</h4>
-        <blockquote class="prompt">Using the Playwright browser, open my new run at https://viafoundry.umassmed.edu/runs/&lt;run ID&gt;. Only read the page: do not click Run, Delete, or anything that changes the run.
-Find the samples, the groups, the comparison, the run environment, the execution folder and the status. Compare each with metadata.tsv and comparisons.tsv in this folder and with what you asked for in the hands-on. Save a screenshot of the run page as run_check.png in this folder. Then show me a table with the columns: item, what I asked for, what the page shows, match.</blockquote>
-        <div class="more"><b>What did you observe?</b><ul><li>Did the agent find everything on the page, or did it have to open other tabs?</li><li>Open <code>run_check.png</code>. Does it agree with the table?</li><li>Any row that says no match: is the page wrong, or the agent&rsquo;s first answer?</li></ul></div>
-      </div>
-      <div class="step">
-        <h4>Watch it finish</h4>
-        <p>Once the run is launched:</p>
-        <blockquote class="prompt">Reload the run page every minute until the status is completed or failed, for at most 20 minutes. Then save a screenshot as run_done.png. If it completed, open the run's report tab and save a screenshot of the first report as run_report.png. Finally, ask Foundry Connect for the status of the same run and tell me whether it agrees with the page.</blockquote>
-        <p class="check"><b>The rule</b> An agent&rsquo;s report is a claim. A screenshot of the real page is evidence. Ask for the evidence.</p>
-      </div>
-    </div>
-    <div class="more"><b>Rules for a browser agent</b><ul><li>You log in. The agent reads.</li><li>Say in the prompt which buttons it must not press. The browser is signed in as you, so a click there is your click.</li><li>On a shared computer, log out of Foundry in the Playwright window when you are done.</li></ul></div>
-  </section>
-
   <section class="band" id="compare" aria-labelledby="compare-h">
     <div class="band-head"><h2 id="compare-h">Real data: RSEM against Salmon</h2></div>
     <p>Run 11724: 24 mouse liver samples, chow or high-fat diet, four genotypes, three replicates each (the <a href="../session4.3/">homework</a> study). Do replicates agree better with RSEM or with Salmon?</p>
@@ -339,7 +314,7 @@ uv tool update-shell</pre>
     <div class="band-head"><h2 id="links-h">Links</h2></div>
     <div class="links">
       <a href="https://viafoundry.umassmed.edu"><span class="k">Platform</span><strong>Foundry Connect</strong><span class="d">Pipelines on the UMass HPC cluster.</span><span class="u">viafoundry.umassmed.edu</span></a>
-      <a href="https://github.com/microsoft/playwright-mcp"><span class="k">Demo</span><strong>Playwright MCP</strong><span class="d">Lets the agent open, read and screenshot web pages.</span><span class="u">github.com</span></a>
+      <a href="https://github.com/microsoft/playwright-mcp"><span class="k">Tool</span><strong>Playwright MCP</strong><span class="d">Lets the agent open, read and screenshot web pages.</span><span class="u">github.com</span></a>
       <a href="https://github.com/UMMS-Biocore/foundry-sdk"><span class="k">Advanced</span><strong>Foundry SDK</strong><span class="d">The foundry command used in the advanced part.</span><span class="u">github.com</span></a>
       <a href="https://claude.ai/artifact/2JnGnyKfV2dsTeXN5yx8Uw"><span class="k">Reference</span><strong>All-to-all DE chart</strong><span class="d">Up and down genes for all 28 pairs, to check yours against.</span><span class="u">claude.ai</span></a>
       <a href="../session4.3/"><span class="k">Homework</span><strong>4.3 JNK-deficient liver</strong><span class="d">The same study, analysed with DESeq2.</span><span class="u">session4.3</span></a>
