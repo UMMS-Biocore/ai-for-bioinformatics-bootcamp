@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Assisted Bioinformatics 101 · UMass Chan Bioinformatics Core</title>
-<meta name="description" content="A 90 minute practical talk and workshop: AI-assisted bioinformatics that is responsible, reproducible, and practical, from asking a chatbot a question to an agent that writes a rerunnable analysis.">
+<meta name="description" content="A practical talk and workshop: AI-assisted bioinformatics that is responsible, reproducible, and practical, from asking a chatbot a question to an agent that writes a rerunnable analysis.">
 <script src="../assets/theme.js"></script>
 <script src="../assets/copy.js" defer></script>
 <script src="deck.js" defer></script>
@@ -31,7 +31,7 @@
   <p class="crumbs"><a href="../">Bioinformatics Core</a> / Workshops / AI 101</p>
 
   <header class="hero compact">
-    <p class="eyebrow">Workshop &middot; 90 minutes &middot; talk and live demos</p>
+    <p class="eyebrow">Workshop &middot; talk and live demos</p>
     <h1>AI-Assisted Bioinformatics: Responsible, Reproducible, and Practical</h1>
     <p class="deck">A 101 workshop that climbs one ladder: from asking a chatbot a question, to letting it run code on real RNA-seq counts, to an agent on your own computer that leaves behind an analysis anyone can rerun. At every rung, the same question: how would you know if the answer were wrong?</p>
     <div class="meta-row">
@@ -48,16 +48,16 @@
   </header>
 
   <section class="band" aria-labelledby="plan-h">
-    <div class="band-head"><h2 id="plan-h">The 90 minutes</h2></div>
+    <div class="band-head"><h2 id="plan-h">The plan</h2></div>
     <div class="acts">
       <div class="act"><span class="when">0:00 &middot; 5 min</span><strong>Opening</strong><p>The one question, and the ladder we climb.</p><a href="#s2">Slides</a></div>
       <div class="act"><span class="when">0:05 &middot; 10 min</span><strong>How it works</strong><p>Next-token prediction, and why fluent is not the same as true.</p><a href="#s4">Slides</a></div>
-      <div class="act"><span class="when">0:15 &middot; 10 min</span><strong>Rung 1: Ask</strong><p>Chat as a tutor. Explain a command, find the flag that does not exist.</p><a href="#s7">Slides</a></div>
-      <div class="act"><span class="when">0:25 &middot; 16 min</span><strong>Rung 2: Compute</strong><p>Chat that runs code on a real count table. Look first, then check biology you already know.</p><a href="#s10">Slides</a></div>
-      <div class="act"><span class="when">0:41 &middot; 17 min</span><strong>Rung 3: Build</strong><p>An agent on your computer. A plan, a script, a rerun from scratch, a second review.</p><a href="#s15">Slides</a></div>
-      <div class="act"><span class="when">0:58 &middot; 14 min</span><strong>Rung 4: Connect</strong><p>Foundry through a connector: your runs, and the same liver data with its full history. A hook keeps it safe.</p><a href="#s21">Slides</a></div>
-      <div class="act"><span class="when">1:12 &middot; 10 min</span><strong>Responsible use</strong><p>What data can go where, who is the author, and how to disclose. Spot the leak.</p><a href="#s26">Slides</a></div>
-      <div class="act is-break"><span class="when">1:22 &middot; 8 min</span><strong>Take-home and Q&amp;A</strong><p>Eight habits on one card.</p><a href="#s30">Slides</a></div>
+      <div class="act"><span class="when">0:15 &middot; 6 min</span><strong>Rung 1: Ask</strong><p>Chat as a tutor. Explain a command, find the flag that does not exist.</p><a href="#s7">Slides</a></div>
+      <div class="act"><span class="when">0:21 &middot; 17 min</span><strong>Rung 2: Compute</strong><p>Chat that runs code on a real count table. Look first, then check biology you already know.</p><a href="#s10">Slides</a></div>
+      <div class="act"><span class="when">0:38 &middot; 20 min</span><strong>Rung 3: Build</strong><p>An agent on your computer. A plan, a script, a rerun from scratch, a second review.</p><a href="#s15">Slides</a></div>
+      <div class="act"><span class="when">0:58 &middot; 14 min</span><strong>Rung 4: Connect</strong><p>Foundry through a connector: your runs, and the same liver data with its full history. A hook keeps it safe.</p><a href="#s22">Slides</a></div>
+      <div class="act"><span class="when">1:12 &middot; 10 min</span><strong>Responsible use</strong><p>What data can go where, who is the author, and how to disclose. Spot the leak.</p><a href="#s27">Slides</a></div>
+      <div class="act is-break"><span class="when">1:22 &middot; 8 min</span><strong>Take-home and Q&amp;A</strong><p>Eight habits on one card.</p><a href="#s31">Slides</a></div>
     </div>
   </section>
 
@@ -80,7 +80,7 @@
     <section class="slide title-slide" data-part="Opening" data-min="1">
       <p class="eyebrow">UMass Chan Bioinformatics Core &middot; AI 101</p>
       <h1>AI-Assisted Bioinformatics: Responsible, Reproducible, and Practical</h1>
-      <p class="deck-line">Alper Kucukural &middot; 90 minutes &middot; talk and live demos on public data</p>
+      <p class="deck-line">Alper Kucukural &middot; talk and live demos on public data</p>
       <aside class="notes"><p>Before starting: Do Not Disturb on, close every tab and window with lab or patient data, sign in to claude.ai and the terminal agent, set terminal and editor font to at least 20 pt. Press T when you begin to start the clock.</p></aside>
     </section>
 
@@ -176,9 +176,9 @@
 
     <!-- ================= RUNG 1 ================= -->
 
-    <div class="part-head"><h2>Rung 1: Ask. Chat as a tutor</h2><span class="when">0:15 &middot; 10 min</span></div>
+    <div class="part-head"><h2>Rung 1: Ask. Chat as a tutor</h2><span class="when">0:15 &middot; 6 min</span></div>
 
-    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="2">
+    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="1">
       <p class="eyebrow">Rung 1</p>
       <h2>Use it to understand, not to decide</h2>
       <div class="cols">
@@ -202,7 +202,7 @@
       </div>
     </section>
 
-    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="5">
+    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="3">
       <p class="eyebrow">Demo 3 &middot; Claude app</p>
       <h2>Explain this command, and find the flag that does not exist</h2>
       <div class="steps demos">
@@ -220,7 +220,7 @@ STAR --runThreadN 8 --genomeDir star_index --readFilesIn R1.fastq.gz R2.fastq.gz
       </aside>
     </section>
 
-    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="3">
+    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="2">
       <p class="eyebrow">How to ask</p>
       <h2>A prompt that works is a short brief, not a magic phrase</h2>
       <div class="steps demos">
@@ -238,7 +238,7 @@ Before you answer, ask me up to three questions if anything is unclear.</blockqu
 
     <!-- ================= RUNG 2 ================= -->
 
-    <div class="part-head"><h2>Rung 2: Compute. Chat that runs code on data</h2><span class="when">0:25 &middot; 16 min</span></div>
+    <div class="part-head"><h2>Rung 2: Compute. Chat that runs code on data</h2><span class="when">0:21 &middot; 17 min</span></div>
 
     <section class="slide" data-part="Rung 2 &middot; Compute" data-min="2">
       <p class="eyebrow">Rung 2</p>
@@ -289,7 +289,7 @@ Before you answer, ask me up to three questions if anything is unclear.</blockqu
       <aside class="notes"><p>Liver specific knockouts remove the gene from hepatocytes, but liver tissue also has other cells that still express it, so expect lower, not zero. That is a good moment to show that the model either reasons about tissue composition or does not. Compare its call with the paper&rsquo;s genotype description afterwards.</p></aside>
     </section>
 
-    <section class="slide" data-part="Rung 2 &middot; Compute" data-min="4">
+    <section class="slide" data-part="Rung 2 &middot; Compute" data-min="5">
       <p class="eyebrow">Demo 4c &middot; Claude app, same chat</p>
       <h2>What drives the biggest differences? Then: show me the code</h2>
       <div class="steps demos">
@@ -300,7 +300,7 @@ Before you answer, ask me up to three questions if anything is unclear.</blockqu
         <div class="step demo">
           <span class="lbl">Prompt 2</span>
           <blockquote class="prompt">Show me the exact code you ran for the PCA. How many genes went in, which filter did you use, which transformation, and did you scale the genes?</blockquote>
-          <p class="look"><b>Check:</b> every choice in prompt 2 changes the picture. If it chose them, you now know what they were.</p>
+          <p class="look"><b>Then change one choice:</b> &ldquo;Redo it with scaled genes and no filter. What changed?&rdquo; If a reasonable choice changes the story, the figure legend has to say which one you made.</p>
         </div>
       </div>
       <p class="rule"><b>Rung 2 rule</b>Make it look before it touches, check against known biology, and ask for the code, the numbers, and the denominator.</p>
@@ -308,7 +308,7 @@ Before you answer, ask me up to three questions if anything is unclear.</blockqu
 
     <!-- ================= RUNG 3 ================= -->
 
-    <div class="part-head"><h2>Rung 3: Build. An agent on your computer</h2><span class="when">0:41 &middot; 17 min</span></div>
+    <div class="part-head"><h2>Rung 3: Build. An agent on your computer</h2><span class="when">0:38 &middot; 20 min</span></div>
 
     <section class="slide" data-part="Rung 3 &middot; Build" data-min="2">
       <p class="eyebrow">Rung 3</p>
@@ -382,7 +382,7 @@ claude</pre>
         <div class="step demo">
           <span class="lbl">Prompt (in plan mode: Shift+Tab)</span>
           <blockquote class="prompt">Using only the 6 wt samples, test hfd against chow with pydeseq2. Round the expected counts to integers, keep genes with at least 10 counts in some sample, and use chow as the reference. Write scripts/de_wt_diet.py and run it with uv. Save results/de_wt_hfd_vs_chow.tsv and a volcano plot. Then write results/METHODS.md with package versions, filters, design, and cutoffs (padj &lt; 0.05, |log2 fold change| &gt; 1), and tell me how many genes go up and down.</blockquote>
-          <p class="look"><b>Read the plan out loud.</b> Is the reference level chow? Are the 18 other samples excluded? Does it round the expected counts? Only then approve, and watch each edit and command ask for permission.</p>
+          <p class="look"><b>Read the plan out loud.</b> Is the reference level chow? Are the 18 other samples excluded? Does it round the expected counts? Only then approve, and watch each edit and command ask for permission. Afterwards ask: &ldquo;How many genes did you test, and how does padj correct for that?&rdquo; At p &lt; 0.05, ten thousand tests give about five hundred hits by chance alone.</p>
         </div>
       </div>
       <aside class="notes"><p>Pre-run this in a backup folder the night before so you have the expected counts of up and down genes and the volcano to show if the network fails. The first uv run downloads packages; do it once before the talk so the cache is warm.</p></aside>
@@ -405,6 +405,19 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
       <p class="big">If you cannot rerun it, you cannot publish it.</p>
     </section>
 
+    <section class="slide" data-part="Rung 3 &middot; Build" data-min="3">
+      <p class="eyebrow">Demo 5e &middot; VS Code &middot; test against a known answer</p>
+      <h2>Does the code find an answer you planted?</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt</span>
+          <blockquote class="prompt">Write scripts/test_known_answer.py. Simulate negative binomial counts shaped like ours: 3 chow and 3 hfd samples, 2,000 genes. Make 100 named genes truly 4-fold higher in hfd and leave the rest unchanged. Run the same differential expression step as scripts/de_wt_diet.py on it, and report how many of the 100 it finds and how many unchanged genes it calls significant. If that step is not a reusable function yet, ask me before refactoring.</blockquote>
+          <p class="look"><b>What to expect:</b> most of the 100 found, only a few false calls. If it finds none, or hundreds of false ones, the bug is in the code, not the biology, and you caught it before trusting the real result.</p>
+        </div>
+      </div>
+      <aside class="notes"><p>Pre-run it. If the agent simulates normal data instead of counts, stop on it: a test on the wrong kind of data proves nothing. This is the habit from bootcamp Session 2.3: you know the code is right because it finds what you know is there.</p></aside>
+    </section>
+
     <section class="slide" data-part="Rung 3 &middot; Build" data-min="2">
       <p class="eyebrow">Demo 5d &middot; VS Code &middot; a second, independent review</p>
       <h2>Fresh eyes: a new session reviews the script</h2>
@@ -415,7 +428,7 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
           <p class="look"><b>Why a fresh session:</b> the agent that wrote the code is invested in its plan. A clean context reads only what is on disk, like a reviewer would.</p>
         </div>
       </div>
-      <p class="rule"><b>Rung 3 rule</b>The script is the result. Plan before code, rerun from scratch, and get an independent review: a fresh session, then a colleague.</p>
+      <p class="rule"><b>Rung 3 rule</b>The script is the result. Plan before code, test it on a known answer, rerun from scratch, and get an independent review: a fresh session, then a colleague.</p>
     </section>
 
     <!-- ================= RUNG 4 ================= -->
@@ -443,12 +456,16 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
 
     <section class="slide" data-part="Rung 4 &middot; Connect" data-min="3">
       <p class="eyebrow">Demo 6a &middot; Claude app with the Foundry connector</p>
-      <h2>What have I run lately?</h2>
+      <h2>What have I run, and what would I run next?</h2>
       <div class="steps demos">
         <div class="step demo">
           <span class="lbl">Prompt</span>
           <blockquote class="prompt">List my 5 most recent Foundry runs: name, pipeline and version, status, and date. Do not start or change anything.</blockquote>
           <p class="look"><b>Then check it by eye:</b> open <a href="https://viafoundry.umassmed.edu">viafoundry.umassmed.edu</a> next to the chat and compare the list. The agent&rsquo;s answer is a claim; the Foundry page is the source.</p>
+        </div>
+        <div class="step demo">
+          <span class="lbl">Then: it prepares, you press Run</span>
+          <blockquote class="prompt">Plan a rerun of my Vernia liver run with the current RNA-seq pipeline version. Show me the samples, genome build and settings you would use, and stop before launching. I will check it and launch it myself.</blockquote>
         </div>
       </div>
       <aside class="notes"><p>Rehearse this beforehand and make sure the list holds only runs you are comfortable putting on screen.</p></aside>
@@ -600,7 +617,7 @@ exit 0     # anything else runs as usual</pre>
         <li><span class="q">Ask it to explain before you ask it to decide. Check against a source.</span><span class="src">Rung 1</span></li>
         <li><span class="q">Make it look before it touches.</span><span class="src">Demo 4a</span></li>
         <li><span class="q">Check against biology you already know.</span><span class="src">Demo 4b</span></li>
-        <li><span class="q">The script is the result. Rerun it from scratch.</span><span class="src">Rung 3</span></li>
+        <li><span class="q">The script is the result. Test it on a known answer, then rerun it from scratch.</span><span class="src">Rung 3</span></li>
         <li><span class="q">Get an independent review: a fresh session, then a person.</span><span class="src">Demo 5d</span></li>
         <li><span class="q">Disclose what you used, for what, and how you checked it.</span><span class="src">Responsible use</span></li>
       </ol>
@@ -612,6 +629,7 @@ exit 0     # anything else runs as usual</pre>
       <ul>
         <li>The six-week <a href="../">AI for Bioinformatics Bootcamp</a> goes deeper on every rung, with hands-on sessions and recordings.</li>
         <li>Try the full analysis yourself: the bootcamp <a href="../session2.4/">2.4</a> and <a href="../session4.3/">4.3</a> pages use this same liver table.</li>
+        <li>Beyond one analysis: an agent that keeps your reading in a linked knowledge base (<a href="../session3.2/">3.2</a>), weighs several kinds of evidence at once (<a href="../session3.3/">3.3</a>), and why differential expression needs a model (<a href="../session4.1/">4.1</a>).</li>
         <li>Running pipelines on a cluster with an agent: <a href="../session4.2/">Foundry with an agent</a>.</li>
         <li>Ask the Bioinformatics Core: we help labs set up projects, agents, and guardrails.</li>
       </ul>
