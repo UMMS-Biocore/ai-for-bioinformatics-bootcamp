@@ -1,0 +1,153 @@
+/* AI-Assisted Bioinformatics 101: one page that reads as a handout and
+   presents as a slide deck. Loads after bootcamp.css and session.css.
+   Present mode is a class on <html> (so rem units scale with the screen),
+   set by deck.js. */
+
+/* ---------- handout mode ---------- */
+
+.deck { padding: 1rem 0 2rem; }
+
+.part-head { margin: 3.2rem 0 1rem; display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap; border-bottom: 1px solid var(--rule-strong); padding-bottom: .6rem; }
+.part-head h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; margin: 0; }
+.part-head .when { font-family: var(--mono); font-size: .72rem; color: var(--pen); font-weight: 600; }
+
+.slide {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1.5rem 1.6rem 1.6rem;
+  margin: 0 0 1rem;
+}
+.slide > h2, .slide > h3 { font-family: var(--serif); font-weight: 600; line-height: 1.25; margin: .2rem 0 .8rem; }
+.slide > h2 { font-size: 1.55rem; }
+.slide > h3 { font-size: 1.3rem; }
+.slide p, .slide li { max-width: 52rem; }
+.slide ul, .slide ol { padding-left: 1.2rem; }
+.slide li { margin: .35rem 0; color: var(--ink-soft); }
+.slide li b { color: var(--ink); }
+
+.slide-tag { font-family: var(--mono); font-size: .64rem; letter-spacing: .08em; color: var(--pencil-faint); margin: 0 0 .5rem; }
+
+html:not(.presenting) .title-slide { display: none; }
+
+/* a single sentence the slide exists to say */
+.big { font-family: var(--serif); font-size: 1.5rem; line-height: 1.35; color: var(--ink); margin: .4rem 0 1rem; max-width: 40rem; }
+.big em { color: var(--pen); font-style: normal; }
+
+/* the rule each part leaves behind */
+.rule { max-width: 50rem; margin: 1.1rem 0 0; padding: .7rem 1rem; border-left: 3px solid var(--pen); background: var(--pen-wash); font-size: .98rem; color: var(--ink); }
+.rule b:first-child { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--pen); margin-right: .5rem; }
+
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.4rem; }
+.cols > div > :first-child { margin-top: 0; }
+.cols h4 { font-family: var(--serif); font-size: 1.08rem; margin: 0 0 .3rem; }
+
+/* demo boxes reuse .step so copy.js adds Copy buttons, without the step number */
+.steps.demos { margin-top: .9rem; }
+.step.demo { counter-increment: none; padding-left: 1.4rem; }
+.step.demo::before { display: none; }
+.step.demo .lbl { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--pen); font-weight: 600; }
+.step.demo h4 { margin-top: .2rem; }
+.look { font-size: .9rem; color: var(--ink-soft); margin: .6rem 0 0; }
+.look b { color: var(--keep); }
+
+/* the ladder */
+ol.ladder { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-direction: column-reverse; gap: .45rem; max-width: 46rem; }
+ol.ladder li { margin: 0; display: grid; grid-template-columns: 4.6rem 1fr; gap: .8rem; align-items: baseline; background: var(--raise); border: 1px solid var(--rule-strong); border-radius: 3px; padding: .55rem .9rem; }
+ol.ladder li:nth-child(1) { margin-right: 24%; }
+ol.ladder li:nth-child(2) { margin-right: 16%; margin-left: 8%; }
+ol.ladder li:nth-child(3) { margin-right: 8%; margin-left: 16%; }
+ol.ladder li:nth-child(4) { margin-left: 24%; }
+ol.ladder .r { font-family: var(--mono); font-size: .66rem; color: var(--pen); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+ol.ladder b { font-family: var(--serif); color: var(--ink); font-size: 1.05rem; }
+ol.ladder span.d { display: block; font-size: .85rem; color: var(--pencil); }
+@media (max-width: 40rem) {
+  ol.ladder li { margin-left: 0 !important; margin-right: 0 !important; grid-template-columns: 1fr; gap: 0; }
+}
+
+table.grid { border-collapse: collapse; width: 100%; max-width: 56rem; font-size: .9rem; margin-top: .6rem; }
+table.grid th, table.grid td { text-align: left; vertical-align: top; padding: .5rem .7rem; border-bottom: 1px solid var(--rule); }
+table.grid th { font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--pencil); font-weight: 600; }
+table.grid td { color: var(--ink-soft); }
+table.grid td:first-child { color: var(--ink); font-weight: 600; }
+.table-scroll { overflow-x: auto; }
+
+/* presenter notes: hidden until N (or the button) turns them on */
+.notes { display: none; margin: 1.1rem 0 0; padding: .7rem .95rem; border: 1px dashed var(--rule-strong); border-radius: 4px; font-size: .88rem; color: var(--ink-soft); background: var(--ground); }
+.notes::before { content: "Presenter notes"; display: block; font-family: var(--mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--pencil); margin-bottom: .25rem; }
+.notes p, .notes li { margin: .25rem 0; max-width: none; }
+html.show-notes .notes { display: block; }
+
+.deck-controls { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-top: 1.2rem; }
+.btn.ghost { background: transparent; color: var(--pen); border: 1px solid var(--pen); }
+:root[data-theme="dark"] .btn.ghost { color: var(--pen); }
+.btn.ghost:hover { background: var(--pen-wash); }
+.keys { font-size: .82rem; color: var(--pencil); }
+
+/* ---------- present mode ---------- */
+
+.hud { display: none; }
+
+html.presenting { font-size: clamp(14px, min(1.35vw, 2.2vh), 30px); }
+html.presenting body { padding: 0; overflow: hidden; }
+html.presenting .wrap { max-width: none; }
+html.presenting .wrap > :not(.deck) { display: none; }
+html.presenting .deck { padding: 0; }
+html.presenting .deck > :not(.slide) { display: none; }
+html.presenting .slide { display: none; }
+html.presenting .slide.is-current {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  overflow-y: auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--ground);
+  padding: 5vh 7vw 8vh;
+}
+html.presenting .slide > * { flex: none; }
+html.presenting .slide > h2 { font-size: 2.3rem; max-width: 30ch; }
+html.presenting .slide > h3 { font-size: 1.9rem; }
+html.presenting .slide li { font-size: 1.1rem; }
+html.presenting .big { font-size: 2.1rem; max-width: 34ch; }
+html.presenting .title-slide h1 { font-family: var(--serif); font-size: 3.4rem; line-height: 1.12; max-width: 20ch; margin: .5rem 0 1rem; }
+html.presenting .title-slide .deck-line { font-size: 1.3rem; color: var(--ink-soft); max-width: 40rem; }
+html.presenting .step pre.cmd, html.presenting .step blockquote.prompt { font-size: .92rem; max-width: 62rem; }
+html.presenting .step p.look, html.presenting .slide .rule { font-size: 1.02rem; max-width: 62rem; }
+html.presenting ol.checklist li { padding: .5rem 0; }
+html.presenting ol.ladder li { padding: .4rem .9rem; }
+html.presenting .step.demo { padding-top: .85rem; padding-bottom: .85rem; }
+html.presenting .step.demo + .step.demo blockquote.prompt { margin-top: .4rem; }
+html.presenting .slide-tag { position: fixed; top: 1.2rem; right: 1.6rem; margin: 0; }
+
+/* in the separate presenter window the notes sit beside the slide */
+html.presenting.show-notes .slide.is-current { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-content: center; gap: 0 2.5rem; font-size: .8rem; }
+html.presenting.show-notes .slide.is-current > :not(.notes) { grid-column: 1; }
+html.presenting.show-notes .slide.is-current > .notes { grid-column: 2; grid-row: 1 / span 30; align-self: start; font-size: 1rem; }
+
+html.presenting .hud {
+  display: flex;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  align-items: center;
+  gap: 1rem;
+  padding: .45rem 1.2rem;
+  font-family: var(--mono);
+  font-size: .62rem;
+  color: var(--pencil);
+  background: var(--ground);
+  border-top: 1px solid var(--rule);
+}
+.hud .part { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hud .clock.behind { color: #B3261E; font-weight: 600; }
+:root[data-theme="dark"] .hud .clock.behind { color: #F2A29B; }
+.hud button { font: inherit; color: var(--pen); background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 3px; padding: .2rem .55rem; cursor: pointer; }
+.hud .progress { position: absolute; left: 0; top: -1px; height: 2px; background: var(--pen); }
+
+@media print {
+  .notes { display: block; }
+  .deck-controls, .hud { display: none; }
+  .slide { break-inside: avoid; }
+}
