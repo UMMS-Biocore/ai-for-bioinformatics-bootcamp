@@ -108,7 +108,7 @@ html.presenting .slide.is-current {
   padding: 5vh 7vw 8vh;
 }
 html.presenting .slide > * { flex: none; }
-html.presenting .slide > h2 { font-size: 2.3rem; max-width: 30ch; }
+html.presenting .slide > h2 { font-size: 2.3rem; max-width: 38ch; }
 html.presenting .slide > h3 { font-size: 1.9rem; }
 html.presenting .slide li { font-size: 1.1rem; }
 html.presenting .big { font-size: 2.1rem; max-width: 34ch; }
@@ -117,6 +117,13 @@ html.presenting .title-slide .deck-line { font-size: 1.3rem; color: var(--ink-so
 html.presenting .step pre.cmd, html.presenting .step blockquote.prompt { font-size: .92rem; max-width: 62rem; }
 html.presenting .step p.look, html.presenting .slide .rule { font-size: 1.02rem; max-width: 62rem; }
 html.presenting ol.checklist li { padding: .5rem 0; }
+.code-pair { grid-template-columns: 1fr; gap: .6rem; }
+.code-pair .step.demo { padding-top: .7rem; padding-bottom: .7rem; }
+.code-pair .step.demo .lbl { text-transform: none; letter-spacing: .02em; }
+.code-pair .step pre.cmd { white-space: pre; overflow-wrap: normal; overflow-x: auto; font-size: .74rem; }
+html.presenting .code-pair .step pre.cmd { font-size: .72rem; line-height: 1.4; }
+.code-pair .steps.demos { margin-top: 0; }
+.code-pair { margin-top: .6rem; }
 html.presenting ol.ladder li { padding: .4rem .9rem; }
 html.presenting .step.demo { padding-top: .85rem; padding-bottom: .85rem; }
 html.presenting .step.demo + .step.demo blockquote.prompt { margin-top: .4rem; }

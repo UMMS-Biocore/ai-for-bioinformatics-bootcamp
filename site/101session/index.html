@@ -56,8 +56,8 @@
       <div class="act"><span class="when">0:25 &middot; 16 min</span><strong>Rung 2: Compute</strong><p>Chat that runs code on a real count table. Look first, then check biology you already know.</p><a href="#s10">Slides</a></div>
       <div class="act"><span class="when">0:41 &middot; 17 min</span><strong>Rung 3: Build</strong><p>An agent on your computer. A plan, a script, a rerun from scratch, a second review.</p><a href="#s15">Slides</a></div>
       <div class="act"><span class="when">0:58 &middot; 14 min</span><strong>Rung 4: Connect</strong><p>Foundry through a connector: your runs, and the same liver data with its full history. A hook keeps it safe.</p><a href="#s21">Slides</a></div>
-      <div class="act"><span class="when">1:12 &middot; 10 min</span><strong>Responsible use</strong><p>What data can go where, who is the author, and how to disclose. Spot the leak.</p><a href="#s25">Slides</a></div>
-      <div class="act is-break"><span class="when">1:22 &middot; 8 min</span><strong>Take-home and Q&amp;A</strong><p>Eight habits on one card.</p><a href="#s28">Slides</a></div>
+      <div class="act"><span class="when">1:12 &middot; 10 min</span><strong>Responsible use</strong><p>What data can go where, who is the author, and how to disclose. Spot the leak.</p><a href="#s26">Slides</a></div>
+      <div class="act is-break"><span class="when">1:22 &middot; 8 min</span><strong>Take-home and Q&amp;A</strong><p>Eight habits on one card.</p><a href="#s30">Slides</a></div>
     </div>
   </section>
 
@@ -428,7 +428,7 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
       <div class="cols">
         <div>
           <h4>Connectors (MCP)</h4>
-          <p>Let the agent use a service: <b>Foundry</b> runs our pipelines on the UMass HPC cluster from a web page, and its connector lets Claude read your runs and results. It acts as you, so it sees exactly what your account sees.</p>
+          <p>Let the agent use a service: <b>Foundry</b> runs pipelines on a computing cluster from a web page, and its connector lets Claude read your runs and results. It acts as you, so it sees exactly what your account sees.</p>
         </div>
         <div>
           <h4>Skills</h4>
@@ -454,7 +454,7 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
       <aside class="notes"><p>Rehearse this beforehand and make sure the list holds only runs you are comfortable putting on screen.</p></aside>
     </section>
 
-    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="6">
+    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="5">
       <p class="eyebrow">Demo 6b &middot; Claude app with the Foundry connector</p>
       <h2>The same liver data, now with its history</h2>
       <div class="steps demos">
@@ -477,7 +477,48 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
       </aside>
     </section>
 
-    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="3">
+    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="2">
+      <p class="eyebrow">How a hook works</p>
+      <h2>A hook is two small files</h2>
+      <div class="cols code-pair">
+        <div class="steps demos">
+          <div class="step demo">
+            <span class="lbl">1 &middot; .claude/settings.json in the project</span>
+<pre class="cmd">{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Bash|Read",
+      "hooks": [{ "type": "command",
+                  "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-secrets.sh" }]
+    }]
+  }
+}</pre>
+            
+          </div>
+        </div>
+        <div class="steps demos">
+          <div class="step demo">
+            <span class="lbl">2 &middot; .claude/hooks/block-secrets.sh</span>
+<pre class="cmd">#!/bin/bash
+# Claude Code sends the planned action as JSON on stdin.
+target=$(jq -r '.tool_input.command // .tool_input.file_path // empty')
+pattern='\.env|\.netrc|\.pem|id_rsa|password'
+if echo "$target" | grep -Eqi "$pattern"; then
+  echo "Blocked: this could expose a credential." >&2
+  exit 2   # block it, and tell the model why
+fi
+exit 0     # anything else runs as usual</pre>
+          </div>
+        </div>
+      </div>
+      <p class="look"><b>How to read it:</b> Claude Code hands every planned command or file read to the script first. Exit 2 blocks it and tells the model why. The model never decides whether the check runs.</p>
+      <aside class="notes">
+        <p>Make the script executable (<code>chmod +x .claude/hooks/block-secrets.sh</code>); it needs <code>jq</code>. Test it without the agent: <code>echo '{"tool_input":{"command":"cat .env"}}' | .claude/hooks/block-secrets.sh; echo $?</code> should print the message and <code>2</code>.</p>
+        <p>This pattern is deliberately simple. It also blocks harmless commands that contain the word password, which is the right trade for a guardrail. Claude Code also has deny rules in the same settings file, for example <code>"permissions": {"deny": ["Read(./.env)"]}</code>; use both.</p>
+      </aside>
+    </section>
+
+<section class="slide" data-part="Rung 4 &middot; Connect" data-min="2">
       <p class="eyebrow">Demo 6c &middot; VS Code with Claude Code</p>
       <h2>A guardrail the model cannot talk its way past</h2>
       <div class="steps demos">
@@ -500,14 +541,14 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
       <h2>Decide what kind of data you have before you open the tool</h2>
       <div class="acts">
         <div class="act"><span class="when">Public</span><strong>Published, de-identified, open</strong><p>GEO tables, papers, public references. Fine in any tool. Still cite and verify.</p></div>
-        <div class="act"><span class="when">Internal</span><strong>Unpublished lab data, code, grants</strong><p>Only tools your institution has approved for it, with training on your data turned off.</p></div>
-        <div class="act is-break"><span class="when">Restricted</span><strong>Identifiable human data, PHI, controlled access</strong><p>Not in AI tools unless the institution, the IRB, and the data use agreement explicitly allow that tool.</p></div>
+        <div class="act"><span class="when">Internal</span><strong>Unpublished lab data, code, grants</strong><p>Only tools your organization has approved for it, with training on your data turned off.</p></div>
+        <div class="act is-break"><span class="when">Restricted</span><strong>Identifiable human data, PHI, controlled access</strong><p>Not in AI tools unless your organization&rsquo;s regulations, your ethics board, and the data use agreement explicitly allow that tool.</p></div>
       </div>
-      <p class="look">When in doubt, send the agent the column names, a synthetic example, or the error message, not the data. Check UMass Chan&rsquo;s current guidance on approved AI tools before using anything beyond public data.</p>
-      <aside class="notes"><p>Do not quote specific policy numbers from memory. Point people to the institution&rsquo;s current guidance and the IRB, and say what you yourself do.</p></aside>
+      <p class="look">When in doubt, send the agent the column names, a synthetic example, or the error message, not the data. Check your organization&rsquo;s regulations on approved AI tools before using anything beyond public data.</p>
+      <aside class="notes"><p>Do not quote specific policy numbers from memory. Point people to their own organization&rsquo;s regulations and ethics board, and say what you yourself do.</p></aside>
     </section>
 
-    <section class="slide" data-part="Responsible use" data-min="3">
+    <section class="slide" data-part="Responsible use" data-min="2">
       <p class="eyebrow">You are the author</p>
       <h2>Accountable, disclosed, traceable</h2>
       <ul>
@@ -524,14 +565,26 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
       </div>
     </section>
 
-    <section class="slide" data-part="Responsible use" data-min="4">
+    <section class="slide" id="disclosure" data-part="Responsible use" data-min="1">
+      <p class="eyebrow">Practicing what I teach</p>
+      <h2>My AI use disclosure for this workshop</h2>
+      <ul>
+        <li><b>Tool:</b> Claude Code (Anthropic), model Claude Opus 5.5, October 2026.</li>
+        <li><b>What it did:</b> drafted this page&rsquo;s text, the slide layout and its code, and first versions of the demo prompts. It checked facts about the data file with code: size, rows, columns.</li>
+        <li><b>What I did:</b> chose the topic, the structure, and the demos; edited the text; decided what stays private; ran every demo myself before the session.</li>
+        <li><b>How it was checked:</b> data facts by script against the actual file, tool behavior against the manuals, and the page in a browser at projector and phone sizes.</li>
+        <li><b>Not delegated:</b> the conclusions and opinions in this talk are mine, and so are any errors.</li>
+      </ul>
+    </section>
+
+<section class="slide" data-part="Responsible use" data-min="4">
       <p class="eyebrow">Activity &middot; two minutes</p>
       <h2>Spot the leak</h2>
-      <p>For each one: is it fine, a leak, or does it depend? Talk to your neighbor, then open the answer.</p>
+      <p>For each one: is it fine, a leak, or does it depend?</p>
       <details class="reveal"><summary><span class="lbl">A</span>Pasting a clinical spreadsheet with medical record numbers into a free chatbot to tidy the column names.</summary><p class="ans"><span class="verdict-leak">Leak.</span> Identifiable patient data in an unapproved tool. Paste only the header row, or a made-up row with the same shape.</p></details>
       <details class="reveal"><summary><span class="lbl">B</span>Uploading the public GEO count table from a published paper to a chatbot to make a PCA.</summary><p class="ans"><span class="verdict-ok">Fine.</span> Public and published. Still check the result and cite the data.</p></details>
       <details class="reveal"><summary><span class="lbl">C</span>Asking a coding agent to debug a failed login, and it runs <code>cat ~/.netrc</code> to look.</summary><p class="ans"><span class="verdict-leak">Leak.</span> The password is now in the transcript and must be changed. Deny rules and a hook stop this before it runs.</p></details>
-      <details class="reveal"><summary><span class="lbl">D</span>Your unpublished lab RNA-seq results in an enterprise AI tool your institution approved for internal data.</summary><p class="ans"><span class="verdict-ok">Usually fine</span>, if the approval covers this kind of data and your PI agrees. Check the data use agreement if the samples came from someone else.</p></details>
+      <details class="reveal"><summary><span class="lbl">D</span>Your unpublished lab RNA-seq results in an enterprise AI tool your organization approved for internal data.</summary><p class="ans"><span class="verdict-ok">Usually fine</span>, if the approval covers this kind of data and your PI agrees. Check the data use agreement if the samples came from someone else.</p></details>
     </section>
 
     <!-- ================= WRAP UP ================= -->
@@ -559,10 +612,10 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
       <ul>
         <li>The six-week <a href="../">AI for Bioinformatics Bootcamp</a> goes deeper on every rung, with hands-on sessions and recordings.</li>
         <li>Try the full analysis yourself: the bootcamp <a href="../session2.4/">2.4</a> and <a href="../session4.3/">4.3</a> pages use this same liver table.</li>
-        <li>Running pipelines on the UMass HPC cluster with an agent: <a href="../session4.2/">Foundry with an agent</a>.</li>
+        <li>Running pipelines on a cluster with an agent: <a href="../session4.2/">Foundry with an agent</a>.</li>
         <li>Ask the Bioinformatics Core: we help labs set up projects, agents, and guardrails.</li>
       </ul>
-      <p class="look">This page was drafted with an AI coding agent (Claude Code) and edited by the presenter, following the same habits it teaches.</p>
+      <p class="look">This workshop was made with AI help, and I disclose it the way I ask you to: see <a href="#disclosure">my AI use disclosure</a>.</p>
     </section>
 
   </main>
@@ -625,6 +678,7 @@ git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
     <span>AI-Assisted Bioinformatics 101</span>
     <span>UMass Chan Bioinformatics Core</span>
     <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="#disclosure">AI use disclosure</a></span>
   </footer>
 
 </div>
