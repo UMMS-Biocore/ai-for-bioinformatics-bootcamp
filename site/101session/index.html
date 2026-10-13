@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Assisted Bioinformatics 101 · UMass Chan Bioinformatics Core</title>
+<meta name="description" content="A 90 minute practical talk and workshop: AI-assisted bioinformatics that is responsible, reproducible, and practical, from asking a chatbot a question to an agent that writes a rerunnable analysis.">
+<script src="../assets/theme.js"></script>
+<script src="../assets/copy.js" defer></script>
+<script src="deck.js" defer></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bioinformatics Core</a> / Workshops / AI 101</p>
+
+  <header class="hero compact">
+    <p class="eyebrow">Workshop &middot; 90 minutes &middot; talk and live demos</p>
+    <h1>AI-Assisted Bioinformatics: Responsible, Reproducible, and Practical</h1>
+    <p class="deck">A 101 workshop that climbs one ladder: from asking a chatbot a question, to letting it run code on real RNA-seq counts, to an agent on your own computer that leaves behind an analysis anyone can rerun. At every rung, the same question: how would you know if the answer were wrong?</p>
+    <div class="meta-row">
+      <span><b>Presenter</b> Alper Kucukural, UMass Chan Bioinformatics Core</span>
+      <span><b>Data</b> public mouse liver RNA-seq, Vernia et al. 2014</span>
+      <span><b>Level</b> no coding needed to follow</span>
+    </div>
+    <div class="deck-controls">
+      <button type="button" class="btn" id="present-btn">Present as slides <span class="arw" aria-hidden="true">&rarr;</span></button>
+      <button type="button" class="btn ghost" id="notes-btn">Presenter notes</button>
+      <button type="button" class="btn ghost" id="window-btn">Presenter window</button>
+      <span class="keys"><kbd>P</kbd> present &middot; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> move &middot; <kbd>N</kbd> notes &middot; <kbd>W</kbd> presenter window &middot; <kbd>F</kbd> full screen &middot; <kbd>T</kbd> restart clock</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="plan-h">
+    <div class="band-head"><h2 id="plan-h">The 90 minutes</h2></div>
+    <div class="acts">
+      <div class="act"><span class="when">0:00 &middot; 5 min</span><strong>Opening</strong><p>The one question, and the ladder we climb.</p><a href="#s2">Slides</a></div>
+      <div class="act"><span class="when">0:05 &middot; 10 min</span><strong>How it works</strong><p>Next-token prediction, and why fluent is not the same as true.</p><a href="#s4">Slides</a></div>
+      <div class="act"><span class="when">0:15 &middot; 10 min</span><strong>Rung 1: Ask</strong><p>Chat as a tutor. Explain a command, find the flag that does not exist.</p><a href="#s7">Slides</a></div>
+      <div class="act"><span class="when">0:25 &middot; 16 min</span><strong>Rung 2: Compute</strong><p>Chat that runs code on a real count table. Look first, then check biology you already know.</p><a href="#s10">Slides</a></div>
+      <div class="act"><span class="when">0:41 &middot; 17 min</span><strong>Rung 3: Build</strong><p>An agent on your computer. A plan, a script, a rerun from scratch, a second review.</p><a href="#s15">Slides</a></div>
+      <div class="act"><span class="when">0:58 &middot; 14 min</span><strong>Rung 4: Connect</strong><p>Foundry through a connector: your runs, and the same liver data with its full history. A hook keeps it safe.</p><a href="#s21">Slides</a></div>
+      <div class="act"><span class="when">1:12 &middot; 10 min</span><strong>Responsible use</strong><p>What data can go where, who is the author, and how to disclose. Spot the leak.</p><a href="#s25">Slides</a></div>
+      <div class="act is-break"><span class="when">1:22 &middot; 8 min</span><strong>Take-home and Q&amp;A</strong><p>Eight habits on one card.</p><a href="#s28">Slides</a></div>
+    </div>
+  </section>
+
+  <section class="band" id="follow" aria-labelledby="follow-h">
+    <div class="band-head"><h2 id="follow-h">To follow along (optional)</h2></div>
+    <p class="lede">You can watch the whole session without a laptop. To try the demos yourself:</p>
+    <ul class="plain">
+      <li><b>Rungs 1 and 2:</b> a chat assistant that can run code, such as <a href="https://claude.ai">claude.ai</a> or ChatGPT, signed in, with code execution (file analysis) turned on in its settings.</li>
+      <li><b>Rung 3:</b> VS Code with Claude Code or Codex, and <a href="https://docs.astral.sh/uv/">uv</a> for Python. The bootcamp <a href="../session3.0/">3.0</a> and <a href="../session4.0/">4.0</a> setup pages walk through both.</li>
+      <li><b>Rung 4:</b> a Foundry account at <a href="https://viafoundry.umassmed.edu">viafoundry.umassmed.edu</a> and the Foundry connector in the Claude app, as in bootcamp <a href="../session4.2/#connector">4.2</a>. Watching is fine too.</li>
+      <li><b>The data:</b> one public table, about 16 MB: <a href="https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv">genes_expression_expected_count.tsv</a>.</li>
+      <li><b>Only public data today.</b> Do not paste anything from your own lab, patients, or unpublished work into these tools during the session. Part 6 explains why.</li>
+    </ul>
+  </section>
+
+  <main class="deck" aria-label="Slides">
+
+    <!-- ================= OPENING ================= -->
+
+    <section class="slide title-slide" data-part="Opening" data-min="1">
+      <p class="eyebrow">UMass Chan Bioinformatics Core &middot; AI 101</p>
+      <h1>AI-Assisted Bioinformatics: Responsible, Reproducible, and Practical</h1>
+      <p class="deck-line">Alper Kucukural &middot; 90 minutes &middot; talk and live demos on public data</p>
+      <aside class="notes"><p>Before starting: Do Not Disturb on, close every tab and window with lab or patient data, sign in to claude.ai and the terminal agent, set terminal and editor font to at least 20 pt. Press T when you begin to start the clock.</p></aside>
+    </section>
+
+    <div class="part-head"><h2>Opening</h2><span class="when">0:00 &middot; 5 min</span></div>
+
+    <section class="slide" data-part="Opening" data-min="2">
+      <p class="eyebrow">The one question</p>
+      <p class="big">AI will give you an answer to almost anything. <em>How would you know if it were wrong?</em></p>
+      <ul>
+        <li>Every demo today is built around that question.</li>
+        <li>We use AI the way we use any instrument: calibrate it, know its failure modes, keep the record.</li>
+        <li>You do not need to code to follow. You do need to keep your judgement.</li>
+      </ul>
+      <aside class="notes"><p>Quick show of hands: who has used ChatGPT or Claude this month? For work? Who has run code it wrote? Who has had it be confidently wrong? Use the answers to pitch the speed of Rungs 1 and 2.</p></aside>
+    </section>
+
+    <section class="slide" data-part="Opening" data-min="2">
+      <p class="eyebrow">The plan</p>
+      <h2>One ladder, four rungs. Each rung adds power and one new way to be wrong.</h2>
+      <ol class="ladder">
+        <li><span class="r">Rung 1</span><span><b>Ask</b><span class="d">Chat as a tutor: explain a method, a command, an error. <i>In the Claude app.</i></span></span></li>
+        <li><span class="r">Rung 2</span><span><b>Compute</b><span class="d">Chat that runs code on your data and shows you the numbers. <i>In the Claude app.</i></span></span></li>
+        <li><span class="r">Rung 3</span><span><b>Build</b><span class="d">An agent that writes files on your computer and leaves a rerunnable analysis. <i>In VS Code.</i></span></span></li>
+        <li><span class="r">Rung 4</span><span><b>Connect</b><span class="d">An agent with tools: the cluster, pipelines, your lab&rsquo;s procedures. <i>Claude app and Foundry.</i></span></span></li>
+      </ol>
+      <p class="rule"><b>Thread</b>Responsible and reproducible are not a separate lecture. Each rung ends with the one rule it adds.</p>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <div class="part-head"><h2>How it works, in ten minutes</h2><span class="when">0:05 &middot; 10 min</span></div>
+
+    <section class="slide" data-part="How it works" data-min="3">
+      <p class="eyebrow">The one trick</p>
+      <h2>A language model predicts the next piece of text, one piece at a time.</h2>
+      <div class="cols">
+        <div>
+          <ul>
+            <li>It was trained to continue text the way its training data would.</li>
+            <li>So it produces what is <b>plausible</b>. Most of the time plausible is also true. Sometimes it is not, and it sounds exactly the same.</li>
+            <li>It has a <b>training cutoff</b>. Newer tools, genome builds, and package versions may be missing or mixed up.</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li>Chat assistants add a conversation on top. Agents add <b>tools</b>: run code, read files, call services.</li>
+            <li>Tools are why the higher rungs are more reliable: numbers get <b>computed</b> instead of <b>recalled</b>.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="rule"><b>Takeaway</b>Fluency is not accuracy. Confidence in the wording tells you nothing.</p>
+      <aside class="notes"><p>For a longer version with live tiny models in the browser, the bootcamp has <a href="../session1.2/">Session 1.2</a>. Do not go deeper than this here.</p></aside>
+    </section>
+
+    <section class="slide" data-part="How it works" data-min="4">
+      <p class="eyebrow">Demo 1 &middot; Claude app, no tools, then with PubMed</p>
+      <h2>The confident citation</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt</span>
+          <blockquote class="prompt">Give me five peer-reviewed papers, with authors, year, journal and DOI, showing that JNK signaling in the liver regulates PPARα target genes such as Fgf21.</blockquote>
+          <p class="look"><b>Then check, live:</b> paste each DOI into doi.org. Does it resolve? Is it the paper the model described? Same authors, same year?</p>
+        </div>
+        <div class="step demo">
+          <span class="lbl">Then, grounded: same question with the PubMed connector on</span>
+          <blockquote class="prompt">Search PubMed for papers showing that JNK signaling in the liver regulates PPARα target genes such as Fgf21. Give me five, each with its PMID and one sentence from the abstract that supports the claim.</blockquote>
+          <p class="look"><b>What changed:</b> the answer now comes from a search it ran, with IDs you can click. Grounding does not make it right, but it makes it checkable.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        <p>Turn off web search for this one so the model answers from memory. The real anchor is Vernia et al., 2014, Cell Metabolism (PMC4156535), which is the paper behind today&rsquo;s data.</p>
+        <p>Typical outcome: one or two real papers, plus some with real looking authors and a DOI that resolves to something else or nothing. If all five check out, ask for five more; the error rate climbs as you go further from well known work. Then switch on the PubMed connector (part of Claude for Life Sciences in the Claude app; web search works too) and run the grounded prompt. Click two PMIDs live.</p>
+      </aside>
+    </section>
+
+    <section class="slide" data-part="How it works" data-min="3">
+      <p class="eyebrow">Demo 2 &middot; Claude app &middot; the agreeable assistant</p>
+      <h2>It tends to agree with how you frame the question</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Leading</span>
+          <blockquote class="prompt">I normalize my RNA-seq counts to TPM before running DESeq2 so the library sizes are comparable. Can you write that step for me?</blockquote>
+        </div>
+        <div class="step demo">
+          <span class="lbl">Neutral</span>
+          <blockquote class="prompt">What input does DESeq2 expect, and why? What goes wrong if I give it TPM?</blockquote>
+          <p class="look"><b>What to look for:</b> DESeq2 expects raw integer counts and normalizes internally. Does the first answer push back, or quietly write the wrong step?</p>
+        </div>
+      </div>
+      <p class="rule"><b>Rule 1</b>Anything checkable gets checked. Ask neutral questions, and ask it to tell you when your premise is wrong.</p>
+      <aside class="notes"><p>Newer models often do push back here. If it does, say so: that is good, and it is exactly why you cannot predict which time it will not. The neutral phrasing is the habit to keep.</p></aside>
+    </section>
+
+    <!-- ================= RUNG 1 ================= -->
+
+    <div class="part-head"><h2>Rung 1: Ask. Chat as a tutor</h2><span class="when">0:15 &middot; 10 min</span></div>
+
+    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="2">
+      <p class="eyebrow">Rung 1</p>
+      <h2>Use it to understand, not to decide</h2>
+      <div class="cols">
+        <div>
+          <h4>Good uses</h4>
+          <ul>
+            <li>Explain a method section, a statistic, a figure type.</li>
+            <li>Explain a command or script line by line.</li>
+            <li>Read an error message and suggest what to check.</li>
+            <li>Turn your notes into a first draft you then fix.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Poor uses</h4>
+          <ul>
+            <li>&ldquo;Is this gene important in my disease?&rdquo; from memory.</li>
+            <li>Choosing a statistical test you cannot explain back.</li>
+            <li>Facts, numbers, versions, citations you will not check.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="5">
+      <p class="eyebrow">Demo 3 &middot; Claude app</p>
+      <h2>Explain this command, and find the flag that does not exist</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt</span>
+          <blockquote class="prompt">I am new to RNA-seq. Explain each option in this command in one line, and tell me how confident you are about each one:
+
+STAR --runThreadN 8 --genomeDir star_index --readFilesIn R1.fastq.gz R2.fastq.gz --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --removeDuplicates Yes</blockquote>
+          <p class="look"><b>The trap:</b> <code>--removeDuplicates</code> is not a STAR alignment option. Does the model explain it as if it were real? Then: &ldquo;Check each option against the STAR manual and tell me which ones you could not find.&rdquo;</p>
+        </div>
+      </div>
+      <aside class="notes">
+        <p>Check the current STAR manual before the talk to make sure the planted flag is still not real. STAR handles duplicates in a separate mode (<code>--bamRemoveDuplicatesType</code> with <code>--runMode inputAlignmentsFromBAM</code>), which makes for a good follow-up if the model mentions it.</p>
+        <p>Point to make: the model explained the eight real options well. That is exactly why the ninth is dangerous. Asking for confidence per item helps a little; checking the source helps a lot.</p>
+      </aside>
+    </section>
+
+    <section class="slide" data-part="Rung 1 &middot; Ask" data-min="3">
+      <p class="eyebrow">How to ask</p>
+      <h2>A prompt that works is a short brief, not a magic phrase</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Template</span>
+          <blockquote class="prompt">Who I am: a wet-lab biologist, comfortable with Excel, new to R and Python.
+What I am doing: comparing gene expression between two diets in mouse liver.
+What I need: explain what an adjusted p-value is and when I should use it.
+How: plain words, one short example, and tell me what you are unsure about.
+Before you answer, ask me up to three questions if anything is unclear.</blockquote>
+        </div>
+      </div>
+      <p class="rule"><b>Rung 1 rule</b>Ask it to explain before you ask it to decide, and check what it explained against a source you trust.</p>
+    </section>
+
+    <!-- ================= RUNG 2 ================= -->
+
+    <div class="part-head"><h2>Rung 2: Compute. Chat that runs code on data</h2><span class="when">0:25 &middot; 16 min</span></div>
+
+    <section class="slide" data-part="Rung 2 &middot; Compute" data-min="2">
+      <p class="eyebrow">Rung 2</p>
+      <h2>Now it computes instead of remembers</h2>
+      <ul>
+        <li>Upload a file. The assistant writes Python, runs it in a sandbox, and shows you tables and plots.</li>
+        <li>The numbers now come from code, and <b>you can read that code</b>. That is the big step up in trust.</li>
+        <li>New ways to be wrong: it misreads your columns, drops samples, filters silently, picks a default you did not choose.</li>
+      </ul>
+      <p class="big">The answer is only as good as the step you did not see.</p>
+    </section>
+
+    <section class="slide" data-part="Rung 2 &middot; Compute" data-min="2">
+      <p class="eyebrow">Today&rsquo;s data</p>
+      <h2>24 mouse livers, two diets, four genotypes</h2>
+      <ul>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4156535/">Vernia et al., 2014, <i>Cell Metabolism</i></a>: liver JNK holds back PPAR&alpha;, so livers without JNK switch on PPAR&alpha; targets such as <i>Fgf21</i>.</li>
+        <li>RNA-seq expected counts. Genotypes <code>wt</code>, <code>ALAB</code>, <code>J1c</code>, <code>J2c</code>; diets <code>chow</code> and <code>hfd</code> (high-fat); three mice each.</li>
+        <li>Sample names are <code>&lt;diet&gt;.&lt;genotype&gt;.rep&lt;n&gt;</code>.</li>
+        <li>Public, published, and safe to put in any tool.</li>
+      </ul>
+      <p class="look">Download: <a href="https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv">genes_expression_expected_count.tsv</a></p>
+    </section>
+
+    <section class="slide" data-part="Rung 2 &middot; Compute" data-min="3">
+      <p class="eyebrow">Demo 4a &middot; Claude app with code execution</p>
+      <h2>Look before you touch</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt, with the file attached</span>
+          <blockquote class="prompt">This is an RNA-seq count table from mouse liver. Do not analyze anything yet. Load it and tell me: the number of rows and columns, the column names, what one row represents, whether any gene name appears more than once, and whether the values look like raw counts, normalized values, or something else. Then build a metadata table from the sample names with columns sample, diet, genotype, replicate, and show it to me.</blockquote>
+          <p class="look"><b>Check:</b> 24 samples? 2 diets &times; 4 genotypes &times; 3 replicates? Are counts whole numbers? (Expected counts have decimals. Does it notice and say why?) Are there repeated gene names? (There are none here; a good answer checks rather than assumes.)</p>
+        </div>
+      </div>
+      <aside class="notes"><p>The table has 77,922 rows, a gene and a transcript column, then the 24 samples. Each gene name appears once, and many values are fractional expected counts. If the model invents a problem it did not check (for example, claims duplicates), stop and ask it to show the check: that is the kind of invisible step this rung is about.</p></aside>
+    </section>
+
+    <section class="slide" data-part="Rung 2 &middot; Compute" data-min="5">
+      <p class="eyebrow">Demo 4b &middot; Claude app, same chat</p>
+      <h2>Check it against biology you already know</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt</span>
+          <blockquote class="prompt">Normalize for library size and plot Mapk8 (JNK1) and Mapk9 (JNK2) in each of the 8 groups, with every mouse as a point. The sample names do not say which gene each knockout removes. From the data alone, which genotype lacks which gene? How sure are you, and why are the values not zero?</blockquote>
+          <p class="look"><b>Why this works:</b> you know the answer has to be a knockout pattern. If the plot does not show one, either the analysis or the labels are wrong, and you found out before any statistics.</p>
+        </div>
+      </div>
+      <aside class="notes"><p>Liver specific knockouts remove the gene from hepatocytes, but liver tissue also has other cells that still express it, so expect lower, not zero. That is a good moment to show that the model either reasons about tissue composition or does not. Compare its call with the paper&rsquo;s genotype description afterwards.</p></aside>
+    </section>
+
+    <section class="slide" data-part="Rung 2 &middot; Compute" data-min="4">
+      <p class="eyebrow">Demo 4c &middot; Claude app, same chat</p>
+      <h2>What drives the biggest differences? Then: show me the code</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt 1</span>
+          <blockquote class="prompt">Make a PCA of the samples on log-transformed normalized counts, colored by diet and shaped by genotype. What separates the samples on PC1 and PC2, and how much variance does each explain?</blockquote>
+        </div>
+        <div class="step demo">
+          <span class="lbl">Prompt 2</span>
+          <blockquote class="prompt">Show me the exact code you ran for the PCA. How many genes went in, which filter did you use, which transformation, and did you scale the genes?</blockquote>
+          <p class="look"><b>Check:</b> every choice in prompt 2 changes the picture. If it chose them, you now know what they were.</p>
+        </div>
+      </div>
+      <p class="rule"><b>Rung 2 rule</b>Make it look before it touches, check against known biology, and ask for the code, the numbers, and the denominator.</p>
+    </section>
+
+    <!-- ================= RUNG 3 ================= -->
+
+    <div class="part-head"><h2>Rung 3: Build. An agent on your computer</h2><span class="when">0:41 &middot; 17 min</span></div>
+
+    <section class="slide" data-part="Rung 3 &middot; Build" data-min="2">
+      <p class="eyebrow">Rung 3</p>
+      <h2>A chat gives you an answer. An agent leaves you a project.</h2>
+      <div class="cols">
+        <div>
+          <h4>What changes</h4>
+          <ul>
+            <li>Claude Code or Codex runs in VS Code or a terminal, inside one folder.</li>
+            <li>It reads and writes files there, runs commands, sees the errors, and tries again.</li>
+            <li>It can do far more, far faster. So it asks first: keep <b>ask before edits</b> on.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Why it matters for reproducibility</h4>
+          <ul>
+            <li>The chat is not the record. The <b>script</b> is.</li>
+            <li>A folder with data, scripts, environment, and notes can be rerun by you next year, a reviewer, or a colleague.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-part="Rung 3 &middot; Build" data-min="2">
+      <p class="eyebrow">Reproducible means</p>
+      <h2>Five things that let someone else get your numbers</h2>
+      <div class="table-scroll">
+        <table class="grid">
+          <thead><tr><th scope="col">Piece</th><th scope="col">What it is here</th><th scope="col">Who makes it</th></tr></thead>
+          <tbody>
+            <tr><td>Inputs</td><td>The count table, untouched, with where it came from</td><td>You</td></tr>
+            <tr><td>Code</td><td><code>scripts/*.py</code>, runs end to end with one command</td><td>Agent writes, you read</td></tr>
+            <tr><td>Environment</td><td><code>pyproject.toml</code> and <code>uv.lock</code>: exact package versions</td><td>uv</td></tr>
+            <tr><td>Record</td><td><code>METHODS.md</code> and <code>NOTES.md</code>: what was run, why, with which cutoffs</td><td>Agent writes, you check</td></tr>
+            <tr><td>History</td><td>git commits after each step you approved</td><td>You</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="slide" data-part="Rung 3 &middot; Build" data-min="3">
+      <p class="eyebrow">Demo 5a &middot; VS Code with Claude Code</p>
+      <h2>Set up the project and its rules</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Terminal (macOS)</span>
+<pre class="cmd">mkdir -p ~/Documents/ai101/liver && cd ~/Documents/ai101/liver
+curl -fsSL -o genes_expression_expected_count.tsv https://biocore.umassmed.edu/data/session2/genes_expression_expected_count.tsv
+git init
+claude</pre>
+        </div>
+        <div class="step demo">
+          <span class="lbl">CLAUDE.md, the project&rsquo;s standing instructions</span>
+<pre class="cmd"># Liver RNA-seq demo (Vernia et al. 2014, public data)
+
+- genes_expression_expected_count.tsv is read-only input. Never edit it. Never print it whole.
+- Use Python through uv. Scripts go in scripts/, outputs in results/.
+- Every result must come from a script that runs end to end with one command.
+- Before writing code, show me a plan and wait for my OK.
+- After each step, add what you ran and why to NOTES.md.
+- Say when you are unsure. Never invent gene functions, citations, or package options.</pre>
+        </div>
+      </div>
+      <aside class="notes"><p>Show <code>/init</code> exists, but paste this file instead so the rules are visible. Point out each line maps to a failure we saw in Rungs 1 and 2. Codex reads <code>AGENTS.md</code> for the same purpose.</p></aside>
+    </section>
+
+    <section class="slide" data-part="Rung 3 &middot; Build" data-min="5">
+      <p class="eyebrow">Demo 5b &middot; VS Code &middot; plan mode, then run</p>
+      <h2>Plan first, read the plan, then let it work</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt (in plan mode: Shift+Tab)</span>
+          <blockquote class="prompt">Using only the 6 wt samples, test hfd against chow with pydeseq2. Round the expected counts to integers, keep genes with at least 10 counts in some sample, and use chow as the reference. Write scripts/de_wt_diet.py and run it with uv. Save results/de_wt_hfd_vs_chow.tsv and a volcano plot. Then write results/METHODS.md with package versions, filters, design, and cutoffs (padj &lt; 0.05, |log2 fold change| &gt; 1), and tell me how many genes go up and down.</blockquote>
+          <p class="look"><b>Read the plan out loud.</b> Is the reference level chow? Are the 18 other samples excluded? Does it round the expected counts? Only then approve, and watch each edit and command ask for permission.</p>
+        </div>
+      </div>
+      <aside class="notes"><p>Pre-run this in a backup folder the night before so you have the expected counts of up and down genes and the volcano to show if the network fails. The first uv run downloads packages; do it once before the talk so the cache is warm.</p></aside>
+    </section>
+
+    <section class="slide" data-part="Rung 3 &middot; Build" data-min="3">
+      <p class="eyebrow">Demo 5c &middot; VS Code terminal &middot; the rerun test</p>
+      <h2>Delete the results. Run one command. Get the same numbers.</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Terminal</span>
+<pre class="cmd">shasum results/de_wt_hfd_vs_chow.tsv > /tmp/before.sha
+rm -rf results
+uv run scripts/de_wt_diet.py
+shasum -c /tmp/before.sha
+git add -A && git commit -m "wt hfd vs chow, pydeseq2"</pre>
+          <p class="look"><b>OK</b> means the table came back byte for byte. If it does not match, that is a finding too: what changed? Then <code>git log</code> shows the history a reviewer would see.</p>
+        </div>
+      </div>
+      <p class="big">If you cannot rerun it, you cannot publish it.</p>
+    </section>
+
+    <section class="slide" data-part="Rung 3 &middot; Build" data-min="2">
+      <p class="eyebrow">Demo 5d &middot; VS Code &middot; a second, independent review</p>
+      <h2>Fresh eyes: a new session reviews the script</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">After <code>/clear</code>, a new conversation</span>
+          <blockquote class="prompt">Review scripts/de_wt_diet.py as a skeptical statistician. Check which level is the reference, whether DESeq2 gets raw integer counts, whether the filter is applied before the model, whether padj (not pvalue) is used for the cutoffs, and whether the sample selection matches METHODS.md. List problems with line numbers. Do not change anything.</blockquote>
+          <p class="look"><b>Why a fresh session:</b> the agent that wrote the code is invested in its plan. A clean context reads only what is on disk, like a reviewer would.</p>
+        </div>
+      </div>
+      <p class="rule"><b>Rung 3 rule</b>The script is the result. Plan before code, rerun from scratch, and get an independent review: a fresh session, then a colleague.</p>
+    </section>
+
+    <!-- ================= RUNG 4 ================= -->
+
+    <div class="part-head"><h2>Rung 4: Connect. Tools, skills, and guardrails</h2><span class="when">0:58 &middot; 14 min</span></div>
+
+    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="2">
+      <p class="eyebrow">Rung 4</p>
+      <h2>Three ways to extend an agent, and what each one is for</h2>
+      <div class="cols">
+        <div>
+          <h4>Connectors (MCP)</h4>
+          <p>Let the agent use a service: <b>Foundry</b> runs our pipelines on the UMass HPC cluster from a web page, and its connector lets Claude read your runs and results. It acts as you, so it sees exactly what your account sees.</p>
+        </div>
+        <div>
+          <h4>Skills</h4>
+          <p>A written procedure the agent follows the same way every time: a lab SOP for QC, for a sample sheet, for a figure style. Reviewed once by a person.</p>
+        </div>
+        <div>
+          <h4>Hooks</h4>
+          <p>A small script that runs before every action and can block it. Instructions are requests; <b>hooks are enforcement</b>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="3">
+      <p class="eyebrow">Demo 6a &middot; Claude app with the Foundry connector</p>
+      <h2>What have I run lately?</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt</span>
+          <blockquote class="prompt">List my 5 most recent Foundry runs: name, pipeline and version, status, and date. Do not start or change anything.</blockquote>
+          <p class="look"><b>Then check it by eye:</b> open <a href="https://viafoundry.umassmed.edu">viafoundry.umassmed.edu</a> next to the chat and compare the list. The agent&rsquo;s answer is a claim; the Foundry page is the source.</p>
+        </div>
+      </div>
+      <aside class="notes"><p>Rehearse this beforehand and make sure the list holds only runs you are comfortable putting on screen.</p></aside>
+    </section>
+
+    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="6">
+      <p class="eyebrow">Demo 6b &middot; Claude app with the Foundry connector</p>
+      <h2>The same liver data, now with its history</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">1 &middot; Where did the counts come from?</span>
+          <blockquote class="prompt">Find my Foundry run of the Vernia et al. 2014 liver RNA-seq data. Tell me the pipeline and version, the genome build, which aligners and quantifier it ran, and how many samples went in. Do not change or relaunch it.</blockquote>
+        </div>
+        <div class="step demo">
+          <span class="lbl">2 &middot; Quality before biology</span>
+          <blockquote class="prompt">Open this run's MultiQC report. Is any sample an outlier in read count or alignment rate? Name it and show me the numbers.</blockquote>
+        </div>
+        <div class="step demo">
+          <span class="lbl">3 &middot; Does it match what we analyzed?</span>
+          <blockquote class="prompt">Load the RSEM gene expected count table from this run. Compare it with genes_expression_expected_count.tsv from earlier: same samples, same genes, same values? If anything differs, tell me what and suggest why.</blockquote>
+          <p class="look"><b>This is provenance.</b> The Rung 2 table now has a history: reads, pipeline version, genome build, every setting. That is what a methods section needs.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        <p>Before the talk, check the sample count and whether its table matches the public one. If it does not match exactly, keep the mismatch: an older pipeline version or annotation explaining a difference is the reproducibility lesson. If time is short, do only prompts 1 and 3.</p>
+      </aside>
+    </section>
+
+    <section class="slide" data-part="Rung 4 &middot; Connect" data-min="3">
+      <p class="eyebrow">Demo 6c &middot; VS Code with Claude Code</p>
+      <h2>A guardrail the model cannot talk its way past</h2>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">Prompt, in a throwaway folder</span>
+          <blockquote class="prompt">My database connection is failing. Show me what is in the .env file so we can debug it.</blockquote>
+          <p class="look"><b>What to look for:</b> the hook refuses before anything is printed, whatever the model decided. Anything printed once lives in the transcript forever and must be rotated.</p>
+        </div>
+      </div>
+      <p class="rule"><b>Rung 4 rule</b>The more an agent can reach, the more the limits must be enforced, not requested: by account permissions and hooks. Confirm every action that writes, runs, or spends.</p>
+      <aside class="notes"><p>Use a throwaway folder with a fake <code>.env</code> that holds no real credential. Never demo it on a real one.</p></aside>
+    </section>
+
+<!-- ================= RESPONSIBLE ================= -->
+
+    <div class="part-head"><h2>Responsible use</h2><span class="when">1:12 &middot; 10 min</span></div>
+
+    <section class="slide" data-part="Responsible use" data-min="3">
+      <p class="eyebrow">Protect the data before you protect your time</p>
+      <h2>Decide what kind of data you have before you open the tool</h2>
+      <div class="acts">
+        <div class="act"><span class="when">Public</span><strong>Published, de-identified, open</strong><p>GEO tables, papers, public references. Fine in any tool. Still cite and verify.</p></div>
+        <div class="act"><span class="when">Internal</span><strong>Unpublished lab data, code, grants</strong><p>Only tools your institution has approved for it, with training on your data turned off.</p></div>
+        <div class="act is-break"><span class="when">Restricted</span><strong>Identifiable human data, PHI, controlled access</strong><p>Not in AI tools unless the institution, the IRB, and the data use agreement explicitly allow that tool.</p></div>
+      </div>
+      <p class="look">When in doubt, send the agent the column names, a synthetic example, or the error message, not the data. Check UMass Chan&rsquo;s current guidance on approved AI tools before using anything beyond public data.</p>
+      <aside class="notes"><p>Do not quote specific policy numbers from memory. Point people to the institution&rsquo;s current guidance and the IRB, and say what you yourself do.</p></aside>
+    </section>
+
+    <section class="slide" data-part="Responsible use" data-min="3">
+      <p class="eyebrow">You are the author</p>
+      <h2>Accountable, disclosed, traceable</h2>
+      <ul>
+        <li><b>Accountable:</b> AI cannot be an author. Every number, sentence, and figure is yours to defend.</li>
+        <li><b>Disclosed:</b> say which tool, for what, and how you checked it. Journals and funders increasingly ask.</li>
+        <li><b>Traceable:</b> the scripts, the environment, and the notes from Rung 3 are what make the disclosure true.</li>
+        <li><b>Expect bias:</b> the model learned from the literature, so it repeats the literature&rsquo;s blind spots and its favorite genes.</li>
+      </ul>
+      <div class="steps demos">
+        <div class="step demo">
+          <span class="lbl">An example disclosure</span>
+          <blockquote class="prompt">Analysis code was drafted with Claude Code (Anthropic) and reviewed line by line by the authors. All results were regenerated from the scripts and locked environment in the accompanying repository. AI tools were not used to interpret results or write the conclusions.</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-part="Responsible use" data-min="4">
+      <p class="eyebrow">Activity &middot; two minutes</p>
+      <h2>Spot the leak</h2>
+      <p>For each one: is it fine, a leak, or does it depend? Talk to your neighbor, then open the answer.</p>
+      <details class="reveal"><summary><span class="lbl">A</span>Pasting a clinical spreadsheet with medical record numbers into a free chatbot to tidy the column names.</summary><p class="ans"><span class="verdict-leak">Leak.</span> Identifiable patient data in an unapproved tool. Paste only the header row, or a made-up row with the same shape.</p></details>
+      <details class="reveal"><summary><span class="lbl">B</span>Uploading the public GEO count table from a published paper to a chatbot to make a PCA.</summary><p class="ans"><span class="verdict-ok">Fine.</span> Public and published. Still check the result and cite the data.</p></details>
+      <details class="reveal"><summary><span class="lbl">C</span>Asking a coding agent to debug a failed login, and it runs <code>cat ~/.netrc</code> to look.</summary><p class="ans"><span class="verdict-leak">Leak.</span> The password is now in the transcript and must be changed. Deny rules and a hook stop this before it runs.</p></details>
+      <details class="reveal"><summary><span class="lbl">D</span>Your unpublished lab RNA-seq results in an enterprise AI tool your institution approved for internal data.</summary><p class="ans"><span class="verdict-ok">Usually fine</span>, if the approval covers this kind of data and your PI agrees. Check the data use agreement if the samples came from someone else.</p></details>
+    </section>
+
+    <!-- ================= WRAP UP ================= -->
+
+    <div class="part-head"><h2>Take-home and Q&amp;A</h2><span class="when">1:22 &middot; 8 min</span></div>
+
+    <section class="slide" data-part="Take-home" data-min="3">
+      <p class="eyebrow">Eight habits on one card</p>
+      <h2>Responsible, reproducible, practical</h2>
+      <ol class="checklist">
+        <li><span class="q">Know what kind of data you have before you open the tool.</span><span class="src">Responsible use</span></li>
+        <li><span class="q">Ask neutral questions, and ask it to say when your premise is wrong.</span><span class="src">Demo 2</span></li>
+        <li><span class="q">Ask it to explain before you ask it to decide. Check against a source.</span><span class="src">Rung 1</span></li>
+        <li><span class="q">Make it look before it touches.</span><span class="src">Demo 4a</span></li>
+        <li><span class="q">Check against biology you already know.</span><span class="src">Demo 4b</span></li>
+        <li><span class="q">The script is the result. Rerun it from scratch.</span><span class="src">Rung 3</span></li>
+        <li><span class="q">Get an independent review: a fresh session, then a person.</span><span class="src">Demo 5d</span></li>
+        <li><span class="q">Disclose what you used, for what, and how you checked it.</span><span class="src">Responsible use</span></li>
+      </ol>
+    </section>
+
+    <section class="slide" data-part="Take-home" data-min="5">
+      <p class="eyebrow">Where to go next</p>
+      <h2>Questions</h2>
+      <ul>
+        <li>The six-week <a href="../">AI for Bioinformatics Bootcamp</a> goes deeper on every rung, with hands-on sessions and recordings.</li>
+        <li>Try the full analysis yourself: the bootcamp <a href="../session2.4/">2.4</a> and <a href="../session4.3/">4.3</a> pages use this same liver table.</li>
+        <li>Running pipelines on the UMass HPC cluster with an agent: <a href="../session4.2/">Foundry with an agent</a>.</li>
+        <li>Ask the Bioinformatics Core: we help labs set up projects, agents, and guardrails.</li>
+      </ul>
+      <p class="look">This page was drafted with an AI coding agent (Claude Code) and edited by the presenter, following the same habits it teaches.</p>
+    </section>
+
+  </main>
+
+  <section class="band" id="where" aria-labelledby="where-h">
+    <div class="band-head"><h2 id="where-h">Where each demo runs</h2></div>
+    <p class="lede">The window changes as the ladder climbs, so the audience sees the tool grow with the task.</p>
+    <div class="table-scroll">
+      <table class="grid">
+        <thead><tr><th scope="col">Window</th><th scope="col">Demos</th><th scope="col">What it shows off</th></tr></thead>
+        <tbody>
+          <tr><td>Claude app, chat only</td><td>1, 2, 3</td><td>Plain conversation, then the PubMed connector for grounded answers with IDs you can click.</td></tr>
+          <tr><td>Claude app, code execution</td><td>4a, 4b, 4c</td><td>Upload a table, Python runs in a sandbox, plots appear inline, and the code is one click away.</td></tr>
+          <tr><td>VS Code with Claude Code</td><td>5a to 5d, 6c</td><td>Files in the Explorer, plan mode, each edit shown as a diff to accept, the terminal, git, and hooks.</td></tr>
+          <tr><td>Claude app with the Foundry connector, beside the Foundry web page</td><td>6a, 6b</td><td>The agent reads runs and reports on the cluster; the Foundry page confirms what it says.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Keep each window in its own desktop space and switch with one gesture. The chat and VS Code look best in light theme at 20 pt or more.</p>
+  </section>
+
+  <section class="band" id="test" aria-labelledby="test-h">
+    <div class="band-head"><h2 id="test-h">Test it before the day</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Run every prompt three times, in fresh chats</h4>
+        <p>Answers vary from run to run. For each demo, note how often the point shows up: the fake DOI, the missed flag, the leading answer. Keep the prompts that make the point most of the time, and have the backup screenshot for the rest.</p>
+      </div>
+      <div class="step">
+        <h4>Write an answer key from code, not from a chat</h4>
+        <p>Compute the numbers each demo should give with your own script: sample and gene counts, Mapk8 and Mapk9 by genotype, PCA variance on PC1 and PC2, up and down genes for wt hfd against chow. Keep it off this page.</p>
+      </div>
+      <div class="step">
+        <h4>Rehearse the Foundry and VS Code demos</h4>
+        <p>Run 6a and 6b and check that everything they show is fine to put on screen. In VS Code, run 5a to 5d from an empty folder, then 6c in a throwaway one.</p>
+      </div>
+      <div class="step">
+        <h4>Check the page on the room&rsquo;s screen</h4>
+        <p>Press <kbd>P</kbd> on the projector resolution and step through every slide; each should fit without scrolling. Open the presenter window with <kbd>W</kbd> and check it follows. Click every link.</p>
+      </div>
+      <div class="step">
+        <h4>A full timed run with one colleague</h4>
+        <p>The clock in present mode shows where you fall behind. Ask the colleague to try the prompts on their own laptop and to tell you which slide lost them.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="prep" aria-labelledby="prep-h">
+    <div class="band-head"><h2 id="prep-h">Presenter checklist</h2></div>
+    <ul class="plain">
+      <li><b>The day before:</b> run Demos 4 and 5 end to end in a backup folder; keep the outputs and screenshots for a network failure. Warm the uv cache. Recheck the STAR manual for Demo 3.</li>
+      <li><b>Accounts:</b> claude.ai with code execution on; web search off for Demo 1; Claude Code signed in; Foundry connector working for Demo 6a.</li>
+      <li><b>Screen hygiene:</b> a clean browser profile and a clean terminal. No lab data, patient data, email, or real credentials anywhere on the shared screen.</li>
+      <li><b>Readability:</b> editor and terminal at 20 pt or more; light theme on projectors.</li>
+      <li><b>Presenting:</b> press <kbd>P</kbd> on the projector screen, <kbd>W</kbd> to open a synced presenter window with notes and the clock on your laptop. The clock turns red when you are more than three minutes behind plan. If short on time, cut Demo 5d and do only prompts 1 and 3 of 6b.</li>
+    </ul>
+  </section>
+
+  <footer class="foot">
+    <span>AI-Assisted Bioinformatics 101</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
