@@ -88,7 +88,10 @@ html.show-notes .notes { display: block; }
 
 .hud { display: none; }
 
-html.presenting { font-size: clamp(14px, min(1.35vw, 2.2vh), 30px); }
+/* Slides are laid out once on a fixed 1280x720 canvas, then scaled as a
+   whole to fit the screen (deck.js sets --deck-scale), so every display
+   shows the same composition, only larger or smaller. */
+html.presenting { font-size: 15.84px; }
 html.presenting body { padding: 0; overflow: hidden; }
 html.presenting .wrap { max-width: none; }
 html.presenting .wrap > :not(.deck) { display: none; }
@@ -99,13 +102,19 @@ html.presenting .slide.is-current {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 1280px;
+  height: 720px;
+  transform: translate(-50%, -50%) scale(var(--deck-scale, 1));
+  transform-origin: center;
   overflow-y: auto;
   margin: 0;
   border: 0;
   border-radius: 0;
   background: var(--ground);
-  padding: 5vh 7vw 8vh;
+  padding: 36px 90px 58px;
 }
 html.presenting .slide > * { flex: none; }
 html.presenting .slide > h2 { font-size: 2.3rem; max-width: 38ch; }
