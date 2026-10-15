@@ -122,7 +122,6 @@ html.presenting .slide > h3 { font-size: 1.9rem; }
 html.presenting .slide li { font-size: 1.1rem; }
 html.presenting .big { font-size: 2.1rem; max-width: 34ch; }
 html.presenting .title-slide h1 { font-family: var(--serif); font-size: 3.4rem; line-height: 1.12; max-width: 26ch; margin: .5rem 0 1rem; }
-html.presenting .title-slide.is-current { border-top: 6px solid var(--pen); }
 .title-slide .title-logo { display: block; align-self: flex-start; height: 3.4rem; width: auto; max-width: 100%; object-fit: contain; margin: 0 0 2.6rem; }
 /* black type on transparency: give it a light plate on the dark ground */
 :root[data-theme="dark"] .title-slide .title-logo { background: #fff; padding: .45rem .7rem; border-radius: 3px; }
