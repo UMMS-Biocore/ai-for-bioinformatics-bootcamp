@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 5.3 · Homework: PBMC single-cell from Foundry · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 5 homework: read a Cell Ranger report with an AI agent, then load the Seurat object from Foundry run 12084 and color PBMC markers on the UMAP.">
+<script src="../assets/theme.js"></script>
+<script src="../assets/copy.js" defer></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+<link rel="stylesheet" href="../assets/signin.css">
+<script src="../assets/signin.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 5 / 5.3</p>
+  <nav class="parts" aria-label="Session 5 parts">
+    <a href="../session5.1/"><b>5.1</b> Intro to scRNA-seq</a>
+    <a href="../session5.2/"><b>5.2</b> Data, QC and integration</a>
+    <a href="../session5.3/" aria-current="page"><b>5.3</b> Homework</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 5.3 · Homework</p>
+    <h1>Read the Cell Ranger report, then find T cells and monocytes on a UMAP</h1>
+    <p class="deck">A single-cell run that already finished on Foundry. First you and an AI agent read its Cell Ranger report and ask whether the run looks healthy. Then you load the Seurat object it produced and color two classic PBMC markers on the UMAP.</p>
+    <div class="cta-row">
+      <a class="btn" href="#setup">Start <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; R with Seurat</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="data-h">
+    <div class="band-head"><h2 id="data-h">The data</h2></div>
+    <p>Foundry run <b>12084</b> ran the <b>Cell Ranger Multi</b> pipeline on 10x Genomics&rsquo; public <b>1k PBMCs with cell surface protein</b> dataset (<code>pbmc_1k_protein_v3</code>): blood cells from one healthy donor, with gene expression and 17 TotalSeq-B antibodies read from the same cells. 10x&rsquo;s own <a href="https://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_web_summary.html">web summary</a> for these reads, from an older Cell Ranger, is a useful comparison in Part 1. After Cell Ranger, the pipeline&rsquo;s single-cell module filtered the cells, clustered them, and saved everything as one Seurat object. You use two of its outputs:</p>
+    <ul>
+      <li><b>Cell Ranger web summary</b> (<code>cellranger_report/</code>, 6&nbsp;MB HTML): how the sequencing and cell calling went.</li>
+      <li><b>Seurat object</b> (<code>scViewer/Final_Analysis.rds</code>, 19&nbsp;MB): counts, clusters, and the UMAP, ready to plot.</li>
+    </ul>
+    <p>You do not need the original data for this session. If you want it, 10x serves the files directly: the <a href="https://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_fastqs.tar">raw FASTQs</a> (4.7&nbsp;GB, what Foundry ran on), the <a href="https://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_filtered_feature_bc_matrix.h5">filtered count matrix</a> (5&nbsp;MB), and the <a href="https://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_feature_ref.csv">antibody list</a>. The <a href="https://www.10xgenomics.com/datasets/1-k-pbm-cs-from-a-healthy-donor-gene-expression-and-cell-surface-protein-3-standard-3-0-0">dataset page</a> describes the experiment but asks for your name and email first.</p>
+  </section>
+
+  <section class="band" id="setup" aria-labelledby="setup-h">
+    <div class="band-head"><h2 id="setup-h">Set up</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Make the folder and download the two files</h4>
+        <p>The course site holds copies of both files from run 12084, so this works whether or not you can see the run in Foundry.</p>
+        <p><b>macOS:</b></p>
+<pre class="cmd">mkdir -p ~/Documents/bootcamp/session5/pbmc
+cd ~/Documents/bootcamp/session5/pbmc
+curl -fsSL -o pbmc_web_summary.html https://biocore.umassmed.edu/data/session5/pbmc_web_summary.html
+curl -fsSL -o pbmc_final_analysis.rds https://biocore.umassmed.edu/data/session5/pbmc_final_analysis.rds</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">$d = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session5\pbmc'
+New-Item -ItemType Directory -Force $d | Out-Null
+cd $d
+curl.exe -fsSL -o pbmc_web_summary.html https://biocore.umassmed.edu/data/session5/pbmc_web_summary.html
+curl.exe -fsSL -o pbmc_final_analysis.rds https://biocore.umassmed.edu/data/session5/pbmc_final_analysis.rds</pre>
+        <p>Then in VS Code choose <b>File</b>, <b>Open Folder</b>, and open <b>pbmc</b>, as you did for <code>RNA-Seq</code> in <a href="../session4.2/#vscode">4.2</a>. Keep the agent in ask-first mode.</p>
+      </div>
+      <div class="step">
+        <h4>Optional: find the same files in Foundry</h4>
+        <p>If Foundry Connect is connected in your agent (<a href="../session4.2/#claude-mcp">4.2</a>) and run 12084 is shared with you, ask the agent to show where the files came from.</p>
+        <blockquote class="prompt">Using Foundry Connect, show me run 12084: its pipeline, its status, and the list of its result files with sizes. Do not download anything. Which file is the Cell Ranger web summary, and which is the Seurat object?</blockquote>
+      </div>
+      <div class="step">
+        <h4>Make sure R and Seurat are installed</h4>
+        <blockquote class="prompt">Check whether R is installed on this computer and which version. If it is, check whether the Seurat package is installed. If something is missing, tell me exactly what to install and how for my operating system, and run an install only after I say yes.</blockquote>
+        <p class="check"><b>Checkpoint</b> R 4.3 or newer, and <code>library(Seurat)</code> loads with no error. Installing Seurat from CRAN takes a few minutes the first time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="report" aria-labelledby="report-h">
+    <div class="band-head"><h2 id="report-h">Part 1: Read the Cell Ranger report</h2></div>
+    <p>Before any biology, check that the run itself worked. Double-click <code>pbmc_web_summary.html</code> to open it in your browser and look at the <b>Gene Expression</b> and <b>Antibody Capture</b> tabs for a minute. Then let the agent read it with you.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>1. Pull out the numbers</h4>
+        <blockquote class="prompt">pbmc_web_summary.html in this folder is a Cell Ranger multi web summary, about 6 MB. Do not read the whole file. Its metrics sit in a JSON object assigned to "const data =" inside a script tag. Write a small script that extracts that object and prints a table of every metric's name and value, for the library and for the sample. Then tell me in plain words what was sequenced, against which reference, how many cells were found, and how deeply they were sequenced.</blockquote>
+        <p class="check"><b>Checkpoint</b> 715 cells, Single Cell 3&prime; v3 chemistry, reference GRCh38-2024-A, a median of 2,812 genes and 7,867 UMIs per cell, and sequencing saturation of about 59%.</p>
+      </div>
+      <div class="step">
+        <h4>2. Ask it questions</h4>
+        <p>Pick at least three. Make the agent point to the metric each answer rests on.</p>
+        <blockquote class="prompt">This is the "1k PBMC" dataset, but Cell Ranger called 715 cells. Is that a problem? What decides how many cells a run recovers?</blockquote>
+        <blockquote class="prompt">Sequencing saturation is about 59% for gene expression. What does that number mean, and would sequencing this library deeper find many new molecules?</blockquote>
+        <blockquote class="prompt">About 32% of reads map to introns. Why does Cell Ranger count those here, and what does "Include Introns = true" change?</blockquote>
+        <blockquote class="prompt">For the antibody library, only about 55% of reads are usable. Where do the other reads go, and should I worry?</blockquote>
+        <blockquote class="prompt">Overall, would you trust this run enough to analyze it? List anything in the report that you would check before publishing.</blockquote>
+      </div>
+    </div>
+    <div class="more"><b>Check the agent</b><ul><li>Find two of its numbers in the HTML report yourself. Do they match?</li><li>Did it ever state a metric that is not in the table it printed? That is a guess, not a reading.</li></ul></div>
+  </section>
+
+  <section class="band" id="umap" aria-labelledby="umap-h">
+    <div class="band-head"><h2 id="umap-h">Part 2: Two markers on the UMAP</h2></div>
+    <p>CD3E is part of the T cell receptor complex, so it marks T cells. CD14 marks classical monocytes. In blood they should land in different places on the UMAP.</p>
+    <div class="steps">
+      <div class="step">
+        <h4>3. Look inside the Seurat object</h4>
+        <blockquote class="prompt">pbmc_final_analysis.rds in this folder is a Seurat object from a 10x PBMC run. Write an R script that loads it with Seurat and tells me: how many cells and genes, which assays, which dimensional reductions, the metadata column names, and how many cells are in each of seurat_clusters. Never print the count matrix itself.</blockquote>
+        <p class="check"><b>Checkpoint</b> 562 cells, 38,606 genes, assays <code>RNA</code> and <code>AntibodyCapture</code>, reductions <code>pca</code>, <code>umap</code>, and <code>tsne</code>, and 9 clusters numbered 0 to 8.</p>
+      </div>
+      <div class="step">
+        <h4>4. Where did 153 cells go?</h4>
+        <blockquote class="prompt">Cell Ranger reported 715 cells, but this object has 562. Look at the metadata columns, especially Filtering, Doublet.Classification, nFeature_RNA and percent.mt, and explain what most likely happened to the missing cells. Say which parts you can prove from this object and which you are inferring.</blockquote>
+      </div>
+      <div class="step">
+        <h4>5. Color CD3E and CD14 on the UMAP</h4>
+        <blockquote class="prompt">Make a side-by-side UMAP colored by expression of CD3E and CD14, with expressing cells drawn on top, and save it as umap_CD3E_CD14.png. Then tell me how many cells have CD3E above zero, how many have CD14 above zero, how many have both, and which clusters have the highest mean of each gene.</blockquote>
+        <p class="check"><b>Checkpoint</b> 202 cells express CD3E and 202 express CD14 (the same number is a coincidence), and only 2 express both. CD3E is highest in clusters 0, 4, 6 and 7, CD14 in clusters 1, 3 and 5.</p>
+        <details class="reveal">
+          <summary><span class="lbl">Compare</span> What your plot should look like</summary>
+          <p><img src="umap_CD3E_CD14.png" alt="Two UMAP panels of 562 PBMCs. Left, CD3E is high in the island on the right. Right, CD14 is high in the island on the left. A small third island at the bottom is grey in both." style="width:100%;height:auto;margin-top:.8rem"></p>
+          <div class="ans">Your colors and axis signs may differ. What matters is that the two genes light up different islands, and a third island lights up for neither.</div>
+        </details>
+      </div>
+      <div class="step">
+        <h4>6. Stretch: name the third island, and check the protein</h4>
+        <blockquote class="prompt">One island on the UMAP expresses neither CD3E nor CD14. Pick two marker genes you would expect for the other major PBMC types, plot them, and tell me what that island most likely is. Then plot the CD3 and CD14 antibodies from the AntibodyCapture assay next to the RNA. Where do RNA and protein agree, and where do they not?</blockquote>
+      </div>
+    </div>
+    <div class="more"><b>Write a few sentences on each</b><ul><li>Did the Cell Ranger report give you any reason not to trust this object?</li><li>Do the T cell and monocyte islands match what you expected? Which clusters would you merge if you only cared about major cell types?</li><li>Where did you have to correct the agent, or check its numbers yourself?</li></ul></div>
+  </section>
+
+  <section class="band" aria-labelledby="links-h">
+    <div class="band-head"><h2 id="links-h">Links</h2></div>
+    <div class="links">
+      <a href="https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-3p-outputs-web-summary-multi"><span class="k">Docs</span><strong>Cell Ranger multi web summary</strong><span class="d">What each metric in the report means.</span><span class="u">10xgenomics.com</span></a>
+      <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial"><span class="k">Tutorial</span><strong>Seurat PBMC 3k guided tutorial</strong><span class="d">The classic walk-through on a larger PBMC set, with the usual marker genes.</span><span class="u">satijalab.org</span></a>
+      <a href="../session4.2/"><span class="k">Earlier</span><strong>4.2 Foundry with an agent</strong><span class="d">Connect Foundry to your agent and open a folder in VS Code.</span><span class="u">session4.2</span></a>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="fb-h">
+    <div class="band-head"><h2 id="fb-h">After the session</h2></div>
+    <p class="lede">Two minutes of feedback, so the next session is pitched better. It also records your attendance, so fill it in whether you were in the room, on Zoom, or catching up on the recording.</p>
+    <p><a class="btn" href="../feedback/?session=5">Session 5 feedback <span class="arw" aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session5.2/"><span class="k">&larr; Previous</span><strong>5.2 Data, QC and integration</strong></a>
+    <a class="next" href="../"><span class="k">Back to &rarr;</span><strong>Bootcamp home</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

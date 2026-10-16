@@ -9,6 +9,8 @@
 <script src="../assets/copy.js" defer></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
+<link rel="stylesheet" href="../assets/signin.css">
+<script src="../assets/signin.js" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -43,6 +45,18 @@
       <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
     </div>
   </header>
+
+  <section class="band" aria-labelledby="recording-h" id="recording">
+    <div class="band-head"><h2 id="recording-h">Recording</h2></div>
+    <p class="lede">Alper sets up an RNA-seq run on Foundry from VS Code, with Claude and Playwright driving the browser.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session4/04_Alper_Foundry_With_AI_Agent.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Alper Kucukural &middot; 31 minutes</figcaption>
+      </figure>
+  </section>
 
   <section class="band" id="foundry" aria-labelledby="foundry-h">
     <div class="band-head"><h2 id="foundry-h">Foundry in five minutes</h2></div>
@@ -207,11 +221,11 @@ codex mcp login foundry</pre>
     <div class="band-head"><h2 id="browser-run-h">Hands-on: set up a run in the browser</h2></div>
     <p>The agent works in Foundry&rsquo;s own web page, in the Playwright browser, clicking through the same forms you would. You sign in, it builds the dataset and fills in the run, and you check it and press Run. The data is six small paired-end mouse samples, three control and three experimental, so the run finishes in minutes.</p>
     <figure class="video">
-      <video controls preload="metadata" playsinline>
+      <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
         <source src="../videos/session4/04_2_Browser_Agent_Run_Setup.mp4" type="video/mp4">
-        Your browser cannot play this video. <a href="../videos/session4/04_2_Browser_Agent_Run_Setup.mp4">Download it instead</a>.
+        Your browser cannot play this video.
       </video>
-      <figcaption>Watch it first: the agent running the prompt below, without the groups, comparison and DESeq2 parts; sped up, no sound &middot; 1 minute &middot; <a href="../videos/session4/04_2_Browser_Agent_Run_Setup.mp4" download>Download (2 MB)</a></figcaption>
+      <figcaption>Watch it first: the agent running the prompt below, without the groups, comparison and DESeq2 parts; sped up, no sound &middot; 1 minute</figcaption>
     </figure>
     <div class="steps">
       <div class="step">

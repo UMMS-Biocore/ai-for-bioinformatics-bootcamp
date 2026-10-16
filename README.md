@@ -69,6 +69,14 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | 4.2 Run RNA-seq on Foundry with an AI agent | Bioinformatics Core | [session4.2](https://biocore.umassmed.edu/session4.2/) |
 | 4.3 Homework: JNK-deficient liver | Bioinformatics Core | [session4.3](https://biocore.umassmed.edu/session4.3/) |
 
+### Session 5 at a glance
+
+| Part | Who | Web page |
+|---|---|---|
+| 5.1 A brief introduction to single-cell RNA-seq analysis | Manuel Garber | [session5.1](https://biocore.umassmed.edu/session5.1/) |
+| 5.2 Single-cell data, QC and integration in live marimo notebooks | Ozkan Aydemir | [session5.2](https://biocore.umassmed.edu/session5.2/) |
+| 5.3 Homework: Cell Ranger report and PBMC markers from Foundry run 12084 | Bioinformatics Core | [session5.3](https://biocore.umassmed.edu/session5.3/) |
+
 ---
 
 ## Repository layout
