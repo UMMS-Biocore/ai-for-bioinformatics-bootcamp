@@ -44,9 +44,17 @@
     }
   }
 
+  // Scale the fixed 1280x720 slide canvas to fit the window.
+  function fit() {
+    var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    root.style.setProperty('--deck-scale', s);
+  }
+  window.addEventListener('resize', fit);
+
   function present(on, quiet) {
     root.classList.toggle('presenting', on);
     if (on) {
+      fit();
       if (!t0) t0 = Date.now();
       if (!tick) tick = setInterval(paint, 1000);
       show(cur, quiet);

@@ -13,3 +13,11 @@ site/data/
 
 # Eric Ma's marimo notebooks, exported from the UMMS-Biocore fork (generated; see CLAUDE.md).
 site/ired-88/notebooks/
+
+# Members area: JNK liver and ZAKα material, behind the same sign-in as the
+# videos. Lives only on this Mac and the server; built by
+# internal/site/private/build_private.py. Never commit.
+site/private/
+
+# Recordings are deployed by rsync, never tracked.
+site/videos/**/*.mp4

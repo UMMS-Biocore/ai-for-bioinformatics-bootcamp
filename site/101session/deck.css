@@ -88,7 +88,10 @@ html.show-notes .notes { display: block; }
 
 .hud { display: none; }
 
-html.presenting { font-size: clamp(14px, min(1.35vw, 2.2vh), 30px); }
+/* Slides are laid out once on a fixed 1280x720 canvas, then scaled as a
+   whole to fit the screen (deck.js sets --deck-scale), so every display
+   shows the same composition, only larger or smaller. */
+html.presenting { font-size: 15.84px; }
 html.presenting body { padding: 0; overflow: hidden; }
 html.presenting .wrap { max-width: none; }
 html.presenting .wrap > :not(.deck) { display: none; }
@@ -99,24 +102,42 @@ html.presenting .slide.is-current {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 1280px;
+  height: 720px;
+  transform: translate(-50%, -50%) scale(var(--deck-scale, 1));
+  transform-origin: center;
   overflow-y: auto;
   margin: 0;
   border: 0;
   border-radius: 0;
   background: var(--ground);
-  padding: 5vh 7vw 8vh;
+  padding: 36px 90px 58px;
 }
 html.presenting .slide > * { flex: none; }
-html.presenting .slide > h2 { font-size: 2.3rem; max-width: 30ch; }
+html.presenting .slide > h2 { font-size: 2.3rem; max-width: 38ch; }
 html.presenting .slide > h3 { font-size: 1.9rem; }
 html.presenting .slide li { font-size: 1.1rem; }
 html.presenting .big { font-size: 2.1rem; max-width: 34ch; }
-html.presenting .title-slide h1 { font-family: var(--serif); font-size: 3.4rem; line-height: 1.12; max-width: 20ch; margin: .5rem 0 1rem; }
-html.presenting .title-slide .deck-line { font-size: 1.3rem; color: var(--ink-soft); max-width: 40rem; }
+html.presenting .title-slide h1 { font-family: var(--serif); font-size: 3.4rem; line-height: 1.12; max-width: 26ch; margin: .5rem 0 1rem; }
+.title-slide .title-logo { display: block; align-self: flex-start; height: 3.4rem; width: auto; max-width: 100%; object-fit: contain; margin: 0 0 2.6rem; }
+/* black type on transparency: give it a light plate on the dark ground */
+:root[data-theme="dark"] .title-slide .title-logo { background: #fff; padding: .45rem .7rem; border-radius: 3px; }
+.byline { display: flex; flex-direction: column; gap: .2rem; margin: 1.8rem 0 0; padding-left: 1.1rem; border-left: 3px solid var(--pen); }
+.byline .who { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
+.byline .org { font-size: 1.1rem; color: var(--ink-soft); }
 html.presenting .step pre.cmd, html.presenting .step blockquote.prompt { font-size: .92rem; max-width: 62rem; }
 html.presenting .step p.look, html.presenting .slide .rule { font-size: 1.02rem; max-width: 62rem; }
 html.presenting ol.checklist li { padding: .5rem 0; }
+.code-pair { grid-template-columns: 1fr; gap: .6rem; }
+.code-pair .step.demo { padding-top: .7rem; padding-bottom: .7rem; }
+.code-pair .step.demo .lbl { text-transform: none; letter-spacing: .02em; }
+.code-pair .step pre.cmd { white-space: pre; overflow-wrap: normal; overflow-x: auto; font-size: .74rem; }
+html.presenting .code-pair .step pre.cmd { font-size: .72rem; line-height: 1.4; }
+.code-pair .steps.demos { margin-top: 0; }
+.code-pair { margin-top: .6rem; }
 html.presenting ol.ladder li { padding: .4rem .9rem; }
 html.presenting .step.demo { padding-top: .85rem; padding-bottom: .85rem; }
 html.presenting .step.demo + .step.demo blockquote.prompt { margin-top: .4rem; }

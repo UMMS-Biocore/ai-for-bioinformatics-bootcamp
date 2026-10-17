@@ -1,0 +1,91 @@
+/* Topbar sign in and video placeholders (assets/signin.js). Loaded on every
+   page, after the page's own stylesheets. */
+/* The panel hangs from the topbar's right group, which sits at the page's
+   right edge, so on a phone it never runs off the left side. */
+.topbar .right { position: relative; }
+.signin { display: flex; align-items: center; gap: .8rem; }
+.signin-toggle, .signin-members, .signin-out {
+  font-family: var(--mono);
+  font-size: .7rem;
+  line-height: 1.2;
+  color: var(--pencil);
+  background: none;
+  text-decoration: none;
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  padding: .5rem .75rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.signin-toggle { color: var(--pen); border-color: var(--pen); }
+.signin-toggle:hover, .signin-toggle[aria-expanded="true"],
+.signin-members:hover, .signin-out:hover { color: var(--pen); border-color: var(--pen); background: var(--pen-wash); }
+.signin-toggle:focus-visible, .signin-members:focus-visible, .signin-out:focus-visible { outline: 2px solid var(--pen); outline-offset: 2px; }
+.signin-out { border-color: transparent; padding-left: .2rem; padding-right: .2rem; }
+
+.signin-panel {
+  position: absolute;
+  top: calc(100% + .6rem);
+  right: 0;
+  z-index: 20;
+  width: 21rem;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  padding: 1.3rem 1.3rem 1.1rem;
+  text-align: left;
+}
+.signin-panel[hidden] { display: none; }
+.signin-panel h2 { margin: 0 0 .35rem; font-family: var(--serif); font-size: 1.3rem; line-height: 1.2; }
+.signin-lede { margin: 0 0 .9rem; color: var(--ink-soft); font-size: .88rem; line-height: 1.45; }
+.signin-error:empty { display: none; }
+.signin-error {
+  margin: 0 0 .9rem;
+  padding: .55rem .75rem;
+  border-left: 3px solid #B3261E;
+  background: rgba(179, 38, 30, .07);
+  color: var(--ink);
+  font-size: .86rem;
+}
+:root[data-theme="dark"] .signin-error { border-left-color: #F2B8B5; background: rgba(242, 184, 181, .08); }
+.signin-field { margin: 0 0 .8rem; }
+.signin-field label { display: block; margin-bottom: .3rem; font-size: .82rem; font-weight: 600; color: var(--ink-soft); }
+.signin-field input {
+  font: inherit;
+  font-size: .95rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  padding: .6rem .75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+.signin-field input:focus { outline: none; border-color: var(--pen); box-shadow: 0 0 0 3px var(--pen-wash); }
+.signin-panel button.btn, .video-gate button.btn { border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+.signin-panel button.btn:disabled { opacity: .6; cursor: progress; transform: none; }
+.signin-panel button.btn:focus-visible, .video-gate button.btn:focus-visible { outline: 2px solid var(--pen); outline-offset: 3px; }
+.signin-note { margin: .9rem 0 0; font-size: .78rem; color: var(--pencil); }
+
+.videos-locked figure.video video { display: none; }
+.video-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .9rem;
+  aspect-ratio: 16 / 9;
+  background: var(--pen-wash);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1.2rem;
+  text-align: center;
+}
+.video-gate p { margin: 0; max-width: 24rem; color: var(--ink-soft); font-size: .95rem; }
+@media (max-width: 560px) {
+  .signin { gap: .5rem; }
+  .video-gate { aspect-ratio: auto; min-height: 11rem; }
+}

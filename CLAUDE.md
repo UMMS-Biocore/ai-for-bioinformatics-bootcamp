@@ -21,12 +21,17 @@ Everything under `site/`, `session*/`, and `README.md` is student-facing and
 world-readable. When moving material from `internal/` into `site/`, carry the
 teaching content and leave the participant data behind.
 
-Manuel Garber's Session 4 JNK liver material is private: the homework (its
-README, starter notebook, data and explanations) and the Foundry run 11724
-analyses of the same study. Keep it out of `site/`, this repository, the
-`UMMS-Biocore/bootcamp-bulk-rnaseq` fork, and public artifacts. The published
-paper is still taught in Sessions 1.4 and 2.4, and the 4.3 homework is our
-own, built on the public 2.4 count table and the paper.
+Manuel Garber's Session 4 material that is not public lives in the gitignored
+members area `site/private/`, behind the same Apache sign-in as the videos
+(UMass login plus an active Foundry account): his JNK liver homework, the
+Foundry run 11724 analyses of that study, and his unpublished ZAKα keratinocyte
+live analysis, notebooks, data and full slides. Keep all of it out of git, out
+of public pages, out of the `UMMS-Biocore/bootcamp-bulk-rnaseq` fork, and out
+of public artifacts. Its downloads are rebuilt by
+`internal/site/private/build_private.py site`; its three HTML pages exist only
+in `site/private/`. The published paper is still taught in Sessions 1.4 and
+2.4, and the public 4.3 homework is our own, built on the public 2.4 count
+table and the paper.
 
 ## Commands
 
@@ -62,6 +67,8 @@ path breaks the subpath copy silently.
 | `site/assets/session.css` | Components used only by session pages. Loads after `bootcamp.css`. |
 | `site/assets/form.css` | Used by `register.html` and `feedback/`, instead of the session CSS. |
 | `site/assets/theme.js` | Light/dark toggle. |
+| `site/assets/signin.js`, `signin.css` | Topbar Sign in on every page; hides video players until signed in. |
+| `site/private/` | Members pages (gitignored), protected on the server. |
 | `site/sessionN.M/index.html` | One page per session part. |
 | `site/feedback/index.html` | Post-session questionnaire, linked as `/feedback/?session=N`. |
 | `site/participants/` | Aggregate registration stats page plus its generated `stats.js`. |
