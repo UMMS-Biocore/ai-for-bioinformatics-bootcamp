@@ -1,6 +1,6 @@
 # AI for Bioinformatics Bootcamp
 
-*A hands-on bootcamp that pairs the **theory** of modern genomics (bulk RNA-Seq, single-cell, and spatial) with the **responsible use of AI** to accelerate research, taught through real studies from Manuel Garber's lab and run end-to-end on **Foundry Connect**.*
+*A hands-on bootcamp that pairs the **theory** of modern genomics (bulk RNA-Seq, single-cell, and spatial) with the **responsible use of AI** to accelerate research, taught on the data behind published studies and run end-to-end on **Foundry Connect**.*
 
 **Website:** https://biocore.umassmed.edu/ · Fall 2026 · UMass Chan Medical School · Six Fridays, Sep 18 to Oct 23, 1:00 to 4:00 pm
 
