@@ -26,6 +26,8 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | 1 | Fri Sep 18, 2026 · Amphitheater II (S4-102) | **AI Foundations and Responsible AI** | [Plan](session1/README.md) · [Web pages](https://biocore.umassmed.edu/session1.1/) · [Slides](session1/) |
 | 2 | Fri Sep 25, 2026 · Amphitheater II (S4-102) | **Statistics and Visualization You Can Trust** | [Plan](session2/README.md) · [Web pages](https://biocore.umassmed.edu/session2.0/) |
 | 3 | Fri Oct 2, 2026 · Amphitheater II (S4-102) | **AI as a Research Co-pilot** | [Plan](session3/README.md) · [Web pages](https://biocore.umassmed.edu/session3.0/) |
+| 4 | Fri Oct 9, 2026 · Amphitheater II (S4-102) | **Bulk RNA-Seq** | [Plan](session4/README.md) · [Web pages](https://biocore.umassmed.edu/session4.0/) · [Slides](site/slides/session4/) |
+| 5 | Fri Oct 16, 2026 · Amphitheater I (S2-102) | **Single-cell RNA-Seq** | [Plan](session5/README.md) · [Web pages](https://biocore.umassmed.edu/session5.1/) · [Slides](site/slides/session5/) |
 
 ### Session 1 at a glance
 
@@ -65,7 +67,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | Part | Who | Web page |
 |---|---|---|
 | 4.0 Get set up (pre-work) | Bioinformatics Core | [session4.0](https://biocore.umassmed.edu/session4.0/) |
-| 4.1 Why differential expression uses models | Manuel Garber (UMass Chan) | [session4.1](https://biocore.umassmed.edu/session4.1/) · [notebooks](https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq) |
+| 4.1 Why differential expression uses models | Manuel Garber (UMass Chan) | [session4.1](https://biocore.umassmed.edu/session4.1/) · [slides](site/slides/session4/Session4_RNA-Seq_Intro_Manuel_Garber.pptx) · [notebooks](https://github.com/UMMS-Biocore/bootcamp-bulk-rnaseq) |
 | 4.2 Run RNA-seq on Foundry with an AI agent | Bioinformatics Core | [session4.2](https://biocore.umassmed.edu/session4.2/) |
 | 4.3 Homework: JNK-deficient liver | Bioinformatics Core | [session4.3](https://biocore.umassmed.edu/session4.3/) |
 
@@ -73,7 +75,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 
 | Part | Who | Web page |
 |---|---|---|
-| 5.1 A brief introduction to single-cell RNA-seq analysis | Manuel Garber | [session5.1](https://biocore.umassmed.edu/session5.1/) |
+| 5.1 A brief introduction to single-cell RNA-seq analysis | Manuel Garber (UMass Chan) | [session5.1](https://biocore.umassmed.edu/session5.1/) · [slides](site/slides/session5/Session5_scRNA-Seq_Intro_Manuel_Garber.pptx) |
 | 5.2 Single-cell data, QC and integration in live marimo notebooks | Ozkan Aydemir | [session5.2](https://biocore.umassmed.edu/session5.2/) |
 | 5.3 Homework: Cell Ranger report and PBMC markers from Foundry run 12084 | Bioinformatics Core | [session5.3](https://biocore.umassmed.edu/session5.3/) |
 
@@ -88,6 +90,9 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | `session2/README.md` | Session 2 overview and materials |
 | `session3/README.md` | Session 3 overview, pre-work, and materials |
 | `session3/personal-kb-lesson-v2.txt` | John Damask's exercise, as he wrote it |
+| `session4/README.md` | Session 4 overview, pre-work, and materials |
+| `session5/README.md` | Session 5 overview and materials |
+| `site/slides/session4/`, `site/slides/session5/` | Lecture slides for Sessions 4 and 5, served by the site too |
 | `site/` | The bootcamp website |
 
 ## Grounded in
