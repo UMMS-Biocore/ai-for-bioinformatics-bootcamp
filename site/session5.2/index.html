@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 5.2 · Single-cell data, QC and integration · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 5 with Ozkan Aydemir: live marimo notebooks on public COVID-19 lung lavage single-cell data (Liao 2020), from merging samples and quality control to doublets and integration.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+<link rel="stylesheet" href="../assets/signin.css">
+<script src="../assets/signin.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session5">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 5 / 5.2</p>
+  <nav class="parts" aria-label="Session 5 parts">
+    <a href="../session5.1/"><b>5.1</b> Intro to scRNA-seq</a>
+    <a href="../session5.2/" aria-current="page"><b>5.2</b> Data, QC and integration</a>
+    <a href="../session5.3/"><b>5.3</b> Homework</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 5.2 · Ozkan Aydemir</p>
+    <h1>Single-cell data, QC and integration, live.</h1>
+    <p class="deck">Ozkan Aydemir works through a public COVID-19 lung lavage dataset in marimo notebooks with an AI agent: merging samples, deciding which cells to keep, finding doublets, and then integrating samples without erasing the biology you came to study.</p>
+    <div class="cta-row">
+      <a class="btn" href="#recording">Watch the recordings <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Fri Oct 16 &middot; two recordings, about 95 minutes</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="recording-h" id="recording">
+    <div class="band-head"><h2 id="recording-h">Recordings</h2></div>
+    <h3>Part 1: the data and quality control</h3>
+    <p>Slides on how single-cell libraries are made (droplet capture, UMIs, 5&prime; versus 3&prime; kits, VDJ, Cell Ranger, intronic reads, ambient RNA), then the dataset and two notebooks: merging the samples into one AnnData object, and quality control.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session5/02_Ozkan_Aydemir_Single_Cell_Data_and_QC.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Ozkan Aydemir &middot; data and QC &middot; 67 minutes</figcaption>
+      </figure>
+    <h3>Part 2: integration</h3>
+    <p>Slides on batch versus condition and over-integration, questions on pooled samples, then the third notebook: normalization, variable genes, PCs, UMAPs by sample and condition, and the integrated result.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session5/03_Ozkan_Aydemir_Single_Cell_Integration.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Ozkan Aydemir &middot; integration &middot; 27 minutes</figcaption>
+      </figure>
+  </section>
+
+  <section class="band" aria-labelledby="data-h">
+    <div class="band-head"><h2 id="data-h">The dataset</h2></div>
+    <p>Bronchoalveolar lavage (BAL) cells from patients with moderate and severe COVID-19 and from healthy controls, published by Liao and colleagues in 2020. The data are public. One caution comes up early: the healthy controls were not processed alongside the patients, so control versus COVID-19 is confounded with batch. Any integration that removes the batch can also remove the disease signal.</p>
+  </section>
+
+  <section class="band" aria-labelledby="cover-h">
+    <div class="band-head"><h2 id="cover-h">What the notebooks cover</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Merging samples</h4>
+        <p>Load each sample&rsquo;s count matrix, combine them into one AnnData object, and count cells per sample. A short tour of AnnData: the count matrix, cell and gene tables, and layers that keep raw and normalized counts side by side.</p>
+      </div>
+      <div class="step">
+        <h4>Quality control</h4>
+        <p>Signals of damaged cells: few genes, few UMIs, a high mitochondrial fraction. Three ways to set cutoffs: one fixed threshold for everything, a threshold per sample, or a threshold per cluster. Fixed filters quietly remove neutrophils, which naturally have few genes, so the choice changes which cell types survive. The notebook compares the filters side by side.</p>
+      </div>
+      <div class="step">
+        <h4>Doublets</h4>
+        <p>Scrublet and scDblFinder both simulate artificial doublets and score real cells against them. They do not always agree, and the comparison is part of the lesson.</p>
+      </div>
+      <div class="step">
+        <h4>Integration</h4>
+        <p>Normalize, choose variable genes, pick the number of PCs, and look at the UMAP colored by sample and by condition before and after integration. Integration that is too strong merges cells that differ for real biological reasons. The UMAP is a picture; clustering runs on the neighbor graph. Neutrophils return as a trade-off: keep them and accept noisier QC, or filter them out and lose a cell type that matters in COVID-19 lungs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="links-h">
+    <div class="band-head"><h2 id="links-h">Links</h2></div>
+    <div class="links">
+      <a href="https://doi.org/10.1038/s41591-020-0901-9"><span class="k">Paper</span><strong>Liao et al. 2020, bronchoalveolar immune cells in COVID-19</strong><span class="d">The study behind the dataset, Nature Medicine.</span><span class="u">doi.org</span></a>
+      <a href="https://marimo.io/"><span class="k">Tool</span><strong>marimo</strong><span class="d">The reactive Python notebooks used in the session.</span><span class="u">marimo.io</span></a>
+      <a href="https://anndata.readthedocs.io/"><span class="k">Docs</span><strong>AnnData</strong><span class="d">The data structure for cells by genes, with metadata and layers.</span><span class="u">anndata.readthedocs.io</span></a>
+      <a href="https://www.sc-best-practices.org/"><span class="k">Book</span><strong>Single-cell best practices</strong><span class="d">Free chapters on QC, doublets, normalization and integration.</span><span class="u">sc-best-practices.org</span></a>
+      <a href="../session5.3/"><span class="k">Next</span><strong>5.3 Homework</strong><span class="d">Read a Cell Ranger report and find T cells and monocytes on a UMAP.</span><span class="u">session5.3</span></a>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="fb-h">
+    <div class="band-head"><h2 id="fb-h">After the session</h2></div>
+    <p class="lede">Two minutes of feedback, so the next session is pitched better. It also records your attendance, so fill it in whether you were in the room, on Zoom, or catching up on the recording.</p>
+    <p><a class="btn" href="../feedback/?session=5">Session 5 feedback <span class="arw" aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session5.1/"><span class="k">&larr; Previous</span><strong>5.1 Intro to scRNA-seq</strong></a>
+    <a class="next" href="../session5.3/"><span class="k">Next &rarr;</span><strong>5.3 Homework</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

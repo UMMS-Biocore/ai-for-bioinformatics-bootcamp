@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 5.1 · Introduction to single-cell RNA-seq · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 5 lecture: Manuel Garber's introduction to single-cell RNA-seq analysis, from droplets and QC to clustering, annotation, proportions and differential expression, with ten teaching figures.">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+<style>
+  figure.fig { margin: 0 0 2rem; max-width: 52rem; }
+  figure.fig img { display: block; width: 100%; height: auto; border: 1px solid var(--rule, #ddd); border-radius: 4px; background: #fff; }
+  figure.fig figcaption { margin-top: .6rem; font-size: .92rem; }
+  figure.fig figcaption b { display: block; margin-bottom: .2rem; }
+</style>
+<link rel="stylesheet" href="../assets/signin.css">
+<script src="../assets/signin.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session5">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 5 / 5.1</p>
+  <nav class="parts" aria-label="Session 5 parts">
+    <a href="../session5.1/" aria-current="page"><b>5.1</b> Intro to scRNA-seq</a>
+    <a href="../session5.2/"><b>5.2</b> Data, QC and integration</a>
+    <a href="../session5.3/"><b>5.3</b> Homework</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 5.1 · Lecture</p>
+    <h1>A brief introduction to single-cell RNA-seq analysis</h1>
+    <p class="deck">Manuel Garber walks through what a single-cell experiment measures and the standard path from cells to answers: quality control, variable genes, dimensionality reduction, clustering, naming cell types, and then the two questions most studies ask, whether cell-type proportions change and whether expression changes within a cell type.</p>
+    <div class="cta-row">
+      <a class="btn" href="#slides">Slides <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Manuel Garber &middot; lecture &middot; ten teaching figures</span>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="recording-h" id="recording">
+    <div class="band-head"><h2 id="recording-h">Recording</h2></div>
+    <p class="lede">Manuel&rsquo;s lecture: a brief introduction to single-cell RNA-seq analysis.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session5/01_Manuel_Garber_Single_Cell_Lecture.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Manuel Garber &middot; 30 minutes &middot; <a href="#slides">Slides below</a></figcaption>
+      </figure>
+  </section>
+
+  <section class="band" id="slides" aria-labelledby="slides-h">
+    <div class="band-head"><h2 id="slides-h">Slides</h2></div>
+    <div class="links">
+      <a href="../slides/session5/Session5_scRNA-Seq_Intro_Manuel_Garber.pptx" download><span class="k">Slides</span><strong>Brief introduction to scRNA-seq analysis</strong><span class="d">Manuel Garber&rsquo;s lecture slides, PowerPoint, 16 slides.</span><span class="u">2 MB</span></a>
+      <a href="../slides/session5/Session5_scRNA-Seq_Analysis_Illustrations.pptx" download><span class="k">Slides</span><strong>scRNA-seq analysis in ten figures</strong><span class="d">The ten teaching figures below as a PowerPoint deck.</span><span class="u">3 MB</span></a>
+    </div>
+    <h3>What the lecture covers</h3>
+    <ol>
+      <li><b>Where the data come from.</b> Most single-cell data come from a microfluidic device that captures one cell per droplet and barcodes its transcripts.</li>
+      <li><b>QC.</b> Filter out empty droplets, dying cells and doublets before anything else.</li>
+      <li><b>The goal.</b> Identify cell types, to annotate a tissue, to find changes in their proportions across samples and conditions, to find state changes along a continuous trajectory, to find regulatory programs, or to build an atlas.</li>
+      <li><b>Variable genes and dimensionality reduction.</b> Choose the informative genes carefully, then compress them to a few dozen dimensions.</li>
+      <li><b>Clustering.</b> Group cells by transcriptional similarity, usually with graph-based clustering (Leiden or Louvain).</li>
+      <li><b>Naming clusters.</b> Three routes: strict differential expression of marker genes, biological intuition (ask your friend), and label transfer from another dataset or a foundation model.</li>
+      <li><b>Proportion analysis.</b> Did a cell type become more or less common?</li>
+      <li><b>Differential expression, an unsolved problem.</b> Option 1 goes back to bulk RNA-seq by pseudobulking: conservative and well calibrated, but it needs thresholds, enough cells per sample, and more samples. Option 2 treats every cell as a replicate: more power and fewer ad hoc decisions, but always unbalanced, sparse, and prone to false positives.</li>
+    </ol>
+  </section>
+
+  <section class="band" id="figures" aria-labelledby="figures-h">
+    <div class="band-head"><h2 id="figures-h">The analysis in ten figures</h2></div>
+    <p>Each figure pairs a step of the analysis with the kind of plot it produces. <b>All data in them are simulated.</b> They illustrate the methods; they do not report biological findings or run the named packages.</p>
+
+    <figure class="fig" id="fig1">
+      <img src="figures/01_atlas_preprocessing.png" alt="Quality control scatterplot, normalized expression distributions, and a mean-variance plot marking highly variable genes." loading="lazy">
+      <figcaption><b>1. Quality control and informative genes</b>Filter cells on QC metrics, normalize, then keep the genes that vary more than their mean predicts. SCTransform is an alternative preprocessing path, not an extra required step.</figcaption>
+    </figure>
+    <figure class="fig" id="fig2">
+      <img src="figures/02_atlas_pca.png" alt="A gene by cell matrix, PCA scores of cells, and a scree plot of variance explained per component." loading="lazy">
+      <figcaption><b>2. Dimensionality reduction with PCA</b>The gene by cell matrix is compressed to principal components. The shaded cutoff on the scree plot is illustrative, not a universal number of PCs.</figcaption>
+    </figure>
+    <figure class="fig" id="fig3">
+      <img src="figures/03_atlas_integration.png" alt="Cells colored by batch before and after integration, and the same cells colored by cell type showing identities are preserved." loading="lazy">
+      <figcaption><b>3. Integration across samples or batches</b>Integration should remove a batch shift without erasing real biology. Always compare the unintegrated and integrated results.</figcaption>
+    </figure>
+    <figure class="fig" id="fig4">
+      <img src="figures/04_atlas_graph_clusters_umap.png" alt="A nearest-neighbor graph of cells branching into cluster assignments and a two-dimensional UMAP-style display." loading="lazy">
+      <figcaption><b>4. Neighbors, clusters and visualization</b>Clustering runs on a neighbor graph built in many PCs, not on the two UMAP axes. The UMAP is for looking, not for clustering.</figcaption>
+    </figure>
+    <figure class="fig" id="fig5">
+      <img src="figures/05_atlas_annotation_classification.png" alt="A marker gene dot plot, clusters labeled with cell type names, and a reference similarity score matrix." loading="lazy">
+      <figcaption><b>5. Marker annotation and reference labeling</b>Name clusters from marker genes, or score them against a labeled reference. A reference has to cover your tissue and states; cells that fit no reference label need a closer look.</figcaption>
+    </figure>
+    <figure class="fig" id="fig6">
+      <img src="figures/06_compositional_abundance.png" alt="A toy example where one cell type doubles, so the fractions of the other two fall even though their counts stay the same, with a log-ratio panel." loading="lazy">
+      <figcaption><b>6. Cell-type proportions are compositional</b>Fractions share a denominator and sum to one. If X doubles while Y and Z stay put, Y and Z fall from a third to a quarter each. A lower fraction does not prove absolute depletion. Joint compositional models (scCODA), explicit log-ratios, or an absolute cell count address this, each with its own assumptions.</figcaption>
+    </figure>
+    <figure class="fig" id="fig7">
+      <img src="figures/07_abundance_neighborhoods.png" alt="Overlapping neighborhoods along a continuous cell trajectory, sample-level neighborhood counts, and an effect map." loading="lazy">
+      <figcaption><b>7. Changes along a continuous cell state</b>When cells form a continuum rather than clean clusters, test abundance in overlapping graph neighborhoods (the Milo approach) with sample-level counts.</figcaption>
+    </figure>
+    <figure class="fig" id="fig8">
+      <img src="figures/08_de_strategy_choice.png" alt="Two heatmaps of the same monocytes: a pseudobulk matrix with one column per sample, and a cell-level matrix with one column per cell grouped by sample." loading="lazy">
+      <figcaption><b>8. Differential expression: the first decision</b>Either sum the original counts of a cell type within each biological sample and use a bulk RNA-seq tool (pseudobulk), or keep each cell as an observation in a cell-level model. Cells from one donor are not independent replicates; treating them as such is pseudoreplication.</figcaption>
+    </figure>
+    <figure class="fig" id="fig9">
+      <img src="figures/09_de_cell_level_models.png" alt="Pooled expression distributions, the same cells grouped by biological sample, and a coefficient plot with intervals." loading="lazy">
+      <figcaption><b>9. Cell-level models and biological replication</b>A cell-level model needs a donor random effect. A donor fixed effect cannot be estimated when each donor belongs to only one condition.</figcaption>
+    </figure>
+    <figure class="fig" id="fig10">
+      <img src="figures/10_abundance_vs_expression.png" alt="Density plots showing a change in state proportions, a shift within a state, and both together, each moving the population mean." loading="lazy">
+      <figcaption><b>10. Abundance changes and expression changes</b>A broad population&rsquo;s mean can move because its substates changed proportion, because expression shifted within a state, or both. Differential abundance and differential expression are complementary views.</figcaption>
+    </figure>
+  </section>
+
+  <section class="band" aria-labelledby="links-h">
+    <div class="band-head"><h2 id="links-h">Links</h2></div>
+    <div class="links">
+      <a href="https://scanpy.scverse.org/en/stable/tutorials/basics/clustering.html"><span class="k">Tutorial</span><strong>Scanpy preprocessing and clustering</strong><span class="d">QC, variable genes, PCA, neighbors, Leiden and UMAP in Python.</span><span class="u">scanpy.scverse.org</span></a>
+      <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial"><span class="k">Tutorial</span><strong>Seurat PBMC 3k guided tutorial</strong><span class="d">The same steps in R, used again in the homework.</span><span class="u">satijalab.org</span></a>
+      <a href="https://www.nature.com/articles/s41467-021-25960-2"><span class="k">Paper</span><strong>Squair et al. 2021, false discoveries in single-cell DE</strong><span class="d">Why pseudobulk often beats treating cells as replicates.</span><span class="u">nature.com</span></a>
+      <a href="../session5.2/"><span class="k">Next</span><strong>5.2 Data, QC and integration</strong><span class="d">Ozkan Aydemir&rsquo;s live notebooks on public COVID-19 lung lavage data.</span><span class="u">session5.2</span></a>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="fb-h">
+    <div class="band-head"><h2 id="fb-h">After the session</h2></div>
+    <p class="lede">Two minutes of feedback, so the next session is pitched better. It also records your attendance, so fill it in whether you were in the room, on Zoom, or catching up on the recording.</p>
+    <p><a class="btn" href="../feedback/?session=5">Session 5 feedback <span class="arw" aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session4.3/"><span class="k">&larr; Previous</span><strong>4.3 Homework</strong></a>
+    <a class="next" href="../session5.2/"><span class="k">Next &rarr;</span><strong>5.2 Data, QC and integration</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
