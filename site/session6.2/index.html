@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 6.2 · Xenium on Foundry · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 6 hands-on: an AI agent sets up the Xenium Spatial Analysis pipeline on Foundry for public 10x human lung data, and you check the run and launch it.">
+<script src="../assets/theme.js"></script>
+<script src="../assets/copy.js" defer></script>
+<link rel="stylesheet" href="../assets/bootcamp.css">
+<link rel="stylesheet" href="../assets/session.css">
+<link rel="stylesheet" href="../assets/signin.css">
+<script src="../assets/signin.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../"><img src="../assets/biocore-logo.png" alt="UMass Chan Bioinformatics Core"><span>Bioinformatics Core</span></a>
+    </div>
+    <div class="right">
+      <a class="gh-link" href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp/tree/main/session6">GitHub</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="crumbs"><a href="../">Bootcamp</a> / Session 6 / 6.2</p>
+  <nav class="parts" aria-label="Session 6 parts">
+    <a href="../session6.1/"><b>6.1</b> Spatial transcriptomics</a>
+    <a href="../session6.2/" aria-current="page"><b>6.2</b> Xenium on Foundry</a>
+    <a href="../session6.3/"><b>6.3</b> Homework</a>
+  </nav>
+
+  <header class="hero compact">
+    <p class="eyebrow">Session 6.2 · Hands-on</p>
+    <h1>Run a Xenium analysis on Foundry. You launch it.</h1>
+    <p class="deck">The same pattern as <a href="../session4.2/">4.2</a>, on spatial data. An AI agent sets up Foundry&rsquo;s Xenium Spatial Analysis pipeline on public human lung data, you check every setting and press Run, and about fifteen minutes later you have a report with clusters and niches drawn on the tissue.</p>
+    <div class="cta-row">
+      <a class="btn" href="#run">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry &middot; Playwright</span>
+    </div>
+  </header>
+
+  <section class="band" id="data" aria-labelledby="data-h">
+    <div class="band-head"><h2 id="data-h">The data</h2></div>
+    <p>10x Genomics&rsquo; public <b>Xenium human lung, 2 fields of view</b> dataset (<code>Xenium_V1_human_Lung_2fov</code>, CC BY 4.0): a piece of a human lung section about 1.2 by 0.75 mm, measured with a 289 gene panel. The output bundle holds 11,898 segmented cells. It is small on purpose, so the run finishes during class.</p>
+    <p>We put it on the cluster where every account can read it, with the two sheets the pipeline takes:</p>
+<pre class="cmd">/share/data/umw_biocore/genome_data/xenium/lung2fov/
+  Lung2fov_outs/            the 10x output folder
+  Lung2fov_cell_stats.csv   one row per cell: ID, transcripts, cell and nucleus area
+  samplesheet.tsv           sample_name, xenium_path
+  metadatasheet.tsv         sample_name, cell_stats_path, condition, replicate, tissue</pre>
+    <p>The original download is a 278&nbsp;MB ZIP from 10x, <a href="https://cf.10xgenomics.com/samples/xenium/2.0.0/Xenium_V1_human_Lung_2fov/Xenium_V1_human_Lung_2fov_outs.zip">Xenium_V1_human_Lung_2fov_outs.zip</a>. You do not need it today.</p>
+    <div class="more"><b>Two things we did to the bundle, and why</b><ul><li>The pipeline expects a <code>cell_feature_matrix/</code> folder. Newer 10x bundles ship it only as <code>cell_feature_matrix.tar.gz</code>, so we unpacked it.</li><li>The pipeline also wants a cell stats file of the kind Xenium Explorer exports. Public data has none, so we built one from <code>cells.csv.gz</code>. Leaving that column blank stops the run.</li></ul>Fixing a pipeline&rsquo;s input rather than its code is a normal workaround. Write it down, as here, so the next person knows.</div>
+  </section>
+
+  <section class="band" id="pipeline" aria-labelledby="pipeline-h">
+    <div class="band-head"><h2 id="pipeline-h">What the pipeline does</h2></div>
+    <p><b>Xenium Spatial Analysis Pipeline</b> (Foundry pipeline 1545, version 1.0.3) runs two steps: it prepares the 10x folder, then renders one R Markdown report with Seurat.</p>
+    <ol>
+      <li><b>Load.</b> Read the cell by gene counts, cell centroids, and control probe counts.</li>
+      <li><b>QC.</b> Drop cells with no transcripts, then keep cells between the 1st and 99th percentiles of transcripts per cell and of genes per cell.</li>
+      <li><b>Normalize and reduce.</b> SCTransform, then PCA, with the number of PCs picked from the PCA.</li>
+      <li><b>Cluster.</b> Cluster at 20 resolutions from 0.1 to 2.0 and pick one by how stable the clusters stay across resolutions.</li>
+      <li><b>Niches.</b> Group cells into 4 niches by the clusters of their 20 nearest neighbors, as in <a href="../session6.1/#niches">6.1</a>.</li>
+      <li><b>Markers.</b> Find marker genes for every cluster.</li>
+    </ol>
+    <p>It writes two files: an HTML report and the Seurat object as an <code>.rds</code> file. You open both in <a href="../session6.3/">6.3</a>.</p>
+  </section>
+
+  <section class="band" id="setup" aria-labelledby="setup-h">
+    <div class="band-head"><h2 id="setup-h">Before you start</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>Foundry, the agent, and Playwright from 4.2</h4>
+        <p>You need what you set up in Session 4.2: a Foundry run environment whose <a href="../session4.2/#foundry">Test Connection is green</a>, an agent in VS Code with <a href="../session4.2/#connector">Foundry Connect</a>, and the <a href="../session4.2/#playwright-install">Playwright browser</a>. Keep the agent in ask-first mode, as described in <a href="../session4.2/#tool">4.2</a>.</p>
+      </div>
+      <div class="step">
+        <h4>Make the folder and open it</h4>
+        <p><b>macOS:</b></p>
+<pre class="cmd">mkdir -p ~/Documents/bootcamp/session6/xenium</pre>
+        <p><b>Windows PowerShell:</b></p>
+<pre class="cmd">New-Item -ItemType Directory -Force (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session6\xenium') | Out-Null</pre>
+        <p>Then in VS Code choose <b>File</b>, <b>Open Folder</b>, and open <b>Documents</b>, <b>bootcamp</b>, <b>session6</b>, <b>xenium</b>. The agent saves its notes and screenshots here.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="run" aria-labelledby="run-h">
+    <div class="band-head"><h2 id="run-h">Hands-on: set up the run</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h4>1. Set it up by prompt</h4>
+        <blockquote class="prompt">Using the Playwright browser, open https://viafoundry.umassmed.edu and stop there so I can sign in myself. When I say I am signed in, do the following in that browser.
+
+1. Create a new run of the pipeline named "Xenium Spatial Analysis Pipeline", in a project named bootcamp_test. Create the project if it does not exist. Name the run "Xenium lung 2FOV".
+2. Choose my own run environment.
+3. Set the samplesheet input to the file /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and the metadatasheet input to /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. These are files already on the cluster; do not upload anything.
+4. Leave the pipeline's own settings at their defaults.
+5. Under Advanced options, turn on Singularity, with the image quay.io/ayush_praveen/ubuntu-seurat:5.3.0 and the run options -B /home:/home -B /share:/share -B /pi:/pi. Turn on the executor settings for all processes with queue short, memory 32 GB, 4 CPUs, and time 240 minutes.
+6. Stop and ask me which Execution Directory to use. Do not choose one yourself. Enter exactly the folder I give you.
+7. Save the run, but do not press Run. Give me a clickable link to the run, save a screenshot of the run page as run_setup.png in this folder, and show me a table of everything you set.</blockquote>
+        <p>Sign in by hand when the browser opens. If the agent asks for your password, say no. For the <b>Execution Directory</b>, give it a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>.</p>
+      </div>
+      <div class="step">
+        <h4>2. You check, you launch</h4>
+        <p>Open the link and check: pipeline <b>Xenium Spatial Analysis Pipeline</b>, the two sheet paths exactly as above, <b>your own</b> run environment, Singularity <b>on</b> with the Seurat 5.3.0 image, and the Execution Directory you gave. Then press <b>Run</b>.</p>
+        <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the agent stop for you three times: to sign in, for the Execution Directory, and before Run?</li><li>Does <code>run_setup.png</code> agree with its table?</li><li>Singularity was the one setting we had to spell out. What would a run without it have tried to do?</li></ul></div>
+      </div>
+      <div class="step">
+        <h4>3. Watch it run</h4>
+        <p>The cluster jobs take a few minutes; with queueing, expect about fifteen. Ask the agent to report instead of refreshing the page:</p>
+        <blockquote class="prompt">Using Foundry Connect, tell me the status of my run "Xenium lung 2FOV" in project bootcamp_test. If it is still running, say which step it is on. If it failed, show me the last 30 lines of its log and explain the error in plain words. Do not change or relaunch anything.</blockquote>
+        <p class="check"><b>Checkpoint</b> The run ends as <b>Completed</b>, and its results list two files: <code>HTML_Report/Lung2fov.analysis_report.html</code> (about 5&nbsp;MB) and <code>Analysis_Results_RDS/Lung2fov.analysis.rds</code> (about 40&nbsp;MB).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="while" aria-labelledby="while-h">
+    <div class="band-head"><h2 id="while-h">While it runs</h2></div>
+    <p>Use the wait to question the agent about what you just launched. Make it say which parts it knows from a source and which it is inferring.</p>
+    <blockquote class="prompt">I launched a Xenium analysis on 10x's public human lung 2 field of view dataset, measured with a 289 gene panel. Explain what files a Xenium output folder contains and which ones a cell by gene analysis needs. Then explain what a negative control probe and a blank codeword are, and what rate of them would make me distrust a run.</blockquote>
+    <blockquote class="prompt">The pipeline keeps cells between the 1st and 99th percentiles of transcripts and genes per cell. With a 289 gene panel, what kinds of cells could that remove for the wrong reason? Would you set the thresholds differently for spatial data than for single-cell?</blockquote>
+    <blockquote class="prompt">The pipeline builds 4 niches from each cell's 20 nearest neighbors. What does a niche capture that a cluster does not, and what would change if I asked for 8 niches instead?</blockquote>
+  </section>
+
+  <section class="band" id="trouble" aria-labelledby="trouble-h">
+    <div class="band-head"><h2 id="trouble-h">If the run fails</h2></div>
+    <p>We hit each of these while preparing the session. Ask the agent to read the log with the prompt in step 3, then compare.</p>
+    <ul>
+      <li><b><code>Rscript: command not found</code></b>: Singularity is off, so the job looked for R on the cluster itself. Turn it on as in step 1.5.</li>
+      <li><b>Image pull fails, or a read-only file system error</b>: the container could not be downloaded into the Singularity cache your run environment uses. Tell an instructor.</li>
+      <li><b><code>Argument of `file` function cannot be empty</code></b>: a sheet path is wrong or blank. Check both paths character by character.</li>
+    </ul>
+    <p>If your run cannot finish in class, nothing is lost: <a href="../session6.3/">6.3</a> uses course copies of the same two output files, from our own run of this setup.</p>
+  </section>
+
+  <section class="band" aria-labelledby="links-h">
+    <div class="band-head"><h2 id="links-h">Links</h2></div>
+    <div class="links">
+      <a href="https://viafoundry.umassmed.edu"><span class="k">Foundry</span><strong>viafoundry.umassmed.edu</strong><span class="d">Where the run lives.</span><span class="u">viafoundry.umassmed.edu</span></a>
+      <a href="../session4.2/"><span class="k">Earlier</span><strong>4.2 Foundry with an agent</strong><span class="d">Set up Foundry, Foundry Connect, and Playwright.</span><span class="u">session4.2</span></a>
+      <a href="../session6.3/"><span class="k">Next</span><strong>6.3 Homework</strong><span class="d">Read the report and map clusters and niches on the tissue.</span><span class="u">session6.3</span></a>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="fb-h">
+    <div class="band-head"><h2 id="fb-h">After the session</h2></div>
+    <p class="lede">Two minutes of feedback, so the next session is pitched better. It also records your attendance, so fill it in whether you were in the room, on Zoom, or catching up on the recording.</p>
+    <p><a class="btn" href="../feedback/?session=6">Session 6 feedback <span class="arw" aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
+  <nav class="pager" aria-label="Previous and next part">
+    <a class="prev" href="../session6.1/"><span class="k">&larr; Previous</span><strong>6.1 Spatial transcriptomics</strong></a>
+    <a class="next" href="../session6.3/"><span class="k">Next &rarr;</span><strong>6.3 Homework</strong></a>
+  </nav>
+
+  <footer class="foot">
+    <span>AI for Bioinformatics Bootcamp</span>
+    <span>UMass Chan Bioinformatics Core</span>
+    <span><a href="https://github.com/UMMS-Biocore/ai-for-bioinformatics-bootcamp">Source on GitHub</a></span>
+    <span><a href="../#ai-disclosure">AI use disclosure</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
