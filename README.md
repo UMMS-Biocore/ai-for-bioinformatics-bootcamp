@@ -28,6 +28,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | 3 | Fri Oct 2, 2026 · Amphitheater II (S4-102) | **AI as a Research Co-pilot** | [Plan](session3/README.md) · [Web pages](https://biocore.umassmed.edu/session3.0/) |
 | 4 | Fri Oct 9, 2026 · Amphitheater II (S4-102) | **Bulk RNA-Seq** | [Plan](session4/README.md) · [Web pages](https://biocore.umassmed.edu/session4.0/) · [Slides](site/slides/session4/) |
 | 5 | Fri Oct 16, 2026 · Amphitheater I (S2-102) | **Single-cell RNA-Seq** | [Plan](session5/README.md) · [Web pages](https://biocore.umassmed.edu/session5.1/) · [Slides](site/slides/session5/) |
+| 6 | Fri Oct 23, 2026 · Amphitheater II (S4-102) | **Spatial: Xenium and seqFISH** | [Plan](session6/README.md) · [Web pages](https://biocore.umassmed.edu/session6.1/) |
 
 ### Session 1 at a glance
 
@@ -79,6 +80,14 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | 5.2 Single-cell data, QC and integration in live marimo notebooks | Ozkan Aydemir | [session5.2](https://biocore.umassmed.edu/session5.2/) |
 | 5.3 Homework: Cell Ranger report and PBMC markers from Foundry run 12084 | Bioinformatics Core | [session5.3](https://biocore.umassmed.edu/session5.3/) |
 
+### Session 6 at a glance
+
+| Part | Who | Web page |
+|---|---|---|
+| 6.1 Spatial transcriptomics and the Wang et al. 2026 study | Bioinformatics Core | [session6.1](https://biocore.umassmed.edu/session6.1/) |
+| 6.2 Run the Xenium pipeline on Foundry with an agent | Bioinformatics Core | [session6.2](https://biocore.umassmed.edu/session6.2/) |
+| 6.3 Homework: Xenium report, niches and segmentation from Foundry run 12359 | Bioinformatics Core | [session6.3](https://biocore.umassmed.edu/session6.3/) |
+
 ---
 
 ## Repository layout
@@ -92,6 +101,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | `session3/personal-kb-lesson-v2.txt` | John Damask's exercise, as he wrote it |
 | `session4/README.md` | Session 4 overview, pre-work, and materials |
 | `session5/README.md` | Session 5 overview and materials |
+| `session6/README.md` | Session 6 overview and materials |
 | `site/slides/session4/`, `site/slides/session5/` | Lecture slides for Sessions 4 and 5, served by the site too |
 | `site/` | The bootcamp website |
 
