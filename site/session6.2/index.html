@@ -41,7 +41,7 @@
     <p class="deck">The same pattern as <a href="../session4.2/">4.2</a>, on spatial data. An AI agent sets up Foundry&rsquo;s Xenium Spatial Analysis pipeline on public human lung data, you check every setting and press Run, and about fifteen minutes later you have a report with clusters and niches drawn on the tissue.</p>
     <div class="cta-row">
       <a class="btn" href="#run">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry &middot; Playwright</span>
+      <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
     </div>
   </header>
 
@@ -76,8 +76,8 @@
     <div class="band-head"><h2 id="setup-h">Before you start</h2></div>
     <div class="steps">
       <div class="step">
-        <h4>Foundry, the agent, and Playwright from 4.2</h4>
-        <p>You need what you set up in Session 4.2: a Foundry run environment whose <a href="../session4.2/#foundry">Test Connection is green</a>, an agent in VS Code with <a href="../session4.2/#connector">Foundry Connect</a>, and the <a href="../session4.2/#playwright-install">Playwright browser</a>. Keep the agent in ask-first mode, as described in <a href="../session4.2/#tool">4.2</a>.</p>
+        <h4>Foundry and the agent from 4.2</h4>
+        <p>You need what you set up in Session 4.2: a Foundry run environment whose <a href="../session4.2/#foundry">Test Connection is green</a>, and an agent in VS Code with <a href="../session4.2/#connector">Foundry Connect</a>. The agent works through Foundry Connect alone, so no browser automation is needed. Keep it in ask-first mode, as described in <a href="../session4.2/#tool">4.2</a>.</p>
       </div>
       <div class="step">
         <h4>Make the folder and open it</h4>
@@ -85,7 +85,7 @@
 <pre class="cmd">mkdir -p ~/Documents/bootcamp/session6/xenium</pre>
         <p><b>Windows PowerShell:</b></p>
 <pre class="cmd">New-Item -ItemType Directory -Force (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session6\xenium') | Out-Null</pre>
-        <p>Then in VS Code choose <b>File</b>, <b>Open Folder</b>, and open <b>Documents</b>, <b>bootcamp</b>, <b>session6</b>, <b>xenium</b>. The agent saves its notes and screenshots here.</p>
+        <p>Then in VS Code choose <b>File</b>, <b>Open Folder</b>, and open <b>Documents</b>, <b>bootcamp</b>, <b>session6</b>, <b>xenium</b>. The agent saves its notes and the plot from step 4 here.</p>
       </div>
     </div>
   </section>
@@ -95,22 +95,23 @@
     <div class="steps">
       <div class="step">
         <h4>1. Set it up by prompt</h4>
-        <blockquote class="prompt">Using the Playwright browser, open https://viafoundry.umassmed.edu and stop there so I can sign in myself. When I say I am signed in, do the following in that browser.
+        <blockquote class="prompt">Using only the Foundry Connect tools (no browser), prepare a Xenium run for me. Do not launch it.
 
-1. Create a new run of the pipeline named "Xenium Spatial Analysis Pipeline", in a project named bootcamp_test. Create the project if it does not exist. Name the run "Xenium lung 2FOV".
-2. Choose my own run environment on hpc.umassmed.edu (named UMASS SCI Cluster). If you see more than one, ask me which.
-3. Stop and ask me which Execution Directory to use. Do not choose one yourself. Enter exactly the folder I give you. Foundry will not accept the input files until this is set.
-4. Set the samplesheet input to the file /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and the metadatasheet input to /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. These are files already on the cluster; do not upload anything.
-5. Leave the pipeline's own settings at their defaults.
-6. Under Advanced options, make sure Singularity is on, and set the image to quay.io/ayush_praveen/ubuntu-seurat:5.3.0 (replace any image already filled in) and the run options to -B /home:/home -B /share:/share -B /pi:/pi. Turn on the executor settings for all processes with queue short, memory 32 GB, 4 CPUs, and time 240 minutes. Leave the per-process executor settings as Foundry filled them.
-7. Save the run, but do not press Run. Give me a clickable link to the run, save a screenshot of the run page as run_setup.png in this folder, and show me a table of everything you set.</blockquote>
-        <p>Sign in by hand when the browser opens. If the agent asks for your password, say no. For the <b>Execution Directory</b>, give it a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>.</p>
+1. Find my project named bootcamp_test with list_projects. If it does not exist, ask me, then create it with create_project.
+2. Copy the course template run 12369 into that project with duplicate_run, using pipeline 1776 (Xenium Spatial Analysis Pipeline, version 1.0.4). The template carries the container settings this pipeline needs, which a run made from scratch does not get.
+3. With list_run_environments, show me the run environments I can use and pick my own on hpc.umassmed.edu (named UMASS SCI Cluster). If more than one fits, ask me which.
+4. Stop and ask me which Execution Directory to use. Show me the one Foundry proposes, but do not choose one yourself.
+5. With update_run, save the run name "Xenium lung 2FOV", the run environment, exactly the Execution Directory I gave, and the two inputs: samplesheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and metadatasheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. These are files already on the cluster; do not upload anything.
+6. With get_run_details (verbose), confirm that Singularity is on with image quay.io/ayush_praveen/ubuntu-seurat:5.3.0 and run options -B /home:/home -B /share:/share -B /pi:/pi, and that the executor settings for all processes are queue short, 32 GB, 4 CPUs, 240 minutes. If the image is anything else, stop and tell me.
+7. Run preflight_run. It reports "No sample dataset is attached"; that is expected, because this pipeline reads the two sheets instead of a dataset. Stop and tell me about any other failure.
+8. Do not call initiate_run. Give me the run link, https://viafoundry.umassmed.edu/runs/ followed by the new run id, and a table of everything you set.</blockquote>
+        <p>For the <b>Execution Directory</b>, give it a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>. The agent asks before each change it makes in Foundry; read each one before you allow it.</p>
       </div>
       <div class="step">
         <h4>2. You check, you launch</h4>
-        <p>Open the link and check: pipeline <b>Xenium Spatial Analysis Pipeline</b>, the two sheet paths exactly as above, <b>your own</b> run environment, Singularity <b>on</b> with the Seurat 5.3.0 image, and the Execution Directory you gave. Then press <b>Run</b>.</p>
+        <p>Open the link in your browser, signed in to Foundry, and check: pipeline <b>Xenium Spatial Analysis Pipeline</b> 1.0.4, the two sheet paths exactly as above, <b>your own</b> run environment, Singularity <b>on</b> with the Seurat 5.3.0 image, and the Execution Directory you gave. Then press <b>Run</b>.</p>
         <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
-        <div class="more"><b>What did you observe?</b><ul><li>Did the agent stop for you three times: to sign in, for the Execution Directory, and before Run?</li><li>Does <code>run_setup.png</code> agree with its table?</li><li>The container image was the one setting we had to spell out. What would a run with the image Foundry filled in have tried to do?</li></ul></div>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the agent stop for the Execution Directory, and did it stop before Run?</li><li>Does the run page agree with its table?</li><li>The agent copied a template run instead of creating one from scratch. A new run of this pipeline gets a Space Ranger image with no R in it. What would that run have failed with? See <a href="#trouble">If the run fails</a>.</li></ul></div>
       </div>
       <div class="step">
         <h4>3. Watch it run</h4>
@@ -140,7 +141,7 @@
     <div class="band-head"><h2 id="trouble-h">If the run fails</h2></div>
     <p>We hit each of these while preparing the session. Ask the agent to read the log with the prompt in step 3, then compare.</p>
     <ul>
-      <li><b><code>Rscript: command not found</code></b>: Singularity is off, or the image is not the Seurat one (Foundry fills in a Space Ranger image that has no R), so the job looked for R where there is none. Fix both as in step 1.6.</li>
+      <li><b><code>Rscript: command not found</code></b>: Singularity is off, or the image is not the Seurat one (Foundry fills in a Space Ranger image that has no R), so the job looked for R where there is none. This happens when the run was created from scratch instead of copied from template run 12369. Ask the agent to set it up again with the prompt in step 1.</li>
       <li><b>Image pull fails, or a read-only file system error</b>: the container could not be downloaded into the Singularity cache your run environment uses. Tell an instructor.</li>
       <li><b><code>Argument of `file` function cannot be empty</code></b>: a sheet path is wrong or blank. Check both paths character by character.</li>
     </ul>
@@ -151,7 +152,7 @@
     <div class="band-head"><h2 id="links-h">Links</h2></div>
     <div class="links">
       <a href="https://viafoundry.umassmed.edu"><span class="k">Foundry</span><strong>viafoundry.umassmed.edu</strong><span class="d">Where the run lives.</span><span class="u">viafoundry.umassmed.edu</span></a>
-      <a href="../session4.2/"><span class="k">Earlier</span><strong>4.2 Foundry with an agent</strong><span class="d">Set up Foundry, Foundry Connect, and Playwright.</span><span class="u">session4.2</span></a>
+      <a href="../session4.2/"><span class="k">Earlier</span><strong>4.2 Foundry with an agent</strong><span class="d">Set up Foundry and Foundry Connect.</span><span class="u">session4.2</span></a>
       <a href="../session6.3/"><span class="k">Next</span><strong>6.3 Homework</strong><span class="d">Read the report and map clusters and niches on the tissue.</span><span class="u">session6.3</span></a>
     </div>
   </section>
