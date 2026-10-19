@@ -98,11 +98,11 @@
         <blockquote class="prompt">Using the Playwright browser, open https://viafoundry.umassmed.edu and stop there so I can sign in myself. When I say I am signed in, do the following in that browser.
 
 1. Create a new run of the pipeline named "Xenium Spatial Analysis Pipeline", in a project named bootcamp_test. Create the project if it does not exist. Name the run "Xenium lung 2FOV".
-2. Choose my own run environment.
-3. Set the samplesheet input to the file /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and the metadatasheet input to /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. These are files already on the cluster; do not upload anything.
-4. Leave the pipeline's own settings at their defaults.
-5. Under Advanced options, turn on Singularity, with the image quay.io/ayush_praveen/ubuntu-seurat:5.3.0 and the run options -B /home:/home -B /share:/share -B /pi:/pi. Turn on the executor settings for all processes with queue short, memory 32 GB, 4 CPUs, and time 240 minutes.
-6. Stop and ask me which Execution Directory to use. Do not choose one yourself. Enter exactly the folder I give you.
+2. Choose my own run environment on hpc.umassmed.edu (named UMASS SCI Cluster). If you see more than one, ask me which.
+3. Stop and ask me which Execution Directory to use. Do not choose one yourself. Enter exactly the folder I give you. Foundry will not accept the input files until this is set.
+4. Set the samplesheet input to the file /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and the metadatasheet input to /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. These are files already on the cluster; do not upload anything.
+5. Leave the pipeline's own settings at their defaults.
+6. Under Advanced options, make sure Singularity is on, and set the image to quay.io/ayush_praveen/ubuntu-seurat:5.3.0 (replace any image already filled in) and the run options to -B /home:/home -B /share:/share -B /pi:/pi. Turn on the executor settings for all processes with queue short, memory 32 GB, 4 CPUs, and time 240 minutes. Leave the per-process executor settings as Foundry filled them.
 7. Save the run, but do not press Run. Give me a clickable link to the run, save a screenshot of the run page as run_setup.png in this folder, and show me a table of everything you set.</blockquote>
         <p>Sign in by hand when the browser opens. If the agent asks for your password, say no. For the <b>Execution Directory</b>, give it a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>.</p>
       </div>
@@ -110,13 +110,13 @@
         <h4>2. You check, you launch</h4>
         <p>Open the link and check: pipeline <b>Xenium Spatial Analysis Pipeline</b>, the two sheet paths exactly as above, <b>your own</b> run environment, Singularity <b>on</b> with the Seurat 5.3.0 image, and the Execution Directory you gave. Then press <b>Run</b>.</p>
         <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
-        <div class="more"><b>What did you observe?</b><ul><li>Did the agent stop for you three times: to sign in, for the Execution Directory, and before Run?</li><li>Does <code>run_setup.png</code> agree with its table?</li><li>Singularity was the one setting we had to spell out. What would a run without it have tried to do?</li></ul></div>
+        <div class="more"><b>What did you observe?</b><ul><li>Did the agent stop for you three times: to sign in, for the Execution Directory, and before Run?</li><li>Does <code>run_setup.png</code> agree with its table?</li><li>The container image was the one setting we had to spell out. What would a run with the image Foundry filled in have tried to do?</li></ul></div>
       </div>
       <div class="step">
         <h4>3. Watch it run</h4>
         <p>The cluster jobs take a few minutes; with queueing, expect about fifteen. Ask the agent to report instead of refreshing the page:</p>
         <blockquote class="prompt">Using Foundry Connect, tell me the status of my run "Xenium lung 2FOV" in project bootcamp_test. If it is still running, say which step it is on. If it failed, show me the last 30 lines of its log and explain the error in plain words. Do not change or relaunch anything.</blockquote>
-        <p class="check"><b>Checkpoint</b> The run ends as <b>Completed</b>, and its results list two files: <code>HTML_Report/Lung2fov.analysis_report.html</code> (about 5&nbsp;MB) and <code>Analysis_Results_RDS/Lung2fov.analysis.rds</code> (about 40&nbsp;MB).</p>
+        <p class="check"><b>Checkpoint</b> The run ends as <b>Completed</b>, and its Reports tab shows <code>HTML_Report/Lung2fov.analysis_report.html</code> (about 5&nbsp;MB). The Seurat object is written next to it on the cluster, not shown in Foundry: <code>&lt;your Execution Directory&gt;/report&lt;run id&gt;/Analysis_Results_RDS/Lung2fov.analysis.rds</code> (about 40&nbsp;MB).</p>
       </div>
     </div>
   </section>
@@ -133,7 +133,7 @@
     <div class="band-head"><h2 id="trouble-h">If the run fails</h2></div>
     <p>We hit each of these while preparing the session. Ask the agent to read the log with the prompt in step 3, then compare.</p>
     <ul>
-      <li><b><code>Rscript: command not found</code></b>: Singularity is off, so the job looked for R on the cluster itself. Turn it on as in step 1.5.</li>
+      <li><b><code>Rscript: command not found</code></b>: Singularity is off, or the image is not the Seurat one (Foundry fills in a Space Ranger image that has no R), so the job looked for R where there is none. Fix both as in step 1.6.</li>
       <li><b>Image pull fails, or a read-only file system error</b>: the container could not be downloaded into the Singularity cache your run environment uses. Tell an instructor.</li>
       <li><b><code>Argument of `file` function cannot be empty</code></b>: a sheet path is wrong or blank. Check both paths character by character.</li>
     </ul>
