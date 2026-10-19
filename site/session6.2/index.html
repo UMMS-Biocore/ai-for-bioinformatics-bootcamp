@@ -95,17 +95,8 @@
     <div class="steps">
       <div class="step">
         <h4>1. Set it up by prompt</h4>
-        <blockquote class="prompt">Using only the Foundry Connect tools (no browser), prepare a Xenium run for me. Do not launch it.
-
-1. Find my project named bootcamp_test with list_projects. If it does not exist, ask me, then create it with create_project.
-2. Copy the course template run 12369 into that project with duplicate_run, using pipeline 1776 (Xenium Spatial Analysis Pipeline, version 1.0.4). The template carries the container settings this pipeline needs, which a run made from scratch does not get.
-3. With list_run_environments, show me the run environments I can use and pick my own on hpc.umassmed.edu (named UMASS SCI Cluster). If more than one fits, ask me which.
-4. Stop and ask me which Execution Directory to use. Show me the one Foundry proposes, but do not choose one yourself.
-5. With update_run, save the run name "Xenium lung 2FOV", the run environment, exactly the Execution Directory I gave, and the two inputs: samplesheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and metadatasheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. These are files already on the cluster; do not upload anything.
-6. With get_run_details (verbose), confirm that Singularity is on with image quay.io/ayush_praveen/ubuntu-seurat:5.3.0 and run options -B /home:/home -B /share:/share -B /pi:/pi, and that the executor settings for all processes are queue short, 32 GB, 4 CPUs, 240 minutes. If the image is anything else, stop and tell me.
-7. Run preflight_run. It reports "No sample dataset is attached"; that is expected, because this pipeline reads the two sheets instead of a dataset. Stop and tell me about any other failure.
-8. Do not call initiate_run. Give me the run link, https://viafoundry.umassmed.edu/runs/ followed by the new run id, and a table of everything you set.</blockquote>
-        <p>For the <b>Execution Directory</b>, give it a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>. The agent asks before each change it makes in Foundry; read each one before you allow it.</p>
+        <blockquote class="prompt">Using Foundry Connect only, copy template run 12369 into my project bootcamp_test (ask me before creating it) and name it "Xenium lung 2FOV". Set my UMASS SCI Cluster run environment, ask me for the Execution Directory, and set the inputs samplesheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and metadatasheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. Confirm Singularity uses quay.io/ayush_praveen/ubuntu-seurat:5.3.0, run preflight ("No sample dataset is attached" is expected), and do not launch. Give me the run link and a table of what you set.</blockquote>
+        <p>For the <b>Execution Directory</b>, give a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>. Approve each Foundry change only after you read it.</p>
       </div>
       <div class="step">
         <h4>2. You check, you launch</h4>
