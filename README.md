@@ -77,7 +77,7 @@ Working scientists (grad students, postdocs, bench researchers, core-facility us
 | Part | Who | Web page |
 |---|---|---|
 | 5.1 A brief introduction to single-cell RNA-seq analysis | Manuel Garber (UMass Chan) | [session5.1](https://biocore.umassmed.edu/session5.1/) · [slides](site/slides/session5/Session5_scRNA-Seq_Intro_Manuel_Garber.pptx) |
-| 5.2 Single-cell data, QC and integration in live marimo notebooks | Ozkan Aydemir | [session5.2](https://biocore.umassmed.edu/session5.2/) |
+| 5.2 Single-cell data, QC and integration in live marimo notebooks | Ozkan Aydemir | [session5.2](https://biocore.umassmed.edu/session5.2/) · slides [part 1](site/slides/session5/Session5_scRNA-Seq_Workshop_Part1_Data_and_QC.html) · [part 2](site/slides/session5/Session5_scRNA-Seq_Workshop_Part2_Integration.html) |
 | 5.3 Homework: Cell Ranger report and PBMC markers from Foundry run 12084 | Bioinformatics Core | [session5.3](https://biocore.umassmed.edu/session5.3/) |
 
 ### Session 6 at a glance

@@ -9,7 +9,7 @@
 | Part | Who | Page |
 |---|---|---|
 | 5.1 A brief introduction to single-cell RNA-seq analysis | Manuel Garber (UMass Chan) | [session5.1](https://biocore.umassmed.edu/session5.1/) · [slides](../site/slides/session5/Session5_scRNA-Seq_Intro_Manuel_Garber.pptx) · [figures](../site/slides/session5/Session5_scRNA-Seq_Analysis_Illustrations.pptx) |
-| 5.2 Single-cell data, QC and integration in live marimo notebooks | Ozkan Aydemir | [session5.2](https://biocore.umassmed.edu/session5.2/) |
+| 5.2 Single-cell data, QC and integration in live marimo notebooks | Ozkan Aydemir | [session5.2](https://biocore.umassmed.edu/session5.2/) · slides [part 1](../site/slides/session5/Session5_scRNA-Seq_Workshop_Part1_Data_and_QC.html) · [part 2](../site/slides/session5/Session5_scRNA-Seq_Workshop_Part2_Integration.html) |
 | 5.3 Homework: Cell Ranger report and PBMC markers from Foundry run 12084 | Bioinformatics Core | [session5.3](https://biocore.umassmed.edu/session5.3/) |
 | After | Feedback (records attendance) | [feedback](https://biocore.umassmed.edu/feedback/?session=5) |
 
@@ -29,6 +29,7 @@ Foundry run 12084 ran Cell Ranger Multi on 10x Genomics' public 1k PBMCs with ce
 
 - Slides: Manuel Garber, [Brief introduction to scRNA-seq analysis](../site/slides/session5/Session5_scRNA-Seq_Intro_Manuel_Garber.pptx) (PowerPoint, 2 MB)
 - Slides: [scRNA-seq analysis in ten figures](../site/slides/session5/Session5_scRNA-Seq_Analysis_Illustrations.pptx) (PowerPoint, 3 MB)
+- Slides: Ozkan Aydemir, scRNA-seq workshop, split like the recordings: [part 1, data and QC](https://biocore.umassmed.edu/slides/session5/Session5_scRNA-Seq_Workshop_Part1_Data_and_QC.html) (slides 1 to 24) and [part 2, integration and beyond](https://biocore.umassmed.edu/slides/session5/Session5_scRNA-Seq_Workshop_Part2_Integration.html) (slides 25 to 46), or [all 46 slides](https://biocore.umassmed.edu/slides/session5/Session5_scRNA-Seq_Workshop_Ozkan_Aydemir.html) (HTML, opens in the browser)
 - Data for 5.3: [Cell Ranger web summary](https://biocore.umassmed.edu/data/session5/pbmc_web_summary.html) (6 MB HTML) and [Seurat object](https://biocore.umassmed.edu/data/session5/pbmc_final_analysis.rds) (19 MB)
 - Original reads, if you want them: [10x Genomics dataset page](https://www.10xgenomics.com/datasets/1-k-pbm-cs-from-a-healthy-donor-gene-expression-and-cell-surface-protein-3-standard-3-0-0)
 - Recordings: on the session pages, after you sign in at the top of the site
