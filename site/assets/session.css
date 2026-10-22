@@ -182,8 +182,9 @@ details.hint blockquote { white-space: pre-wrap; overflow-wrap: anywhere; }
 
 /* ---------- recordings ---------- */
 
-figure.video { margin: 0 0 1.6rem; max-width: 52rem; }
-figure.video video {
+/* figure.clip looks the same but is public: signin.js only gates figure.video. */
+figure.video, figure.clip { margin: 0 0 1.6rem; max-width: 52rem; }
+figure.video video, figure.clip video {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -191,7 +192,7 @@ figure.video video {
   border: 1px solid var(--rule);
   border-radius: 4px;
 }
-figure.video figcaption { margin-top: .5rem; font-size: .85rem; color: var(--pencil); }
+figure.video figcaption, figure.clip figcaption { margin-top: .5rem; font-size: .85rem; color: var(--pencil); }
 
 /* ---------- link cards ---------- */
 
