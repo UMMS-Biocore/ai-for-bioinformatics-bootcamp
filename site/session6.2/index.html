@@ -95,8 +95,9 @@
     <div class="steps">
       <div class="step">
         <h4>1. Set it up by prompt</h4>
-        <blockquote class="prompt">Using Foundry Connect only, copy template run 12369 into my project bootcamp_test (ask me before creating it) and name it "Xenium lung 2FOV". Set my UMASS SCI Cluster run environment, ask me for the Execution Directory, and set the inputs samplesheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and metadatasheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. Confirm Singularity uses quay.io/ummsbiocore/ubuntu-seurat:5.3.0, run preflight ("No sample dataset is attached" is expected), and do not launch. Give me the run link and a table of what you set.</blockquote>
+        <blockquote class="prompt">Using Foundry Connect only, copy template run 12369 into my project bootcamp_test (ask me before creating it) and name it "Xenium lung 2FOV". Set my run environment for the UMass cluster, ask me for the Execution Directory, and set the inputs samplesheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and metadatasheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. Confirm Singularity uses quay.io/ummsbiocore/ubuntu-seurat:5.3.0, run preflight ("No sample dataset is attached" is expected), and do not launch. Give me the run ID, the run link and a table of what you set.</blockquote>
         <p>For the <b>Execution Directory</b>, give a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>. Approve each Foundry change only after you read it.</p>
+        <p>Write down the <b>run ID</b> (the number at the end of the run link). Steps 3 and 4 use it in place of <code>&lt;run ID&gt;</code>, because a search by name can find someone else&rsquo;s run with the same name.</p>
       </div>
       <div class="step">
         <h4>2. You check, you launch</h4>
@@ -107,13 +108,13 @@
       <div class="step">
         <h4>3. Watch it run</h4>
         <p>The cluster jobs take a few minutes; with queueing, expect about fifteen. Ask the agent to report instead of refreshing the page:</p>
-        <blockquote class="prompt">Using Foundry Connect, tell me the status of my run "Xenium lung 2FOV" in project bootcamp_test. If it is still running, say which step it is on. If it failed, show me the last 30 lines of its log and explain the error in plain words. Do not change or relaunch anything.</blockquote>
+        <blockquote class="prompt">Using Foundry Connect, tell me the status of my run &lt;run ID&gt;. If it is still running, say which step it is on. If it failed, show me the last 30 lines of its log and explain the error in plain words. Do not change or relaunch anything.</blockquote>
         <p class="check"><b>Checkpoint</b> The run ends as <b>Completed</b>, and its results list two files: <code>HTML_Report/Lung2fov.analysis_report.html</code> (about 5&nbsp;MB) and <code>Analysis_Results_RDS/Lung2fov.analysis.rds</code> (about 40&nbsp;MB).</p>
       </div>
       <div class="step" id="color">
         <h4>4. Color two genes from your own run</h4>
         <p>The agent fetches the Seurat object your run made through Foundry Connect and plots two genes on the tissue. It needs R with Seurat 5, as in the <a href="../session6.3/#setup">6.3 set up</a>.</p>
-        <blockquote class="prompt">Using Foundry Connect, list the result files of my run "Xenium lung 2FOV" in project bootcamp_test. Then use download_file on the Seurat .rds file. It is too big to come back in the chat, so Foundry answers with a download command and a link that expires in about 15 minutes: run that command right away to save the file in this folder. Do not open any app or viewer. Then write an R script that loads the file with Seurat, plots VWF and PDGFRA at their positions on the tissue with ImageFeaturePlot, and saves the plot as spatial_VWF_PDGFRA.png. Tell me how many cells have counts above zero for each gene, and the fraction of those cells in each niche.</blockquote>
+        <blockquote class="prompt">Using Foundry Connect, list the result files of my run &lt;run ID&gt;. Then use download_file on the Seurat .rds file. It is too big to come back in the chat, so Foundry answers with a download command and a link that expires in about 15 minutes: run that command right away to save the file in this folder. Do not open any app or viewer. Then write an R script that loads the file with Seurat, plots VWF and PDGFRA at their positions on the tissue with ImageFeaturePlot, and saves the plot as spatial_VWF_PDGFRA.png. Tell me how many cells have counts above zero for each gene, and the fraction of those cells in each niche.</blockquote>
         <p class="check"><b>Checkpoint</b> A file of about 42&nbsp;MB, with 11,486 cells and 289 genes. 495 cells express VWF, a vessel marker, and 194 express PDGFRA, a fibroblast marker. Both pile up in niche 3: 11.6% of its cells are VWF positive and 6.5% PDGFRA positive, against at most 3.9% and 1.1% in the other niches.</p>
         <div class="more"><b>The download link</b>It opens one file, for about 15 minutes, and needs no password. Treat it like a key for that time: do not paste it into a chat with anyone else. If it expires before you use it, ask the agent to call download_file again.</div>
       </div>
