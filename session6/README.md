@@ -19,7 +19,7 @@ What position adds to a cell by gene table, imaging based (Xenium, seqFISH) agai
 
 ## 6.2 Xenium on Foundry with an agent
 
-The 4.2 pattern on spatial data. An agent in VS Code fills in a run of Foundry's Xenium Spatial Analysis Pipeline (pipeline 1545, version 1.0.3) on 10x Genomics' public human lung 2 field of view dataset (289 genes, 11,898 cells), and you check it and press Run. The pipeline does QC, SCTransform, clustering, niches and markers in Seurat, and writes an HTML report and a Seurat object in about fifteen minutes.
+The 4.2 pattern on spatial data. An agent in VS Code prepares a run of Foundry's Xenium Spatial Analysis Pipeline (pipeline 1776, version 1.0.4) through Foundry Connect alone, by copying a course template run, on 10x Genomics' public human lung 2 field of view dataset (289 genes, 11,898 cells), and you check it and press Run. The pipeline does QC, SCTransform, clustering, niches and markers in Seurat, and writes an HTML report and a Seurat object in about fifteen minutes.
 
 ## 6.3 Homework: back on the tissue
 
