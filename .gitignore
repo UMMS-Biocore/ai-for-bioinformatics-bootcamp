@@ -21,3 +21,5 @@ site/private/
 
 # Recordings are deployed by rsync, never tracked.
 site/videos/**/*.mp4
+# Public how-to clips, also deployed by rsync. Not sign-in gated.
+site/howto/*.mp4
