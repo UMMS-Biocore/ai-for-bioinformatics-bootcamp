@@ -39,15 +39,26 @@
     <h1>Single-cell data, QC and integration, live.</h1>
     <p class="deck">Ozkan Aydemir works through a public COVID-19 lung lavage dataset in marimo notebooks with an AI agent: merging samples, deciding which cells to keep, finding doublets, and then integrating samples without erasing the biology you came to study.</p>
     <div class="cta-row">
+      <a class="btn" href="#slides">Open the slides <span class="arw" aria-hidden="true">&rarr;</span></a>
       <a class="btn" href="#recording">Watch the recordings <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <span class="cta-meta">Fri Oct 16 &middot; two recordings, about 95 minutes</span>
+      <span class="cta-meta">Fri Oct 16 &middot; 46 slides in two parts &middot; two recordings, about 95 minutes</span>
     </div>
   </header>
+
+  <section class="band" aria-labelledby="slides-h" id="slides">
+    <div class="band-head"><h2 id="slides-h">Slides</h2></div>
+    <p>Ozkan&rsquo;s workshop deck, in two parts that match the two recordings below. Each opens in the browser: use the arrow keys, the space bar, or a click on the right or left half to move between slides, and <kbd>F</kbd> for full screen. On a phone, or any window taller than it is wide, the slides stack so you can scroll through all of them. The second part also holds the slides on naming cell types, composition, pseudobulk DE, viral reads and T-cell clones, which go beyond what the recording covers.</p>
+    <div class="links">
+      <a href="../slides/session5/Session5_scRNA-Seq_Workshop_Part1_Data_and_QC.html"><span class="k">Slides</span><strong>Part 1: from reads to a count matrix, and the dataset</strong><span class="d">Slides 1 to 24: what single-cell measures, barcodes and UMIs, 3&prime; and 5&prime; kits, VDJ, pipelines, intronic reads, cell calling, ambient RNA, the study design, AnnData.</span><span class="u">HTML, 24 slides</span></a>
+      <a href="../slides/session5/Session5_scRNA-Seq_Workshop_Part2_Integration.html"><span class="k">Slides</span><strong>Part 2: integration, cell types and what changes</strong><span class="d">Slides 25 to 46: what integration should remove, over-integration, checks, naming cell types, composition, pseudobulk DE, viral reads, TCR clones, take home.</span><span class="u">HTML, 22 slides</span></a>
+      <a href="../slides/session5/Session5_scRNA-Seq_Workshop_Ozkan_Aydemir.html"><span class="k">Slides</span><strong>The whole deck in one file</strong><span class="d">All 46 slides, for reading straight through.</span><span class="u">HTML, 46 slides</span></a>
+    </div>
+  </section>
 
   <section class="band" aria-labelledby="recording-h" id="recording">
     <div class="band-head"><h2 id="recording-h">Recordings</h2></div>
     <h3>Part 1: the data and quality control</h3>
-    <p>Slides on how single-cell libraries are made (droplet capture, UMIs, 5&prime; versus 3&prime; kits, VDJ, Cell Ranger, intronic reads, ambient RNA), then the dataset and two notebooks: merging the samples into one AnnData object, and quality control.</p>
+    <p>Ozkan first talks through <a href="../slides/session5/Session5_scRNA-Seq_Workshop_Part1_Data_and_QC.html">slides part 1</a> on how single-cell libraries are made (droplet capture, UMIs, 5&prime; versus 3&prime; kits, VDJ, Cell Ranger, intronic reads, ambient RNA) and the dataset, then runs two notebooks: merging the samples into one AnnData object, and quality control.</p>
       <figure class="video">
         <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
           <source src="../videos/session5/02_Ozkan_Aydemir_Single_Cell_Data_and_QC.mp4" type="video/mp4">
@@ -56,7 +67,7 @@
         <figcaption>Ozkan Aydemir &middot; data and QC &middot; 67 minutes</figcaption>
       </figure>
     <h3>Part 2: integration</h3>
-    <p>Slides on batch versus condition and over-integration, questions on pooled samples, then the third notebook: normalization, variable genes, PCs, UMAPs by sample and condition, and the integrated result.</p>
+    <p>Ozkan opens with the integration slides at the start of <a href="../slides/session5/Session5_scRNA-Seq_Workshop_Part2_Integration.html">slides part 2</a> (batch versus condition, over-integration), takes questions on pooled samples, then runs the third notebook: normalization, variable genes, PCs, UMAPs by sample and condition, and the integrated result.</p>
       <figure class="video">
         <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
           <source src="../videos/session5/03_Ozkan_Aydemir_Single_Cell_Integration.mp4" type="video/mp4">
@@ -65,6 +76,7 @@
         <figcaption>Ozkan Aydemir &middot; integration &middot; 27 minutes</figcaption>
       </figure>
   </section>
+
 
   <section class="band" aria-labelledby="data-h">
     <div class="band-head"><h2 id="data-h">The dataset</h2></div>
