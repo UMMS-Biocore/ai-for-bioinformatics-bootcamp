@@ -3,10 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Session 6.2 · Xenium on Foundry · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 6 hands-on: an AI agent sets up the Xenium Spatial Analysis pipeline on Foundry for public 10x human lung data, and you check the run and launch it.">
+<title>Session 6.2 · Spatial transcriptomics · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 6 background: what spatial transcriptomics adds over single-cell, how imaging methods such as Xenium and seqFISH build a cell by gene table, what can go wrong, and the Wang et al. 2026 photosensitive skin study.">
 <script src="../assets/theme.js"></script>
-<script src="../assets/copy.js" defer></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
 <link rel="stylesheet" href="../assets/signin.css">
@@ -30,122 +29,98 @@
 
   <p class="crumbs"><a href="../">Bootcamp</a> / Session 6 / 6.2</p>
   <nav class="parts" aria-label="Session 6 parts">
-    <a href="../session6.1/"><b>6.1</b> Spatial transcriptomics</a>
-    <a href="../session6.2/" aria-current="page"><b>6.2</b> Xenium on Foundry</a>
-    <a href="../session6.3/"><b>6.3</b> Homework</a>
+    <a href="../session6.1/"><b>6.1</b> Intro to spatial</a>
+    <a href="../session6.2/" aria-current="page"><b>6.2</b> Spatial transcriptomics</a>
+    <a href="../session6.3/"><b>6.3</b> Xenium on Foundry</a>
+    <a href="../session6.4/"><b>6.4</b> Homework</a>
   </nav>
 
   <header class="hero compact">
-    <p class="eyebrow">Session 6.2 · Hands-on</p>
-    <h1>Run a Xenium analysis on Foundry. You launch it.</h1>
-    <p class="deck">The same pattern as <a href="../session4.2/">4.2</a>, on spatial data. An AI agent sets up Foundry&rsquo;s Xenium Spatial Analysis pipeline on public human lung data, you check every setting and press Run, and about fifteen minutes later you have a report with clusters and niches drawn on the tissue.</p>
+    <p class="eyebrow">Session 6.2 · Background</p>
+    <h1>Spatial transcriptomics: every cell, where it was</h1>
+    <p class="deck">Single-cell RNA-seq tells you which cells are in a tissue but throws away where they sat. Spatial methods keep the position. This page covers what that buys you, how imaging methods such as Xenium and seqFISH turn fluorescent spots into a cell by gene table, where that table can mislead you, and the study that anchors the session.</p>
     <div class="cta-row">
-      <a class="btn" href="#run">Go to the hands-on <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <span class="cta-meta">VS Code &middot; Claude Code or Codex &middot; Foundry Connect</span>
+      <a class="btn" href="#adds">Start <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Reading &middot; about 20 minutes &middot; Wang et al. 2026</span>
     </div>
   </header>
 
-  <section class="band" id="data" aria-labelledby="data-h">
-    <div class="band-head"><h2 id="data-h">The data</h2></div>
-    <p>10x Genomics&rsquo; public <b>Xenium human lung, 2 fields of view</b> dataset (<code>Xenium_V1_human_Lung_2fov</code>, CC BY 4.0): a piece of a human lung section about 1.2 by 0.75 mm, measured with a 289 gene panel. The output bundle holds 11,898 segmented cells. It is small on purpose, so the run finishes during class.</p>
-    <p>We put it on the cluster where every account can read it, with the two sheets the pipeline takes:</p>
-<pre class="cmd">/share/data/umw_biocore/genome_data/xenium/lung2fov/
-  Lung2fov_outs/            the 10x output folder
-  Lung2fov_cell_stats.csv   one row per cell: ID, transcripts, cell and nucleus area
-  samplesheet.tsv           sample_name, xenium_path
-  metadatasheet.tsv         sample_name, cell_stats_path, condition, replicate, tissue</pre>
-    <p>The original download is a 278&nbsp;MB ZIP from 10x, <a href="https://cf.10xgenomics.com/samples/xenium/2.0.0/Xenium_V1_human_Lung_2fov/Xenium_V1_human_Lung_2fov_outs.zip">Xenium_V1_human_Lung_2fov_outs.zip</a>. You do not need it today.</p>
-    <div class="more"><b>Two things we did to the bundle, and why</b><ul><li>The pipeline expects a <code>cell_feature_matrix/</code> folder. Newer 10x bundles ship it only as <code>cell_feature_matrix.tar.gz</code>, so we unpacked it.</li><li>The pipeline also wants a cell stats file of the kind Xenium Explorer exports. Public data has none, so we built one from <code>cells.csv.gz</code>. Leaving that column blank stops the run.</li></ul>Fixing a pipeline&rsquo;s input rather than its code is a normal workaround. Write it down, as here, so the next person knows.</div>
-  </section>
-
-  <section class="band" id="pipeline" aria-labelledby="pipeline-h">
-    <div class="band-head"><h2 id="pipeline-h">What the pipeline does</h2></div>
-    <p><b>Xenium Spatial Analysis Pipeline</b> (version 1.0.4 on Foundry; version 1.0.3 gives the same results) runs two steps: it prepares the 10x folder, then renders one R Markdown report with Seurat.</p>
-    <ol>
-      <li><b>Load.</b> Read the cell by gene counts, cell centroids, and control probe counts.</li>
-      <li><b>QC.</b> Drop cells with no transcripts, then keep cells between the 1st and 99th percentiles of transcripts per cell and of genes per cell.</li>
-      <li><b>Normalize and reduce.</b> SCTransform, then PCA, with the number of PCs picked from the PCA.</li>
-      <li><b>Cluster.</b> Cluster at 20 resolutions from 0.1 to 2.0 and pick one by how stable the clusters stay across resolutions.</li>
-      <li><b>Niches.</b> Group cells into 4 niches by the clusters of their 20 nearest neighbors, as in <a href="../session6.1/#niches">6.1</a>.</li>
-      <li><b>Markers.</b> Find marker genes for every cluster.</li>
-    </ol>
-    <p>It writes two files: an HTML report and the Seurat object as an <code>.rds</code> file. You open both in <a href="../session6.3/">6.3</a>.</p>
-  </section>
-
-  <section class="band" id="setup" aria-labelledby="setup-h">
-    <div class="band-head"><h2 id="setup-h">Before you start</h2></div>
-    <div class="steps">
-      <div class="step">
-        <h4>Foundry and the agent from 4.2</h4>
-        <p>You need what you set up in Session 4.2: a Foundry run environment whose <a href="../session4.2/#foundry">Test Connection is green</a>, and an agent in VS Code with <a href="../session4.2/#connector">Foundry Connect</a>. The agent works through Foundry Connect alone, so no browser automation is needed. Keep it in ask-first mode, as described in <a href="../session4.2/#tool">4.2</a>.</p>
-      </div>
-      <div class="step">
-        <h4>Make the folder and open it</h4>
-        <p><b>macOS:</b></p>
-<pre class="cmd">mkdir -p ~/Documents/bootcamp/session6/xenium</pre>
-        <p><b>Windows PowerShell:</b></p>
-<pre class="cmd">New-Item -ItemType Directory -Force (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'bootcamp\session6\xenium') | Out-Null</pre>
-        <p>Then in VS Code choose <b>File</b>, <b>Open Folder</b>, and open <b>Documents</b>, <b>bootcamp</b>, <b>session6</b>, <b>xenium</b>. The agent saves its notes and the plot from step 4 here.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="band" id="run" aria-labelledby="run-h">
-    <div class="band-head"><h2 id="run-h">Hands-on: set up the run</h2></div>
-    <div class="steps">
-      <div class="step">
-        <h4>1. Set it up by prompt</h4>
-        <blockquote class="prompt">Using Foundry Connect only, copy template run 12369 into my project bootcamp_test (ask me before creating it) and name it "Xenium lung 2FOV". Set my run environment for the UMass cluster, ask me for the Execution Directory, and set the inputs samplesheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/samplesheet.tsv and metadatasheet = /share/data/umw_biocore/genome_data/xenium/lung2fov/metadatasheet.tsv. Confirm Singularity uses quay.io/ummsbiocore/ubuntu-seurat:5.3.0, run preflight ("No sample dataset is attached" is expected), and do not launch. Give me the run ID, the run link and a table of what you set.</blockquote>
-        <p>For the <b>Execution Directory</b>, give a folder you can write to on the cluster, such as <code>/home/&lt;your cluster username&gt;/bootcamp/xenium</code>. Approve each Foundry change only after you read it.</p>
-        <p>Write down the <b>run ID</b> (the number at the end of the run link). Steps 3 and 4 use it in place of <code>&lt;run ID&gt;</code>, because a search by name can find someone else&rsquo;s run with the same name.</p>
-      </div>
-      <div class="step">
-        <h4>2. You check, you launch</h4>
-        <p>Open the link in your browser, signed in to Foundry, and check: pipeline <b>Xenium Spatial Analysis Pipeline</b> 1.0.4, the two sheet paths exactly as above, <b>your own</b> run environment, Singularity <b>on</b> with the Seurat 5.3.0 image, and the Execution Directory you gave. Then press <b>Run</b>.</p>
-        <p class="check"><b>The rule</b> The agent prepared the run. You launch it.</p>
-        <div class="more"><b>What did you observe?</b><ul><li>Did the agent stop for the Execution Directory, and did it stop before Run?</li><li>Does the run page agree with its table?</li><li>The agent copied a template run instead of creating one from scratch. A new run of this pipeline gets a Space Ranger image with no R in it. What would that run have failed with? See <a href="#trouble">If the run fails</a>.</li></ul></div>
-      </div>
-      <div class="step">
-        <h4>3. Watch it run</h4>
-        <p>The cluster jobs take a few minutes; with queueing, expect about fifteen. Ask the agent to report instead of refreshing the page:</p>
-        <blockquote class="prompt">Using Foundry Connect, tell me the status of my run &lt;run ID&gt;. If it is still running, say which step it is on. If it failed, show me the last 30 lines of its log and explain the error in plain words. Do not change or relaunch anything.</blockquote>
-        <p class="check"><b>Checkpoint</b> The run ends as <b>Completed</b>, and its results list two files: <code>HTML_Report/Lung2fov.analysis_report.html</code> (about 5&nbsp;MB) and <code>Analysis_Results_RDS/Lung2fov.analysis.rds</code> (about 40&nbsp;MB).</p>
-      </div>
-      <div class="step" id="color">
-        <h4>4. Color two genes from your own run</h4>
-        <p>The agent fetches the Seurat object your run made through Foundry Connect and plots two genes on the tissue. It needs R with Seurat 5, as in the <a href="../session6.3/#setup">6.3 set up</a>.</p>
-        <blockquote class="prompt">Using Foundry Connect, list the result files of my run &lt;run ID&gt;. Then use download_file on the Seurat .rds file. It is too big to come back in the chat, so Foundry answers with a download command and a link that expires in about 15 minutes: run that command right away to save the file in this folder. Do not open any app or viewer. Then write an R script that loads the file with Seurat, plots VWF and PDGFRA at their positions on the tissue with ImageFeaturePlot, and saves the plot as spatial_VWF_PDGFRA.png. Tell me how many cells have counts above zero for each gene, and the fraction of those cells in each niche.</blockquote>
-        <p class="check"><b>Checkpoint</b> A file of about 42&nbsp;MB, with 11,486 cells and 289 genes. 495 cells express VWF, a vessel marker, and 194 express PDGFRA, a fibroblast marker. Both pile up in niche 3: 11.6% of its cells are VWF positive and 6.5% PDGFRA positive, against at most 3.9% and 1.1% in the other niches.</p>
-        <div class="more"><b>The download link</b>It opens one file, for about 15 minutes, and needs no password. Treat it like a key for that time: do not paste it into a chat with anyone else. If it expires before you use it, ask the agent to call download_file again.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band" id="while" aria-labelledby="while-h">
-    <div class="band-head"><h2 id="while-h">While it runs</h2></div>
-    <p>Use the wait to question the agent about what you just launched. Make it say which parts it knows from a source and which it is inferring.</p>
-    <blockquote class="prompt">I launched a Xenium analysis on 10x's public human lung 2 field of view dataset, measured with a 289 gene panel. Explain what files a Xenium output folder contains and which ones a cell by gene analysis needs. Then explain what a negative control probe and a blank codeword are, and what rate of them would make me distrust a run.</blockquote>
-    <blockquote class="prompt">The pipeline keeps cells between the 1st and 99th percentiles of transcripts and genes per cell. With a 289 gene panel, what kinds of cells could that remove for the wrong reason? Would you set the thresholds differently for spatial data than for single-cell?</blockquote>
-    <blockquote class="prompt">The pipeline builds 4 niches from each cell's 20 nearest neighbors. What does a niche capture that a cluster does not, and what would change if I asked for 8 niches instead?</blockquote>
-  </section>
-
-  <section class="band" id="trouble" aria-labelledby="trouble-h">
-    <div class="band-head"><h2 id="trouble-h">If the run fails</h2></div>
-    <p>We hit each of these while preparing the session. Ask the agent to read the log with the prompt in step 3, then compare.</p>
+  <section class="band" id="adds" aria-labelledby="adds-h">
+    <div class="band-head"><h2 id="adds-h">What spatial adds</h2></div>
+    <p>The <a href="../">resolution ladder</a> on the home page has three rungs. Bulk RNA-seq (Session 4) gives one average per sample. Single-cell (Session 5) resolves every cell and its type, but the cells arrive dissociated, so their neighbors are lost. Spatial is the third rung: the same kind of cell by gene table, plus an x and y position for every cell.</p>
+    <p>Position answers questions the other two cannot:</p>
     <ul>
-      <li><b><code>Rscript: command not found</code></b>: Singularity is off, or the image is not the Seurat one (Foundry fills in a Space Ranger image that has no R), so the job looked for R where there is none. This happens when the run was created from scratch instead of copied from template run 12369. Ask the agent to set it up again with the prompt in step 1.</li>
-      <li><b>Image pull fails, or a read-only file system error</b>: the container could not be downloaded into the Singularity cache your run environment uses. Tell an instructor.</li>
-      <li><b><code>Argument of `file` function cannot be empty</code></b>: a sheet path is wrong or blank. Check both paths character by character.</li>
+      <li><b>Architecture.</b> Which cell types form a layer, a vessel wall, a follicle, or the edge of a lesion.</li>
+      <li><b>Neighborhoods.</b> Which cell types sit next to each other more often than chance, and whether that changes with disease.</li>
+      <li><b>Circuits.</b> Whether a cell that makes a signal sits next to the cell that receives it. A ligand and its receptor in the same tissue mean little if the two cells are a millimeter apart.</li>
     </ul>
-    <p>If your run cannot finish in class, nothing is lost: <a href="../session6.3/">6.3</a> uses course copies of the same two output files, from our own run of this setup.</p>
+  </section>
+
+  <section class="band" id="methods" aria-labelledby="methods-h">
+    <div class="band-head"><h2 id="methods-h">Two ways to read RNA in place</h2></div>
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th scope="col"></th><th scope="col">Imaging based</th><th scope="col">Sequencing based</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Examples</th><td>Xenium, seqFISH, MERFISH, CosMx</td><td>Visium, Visium HD, Slide-seq</td></tr>
+          <tr><th scope="row">How</th><td>Probes bind chosen RNAs in the tissue section; rounds of fluorescent imaging decode which gene each spot is</td><td>The tissue sits on a slide of barcoded spots; RNA is captured, sequenced, and mapped back to its spot</td></tr>
+          <tr><th scope="row">Genes</th><td>A targeted panel, from a few hundred to about five thousand</td><td>Close to the whole transcriptome</td></tr>
+          <tr><th scope="row">Resolution</th><td>Single transcripts, so single cells after segmentation</td><td>Spots that may hold several cells (finer in newer versions)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>This session uses two imaging methods. <b>Xenium</b> (10x Genomics) is the one you run in <a href="../session6.3/">6.3</a>. <b>seqFISH</b> (sequential fluorescence in situ hybridization) is the one the Wang study used, with a 511 gene panel.</p>
+  </section>
+
+  <section class="band" id="table" aria-labelledby="table-h">
+    <div class="band-head"><h2 id="table-h">From spots to a cell by gene table</h2></div>
+    <ol>
+      <li><b>Decode transcripts.</b> Each fluorescent spot becomes one transcript with a gene name, an x, y, z position, and a quality score. Xenium writes these to <code>transcripts.parquet</code>.</li>
+      <li><b>Segment cells.</b> A nuclear stain (and in newer runs, membrane stains) is used to draw a boundary around every cell. This step decides which transcripts belong to which cell.</li>
+      <li><b>Count.</b> Transcripts inside each boundary are counted per gene, giving <code>cell_feature_matrix</code>, with one row per cell in <code>cells.csv.gz</code> holding its centroid, area, and counts.</li>
+      <li><b>Controls.</b> The panel also carries negative control probes and &ldquo;blank&rdquo; codewords that match no gene. Their counts estimate how often decoding calls a gene that is not there.</li>
+    </ol>
+    <p>After that, the analysis looks like Session 5: normalize, reduce dimensions, cluster, name clusters with markers. Then comes the new step, using position.</p>
+  </section>
+
+  <section class="band" id="pitfalls" aria-labelledby="pitfalls-h">
+    <div class="band-head"><h2 id="pitfalls-h">Where the table can mislead you</h2></div>
+    <ul>
+      <li><b>The panel decides what you can see.</b> A gene that is not on the panel reads as zero in every cell. Absent from the data does not mean not expressed. The lung data in 6.3 has 289 genes; there is no <code>PTPRC</code> and no <code>SFTPC</code>.</li>
+      <li><b>Few molecules per cell.</b> The lung run in 6.3 has a median of 56 transcripts per cell. The PBMC run in Session 5 had a median of 7,867 UMIs. Clusters rest on far less information.</li>
+      <li><b>Segmentation spills over.</b> Cells in a section touch and overlap. A boundary drawn a little too wide picks up transcripts from the neighbor, so a macrophage next to epithelium can appear to express an epithelial gene. You will measure this in <a href="../session6.4/">6.4</a>.</li>
+      <li><b>A section is a slice.</b> It is a few micrometers thick, so many cells are cut through, and the field of view may not represent the whole tissue.</li>
+    </ul>
+  </section>
+
+  <section class="band" id="niches" aria-labelledby="niches-h">
+    <div class="band-head"><h2 id="niches-h">Neighborhoods and niches</h2></div>
+    <p>A <b>niche</b> is a group of cells whose surroundings look alike. The Seurat function the Foundry pipeline uses, <code>BuildNicheAssay</code>, does it in two steps: for each cell, count the cluster labels of its 20 nearest neighbors in space; then group cells with similar counts into a set number of niches, 4 by default. A cell&rsquo;s cluster says what it is. Its niche says what it lives among.</p>
+    <p>The number of niches is a choice, like the clustering resolution in Session 5. Four is a default, not a finding.</p>
+  </section>
+
+  <section class="band" id="study" aria-labelledby="study-h">
+    <div class="band-head"><h2 id="study-h">The study: Wang et al. 2026, Nature Immunology</h2></div>
+    <p>The study comes from Manuel Garber&rsquo;s lab at UMass Chan. It asks why skin from people with photosensitive autoimmune disease, including cutaneous lupus and dermatomyositis, becomes inflamed. The authors measured skin with seqFISH on a 511 gene panel and with single-cell RNA-seq. They report a <b>spatially coordinated circuit</b>: keratinocytes and fibroblasts that sit together recruit <b>MMP9<sup>+</sup> myeloid cells</b>, which drive type I interferon inflammation.</p>
+    <p>Read it with three questions in mind:</p>
+    <ol>
+      <li>Which claims need position? Which could single-cell data alone have made?</li>
+      <li>How do the authors show that two cell types are closer than chance, and what is their null?</li>
+      <li>With 511 genes, what could they not have seen?</li>
+    </ol>
+    <div class="links">
+      <a href="https://www.nature.com/articles/s41590-026-02502-w"><span class="k">Paper</span><strong>Wang et al. 2026, Nature Immunology</strong><span class="d">A keratinocyte to fibroblast circuit recruits MMP9<sup>+</sup> myeloid cells in photosensitive autoimmunity.</span><span class="u">nature.com</span></a>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12393449/"><span class="k">Free text</span><strong>The same paper on PubMed Central</strong><span class="d">Open access full text and figures.</span><span class="u">pmc.ncbi.nlm.nih.gov</span></a>
+    </div>
   </section>
 
   <section class="band" aria-labelledby="links-h">
     <div class="band-head"><h2 id="links-h">Links</h2></div>
     <div class="links">
-      <a href="https://viafoundry.umassmed.edu"><span class="k">Foundry</span><strong>viafoundry.umassmed.edu</strong><span class="d">Where the run lives.</span><span class="u">viafoundry.umassmed.edu</span></a>
-      <a href="../session4.2/"><span class="k">Earlier</span><strong>4.2 Foundry with an agent</strong><span class="d">Set up Foundry and Foundry Connect.</span><span class="u">session4.2</span></a>
-      <a href="../session6.3/"><span class="k">Next</span><strong>6.3 Homework</strong><span class="d">Read the report and map clusters and niches on the tissue.</span><span class="u">session6.3</span></a>
+      <a href="https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/analysis/xoa-output-understanding-outputs"><span class="k">Docs</span><strong>Understanding Xenium outputs</strong><span class="d">What each file in a Xenium output folder holds.</span><span class="u">10xgenomics.com</span></a>
+      <a href="https://satijalab.org/seurat/articles/seurat5_spatial_vignette_2"><span class="k">Tutorial</span><strong>Seurat: imaging based spatial data</strong><span class="d">Loading Xenium into Seurat, spatial plots, and niches.</span><span class="u">satijalab.org</span></a>
+      <a href="../session5.1/"><span class="k">Earlier</span><strong>5.1 Intro to scRNA-seq</strong><span class="d">QC, clustering and naming cell types, all used again here.</span><span class="u">session5.1</span></a>
+      <a href="../session6.3/"><span class="k">Next</span><strong>6.3 Xenium on Foundry</strong><span class="d">Run the Xenium pipeline on public lung data with an agent.</span><span class="u">session6.3</span></a>
     </div>
   </section>
 
@@ -156,8 +131,8 @@
   </section>
 
   <nav class="pager" aria-label="Previous and next part">
-    <a class="prev" href="../session6.1/"><span class="k">&larr; Previous</span><strong>6.1 Spatial transcriptomics</strong></a>
-    <a class="next" href="../session6.3/"><span class="k">Next &rarr;</span><strong>6.3 Homework</strong></a>
+    <a class="prev" href="../session6.1/"><span class="k">&larr; Previous</span><strong>6.1 Intro to spatial</strong></a>
+    <a class="next" href="../session6.3/"><span class="k">Next &rarr;</span><strong>6.3 Xenium on Foundry</strong></a>
   </nav>
 
   <footer class="foot">

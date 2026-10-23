@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Session 6.1 · Spatial transcriptomics · AI for Bioinformatics Bootcamp</title>
-<meta name="description" content="Session 6 background: what spatial transcriptomics adds over single-cell, how imaging methods such as Xenium and seqFISH build a cell by gene table, what can go wrong, and the Wang et al. 2026 photosensitive skin study.">
+<title>Session 6.1 · A few words on spatial data · AI for Bioinformatics Bootcamp</title>
+<meta name="description" content="Session 6 lecture: Manuel Garber's introduction to spatial data, how it extends the single-cell table with a position for every cell, why proximity matters for cell to cell communication, and why spatial technologies differ.">
 <script src="../assets/theme.js"></script>
 <link rel="stylesheet" href="../assets/bootcamp.css">
 <link rel="stylesheet" href="../assets/session.css">
@@ -29,97 +29,42 @@
 
   <p class="crumbs"><a href="../">Bootcamp</a> / Session 6 / 6.1</p>
   <nav class="parts" aria-label="Session 6 parts">
-    <a href="../session6.1/" aria-current="page"><b>6.1</b> Spatial transcriptomics</a>
-    <a href="../session6.2/"><b>6.2</b> Xenium on Foundry</a>
-    <a href="../session6.3/"><b>6.3</b> Homework</a>
+    <a href="../session6.1/" aria-current="page"><b>6.1</b> Intro to spatial</a>
+    <a href="../session6.2/"><b>6.2</b> Spatial transcriptomics</a>
+    <a href="../session6.3/"><b>6.3</b> Xenium on Foundry</a>
+    <a href="../session6.4/"><b>6.4</b> Homework</a>
   </nav>
 
   <header class="hero compact">
-    <p class="eyebrow">Session 6.1 · Background</p>
-    <h1>Spatial transcriptomics: every cell, where it was</h1>
-    <p class="deck">Single-cell RNA-seq tells you which cells are in a tissue but throws away where they sat. Spatial methods keep the position. This page covers what that buys you, how imaging methods such as Xenium and seqFISH turn fluorescent spots into a cell by gene table, where that table can mislead you, and the study that anchors the session.</p>
+    <p class="eyebrow">Session 6.1 · Lecture</p>
+    <h1>A few words on spatial data</h1>
+    <p class="deck">Manuel Garber opens the session by placing spatial data next to what you already know. A spatial experiment is a single-cell table with a position for every cell, so its analysis builds on the single-cell steps from Session 5. What position adds is proximity: which cells actually sit next to each other.</p>
     <div class="cta-row">
-      <a class="btn" href="#adds">Start <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <span class="cta-meta">Reading &middot; about 20 minutes &middot; Wang et al. 2026</span>
+      <a class="btn" href="#slides">Slides <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <span class="cta-meta">Manuel Garber &middot; lecture &middot; 9 slides</span>
     </div>
   </header>
 
-  <section class="band" id="adds" aria-labelledby="adds-h">
-    <div class="band-head"><h2 id="adds-h">What spatial adds</h2></div>
-    <p>The <a href="../">resolution ladder</a> on the home page has three rungs. Bulk RNA-seq (Session 4) gives one average per sample. Single-cell (Session 5) resolves every cell and its type, but the cells arrive dissociated, so their neighbors are lost. Spatial is the third rung: the same kind of cell by gene table, plus an x and y position for every cell.</p>
-    <p>Position answers questions the other two cannot:</p>
-    <ul>
-      <li><b>Architecture.</b> Which cell types form a layer, a vessel wall, a follicle, or the edge of a lesion.</li>
-      <li><b>Neighborhoods.</b> Which cell types sit next to each other more often than chance, and whether that changes with disease.</li>
-      <li><b>Circuits.</b> Whether a cell that makes a signal sits next to the cell that receives it. A ligand and its receptor in the same tissue mean little if the two cells are a millimeter apart.</li>
-    </ul>
-  </section>
-
-  <section class="band" id="methods" aria-labelledby="methods-h">
-    <div class="band-head"><h2 id="methods-h">Two ways to read RNA in place</h2></div>
-    <div class="table-scroll">
-      <table class="data">
-        <thead><tr><th scope="col"></th><th scope="col">Imaging based</th><th scope="col">Sequencing based</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Examples</th><td>Xenium, seqFISH, MERFISH, CosMx</td><td>Visium, Visium HD, Slide-seq</td></tr>
-          <tr><th scope="row">How</th><td>Probes bind chosen RNAs in the tissue section; rounds of fluorescent imaging decode which gene each spot is</td><td>The tissue sits on a slide of barcoded spots; RNA is captured, sequenced, and mapped back to its spot</td></tr>
-          <tr><th scope="row">Genes</th><td>A targeted panel, from a few hundred to about five thousand</td><td>Close to the whole transcriptome</td></tr>
-          <tr><th scope="row">Resolution</th><td>Single transcripts, so single cells after segmentation</td><td>Spots that may hold several cells (finer in newer versions)</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>This session uses two imaging methods. <b>Xenium</b> (10x Genomics) is the one you run in <a href="../session6.2/">6.2</a>. <b>seqFISH</b> (sequential fluorescence in situ hybridization) is the one the Wang study used, with a 511 gene panel.</p>
-  </section>
-
-  <section class="band" id="table" aria-labelledby="table-h">
-    <div class="band-head"><h2 id="table-h">From spots to a cell by gene table</h2></div>
-    <ol>
-      <li><b>Decode transcripts.</b> Each fluorescent spot becomes one transcript with a gene name, an x, y, z position, and a quality score. Xenium writes these to <code>transcripts.parquet</code>.</li>
-      <li><b>Segment cells.</b> A nuclear stain (and in newer runs, membrane stains) is used to draw a boundary around every cell. This step decides which transcripts belong to which cell.</li>
-      <li><b>Count.</b> Transcripts inside each boundary are counted per gene, giving <code>cell_feature_matrix</code>, with one row per cell in <code>cells.csv.gz</code> holding its centroid, area, and counts.</li>
-      <li><b>Controls.</b> The panel also carries negative control probes and &ldquo;blank&rdquo; codewords that match no gene. Their counts estimate how often decoding calls a gene that is not there.</li>
-    </ol>
-    <p>After that, the analysis looks like Session 5: normalize, reduce dimensions, cluster, name clusters with markers. Then comes the new step, using position.</p>
-  </section>
-
-  <section class="band" id="pitfalls" aria-labelledby="pitfalls-h">
-    <div class="band-head"><h2 id="pitfalls-h">Where the table can mislead you</h2></div>
-    <ul>
-      <li><b>The panel decides what you can see.</b> A gene that is not on the panel reads as zero in every cell. Absent from the data does not mean not expressed. The lung data in 6.2 has 289 genes; there is no <code>PTPRC</code> and no <code>SFTPC</code>.</li>
-      <li><b>Few molecules per cell.</b> The lung run in 6.2 has a median of 56 transcripts per cell. The PBMC run in Session 5 had a median of 7,867 UMIs. Clusters rest on far less information.</li>
-      <li><b>Segmentation spills over.</b> Cells in a section touch and overlap. A boundary drawn a little too wide picks up transcripts from the neighbor, so a macrophage next to epithelium can appear to express an epithelial gene. You will measure this in <a href="../session6.3/">6.3</a>.</li>
-      <li><b>A section is a slice.</b> It is a few micrometers thick, so many cells are cut through, and the field of view may not represent the whole tissue.</li>
-    </ul>
-  </section>
-
-  <section class="band" id="niches" aria-labelledby="niches-h">
-    <div class="band-head"><h2 id="niches-h">Neighborhoods and niches</h2></div>
-    <p>A <b>niche</b> is a group of cells whose surroundings look alike. The Seurat function the Foundry pipeline uses, <code>BuildNicheAssay</code>, does it in two steps: for each cell, count the cluster labels of its 20 nearest neighbors in space; then group cells with similar counts into a set number of niches, 4 by default. A cell&rsquo;s cluster says what it is. Its niche says what it lives among.</p>
-    <p>The number of niches is a choice, like the clustering resolution in Session 5. Four is a default, not a finding.</p>
-  </section>
-
-  <section class="band" id="study" aria-labelledby="study-h">
-    <div class="band-head"><h2 id="study-h">The study: Wang et al. 2026, Nature Immunology</h2></div>
-    <p>The study comes from Manuel Garber&rsquo;s lab at UMass Chan. It asks why skin from people with photosensitive autoimmune disease, including cutaneous lupus and dermatomyositis, becomes inflamed. The authors measured skin with seqFISH on a 511 gene panel and with single-cell RNA-seq. They report a <b>spatially coordinated circuit</b>: keratinocytes and fibroblasts that sit together recruit <b>MMP9<sup>+</sup> myeloid cells</b>, which drive type I interferon inflammation.</p>
-    <p>Read it with three questions in mind:</p>
-    <ol>
-      <li>Which claims need position? Which could single-cell data alone have made?</li>
-      <li>How do the authors show that two cell types are closer than chance, and what is their null?</li>
-      <li>With 511 genes, what could they not have seen?</li>
-    </ol>
+  <section class="band" id="slides" aria-labelledby="slides-h">
+    <div class="band-head"><h2 id="slides-h">Slides</h2></div>
     <div class="links">
-      <a href="https://www.nature.com/articles/s41590-026-02502-w"><span class="k">Paper</span><strong>Wang et al. 2026, Nature Immunology</strong><span class="d">A keratinocyte to fibroblast circuit recruits MMP9<sup>+</sup> myeloid cells in photosensitive autoimmunity.</span><span class="u">nature.com</span></a>
-      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12393449/"><span class="k">Free text</span><strong>The same paper on PubMed Central</strong><span class="d">Open access full text and figures.</span><span class="u">pmc.ncbi.nlm.nih.gov</span></a>
+      <a href="../slides/session6/Session6_Spatial_Intro_Manuel_Garber.pptx" download><span class="k">Slides</span><strong>A few words on spatial data</strong><span class="d">Manuel Garber&rsquo;s lecture slides, PowerPoint, 9 slides.</span><span class="u">31 MB</span></a>
     </div>
+    <h3>What the lecture covers</h3>
+    <ol>
+      <li><b>The shape of the data.</b> Bulk RNA-seq gives one column of read counts per sample. Single-cell gives one column per cell within each sample. Spatial keeps that per cell table and adds an X and a Y for every cell.</li>
+      <li><b>It builds on single-cell analysis.</b> Quality control, normalization, clustering and naming cell types work as in <a href="../session5.1/">5.1</a>. Spatial analysis starts from there.</li>
+      <li><b>Why spatial.</b> Inferring communication between cells from ligand and receptor expression, or even from their downstream targets, is far from optimal when you do not know whether the two cells ever meet.</li>
+      <li><b>Spatial can include proximity.</b> Position lets you ask which cells are neighbors, and so whether a sender and a receiver are close enough to talk.</li>
+      <li><b>Not all technologies work the same way.</b> Spatial methods differ in how they read RNA in place, and that shapes what the data can show. <a href="../session6.2/#methods">6.2</a> compares imaging and sequencing based methods.</li>
+    </ol>
   </section>
 
   <section class="band" aria-labelledby="links-h">
     <div class="band-head"><h2 id="links-h">Links</h2></div>
     <div class="links">
-      <a href="https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/analysis/xoa-output-understanding-outputs"><span class="k">Docs</span><strong>Understanding Xenium outputs</strong><span class="d">What each file in a Xenium output folder holds.</span><span class="u">10xgenomics.com</span></a>
-      <a href="https://satijalab.org/seurat/articles/seurat5_spatial_vignette_2"><span class="k">Tutorial</span><strong>Seurat: imaging based spatial data</strong><span class="d">Loading Xenium into Seurat, spatial plots, and niches.</span><span class="u">satijalab.org</span></a>
-      <a href="../session5.1/"><span class="k">Earlier</span><strong>5.1 Intro to scRNA-seq</strong><span class="d">QC, clustering and naming cell types, all used again here.</span><span class="u">session5.1</span></a>
-      <a href="../session6.2/"><span class="k">Next</span><strong>6.2 Xenium on Foundry</strong><span class="d">Run the Xenium pipeline on public lung data with an agent.</span><span class="u">session6.2</span></a>
+      <a href="../session5.1/"><span class="k">Earlier</span><strong>5.1 Intro to scRNA-seq</strong><span class="d">The single-cell analysis that spatial builds on.</span><span class="u">session5.1</span></a>
+      <a href="../session6.2/"><span class="k">Next</span><strong>6.2 Spatial transcriptomics</strong><span class="d">Panels, segmentation, niches, and the Wang et al. 2026 study.</span><span class="u">session6.2</span></a>
     </div>
   </section>
 
@@ -131,7 +76,7 @@
 
   <nav class="pager" aria-label="Previous and next part">
     <a class="prev" href="../session5.3/"><span class="k">&larr; Previous</span><strong>5.3 Homework</strong></a>
-    <a class="next" href="../session6.2/"><span class="k">Next &rarr;</span><strong>6.2 Xenium on Foundry</strong></a>
+    <a class="next" href="../session6.2/"><span class="k">Next &rarr;</span><strong>6.2 Spatial transcriptomics</strong></a>
   </nav>
 
   <footer class="foot">
