@@ -46,6 +46,65 @@
     </div>
   </header>
 
+  <section class="band" aria-labelledby="recording-h" id="recording">
+    <div class="band-head"><h2 id="recording-h">Recordings</h2></div>
+    <p class="lede">Alper&rsquo;s part of the session, in six parts. Parts 3 and 4 run the hands-on below live.</p>
+    <h3>Part 1: a tour of Foundry</h3>
+    <p>What Foundry keeps for you. Datasets: added by hand, from GEO, from S3 or Google Cloud buckets, from the cluster, or from BaseSpace, or created by an agent. The Xenium pipeline for this session, which Claude built from a one-paragraph request. Pipelines are reusable processes with their inputs, outputs, scripts and containers recorded; a 2016 RNA-seq pipeline still runs today. The agent can explain every parameter, for example why miRNA reads don&rsquo;t map with the default minimum length. Then a 2019 run, duplicated with all its settings to rerun on new data, and a question on why to use Foundry at all: a pipeline you can rerun or share without spending tokens again.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session6/03_Alper_Kucukural_Foundry_Tour.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Alper Kucukural &middot; Foundry tour &middot; 25 minutes</figcaption>
+      </figure>
+    <h3>Part 2: foundation models and safe setups</h3>
+    <p>Foundation models such as scGPT are multiplying, and many need a GPU, so they run on the cluster rather than on your laptop. How to use AI agents without exposing private data: run in isolated containers, open only the folders you choose (read-only where you can), develop on public or fake data, and switch to the real data only once the code works. Then only error messages ever reach the model. A question on why to use a specialized model instead of Claude alone. The screen is blurred for part of this video because it showed internal servers; the audio is complete.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session6/04_Alper_Kucukural_Models_and_Safe_Setups.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Alper Kucukural &middot; models and safe setups &middot; 11 minutes</figcaption>
+      </figure>
+    <h3>Part 3: add Foundry to Claude</h3>
+    <p>Settings, Connectors, Add custom connector, with the Foundry MCP address, then sign in with your Foundry account. The connector exposes 87 tools: datasets, runs, reports, processes and apps. For each tool you choose whether Claude must ask for approval first. Search tools are rate limited so one agent cannot overload the system.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session6/05_Alper_Kucukural_Connect_Foundry_to_Claude.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Alper Kucukural &middot; connecting Foundry &middot; 9 minutes</figcaption>
+      </figure>
+    <h3>Part 4: the Xenium run, live</h3>
+    <p>The <a href="#run">hands-on below</a>, start to finish. Make the folder, trust only that folder in Claude (code versus Cowork), and paste the template-run prompt. Along the way: why a Singularity container keeps an analysis reproducible for years, and how the same request scales to many GEO datasets. The agent creates the project, duplicates the template run, and asks which environment and execution directory to use. Then you check the form, read the expected preflight warning, see how a missing required field blocks the run, and press Run.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session6/06_Alper_Kucukural_Xenium_Run_Live.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Alper Kucukural &middot; live run &middot; 33 minutes</figcaption>
+      </figure>
+    <h3>Part 5: the results</h3>
+    <p>Pipeline versions belong to you, so you cannot break the shared pipeline. Then a tour of the Xenium report: QC violins, genes against UMIs, choosing the number of PCs, 27 clusters against 4 niches, the tissue view and the cluster markers. Clusters are a starting point to merge or split, not a final answer. Then the agent downloads the run&rsquo;s RDS object, colors two genes on the tissue, builds an interactive HTML page for the top five genes, and uploads it back into the run&rsquo;s reports, using about 10,000 tokens.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session6/07_Alper_Kucukural_Xenium_Results.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Alper Kucukural &middot; results &middot; 25 minutes</figcaption>
+      </figure>
+    <h3>Part 6: what is coming, and closing</h3>
+    <p>Features still in testing: model skills that download a model such as scGPT and run it on the cluster&rsquo;s GPUs, knowledge bases attached to your projects, and a channel that lets the Claude on your laptop send work to the cluster without opening your other folders. The screen is blurred while it shows the test server; the audio is complete. Then the course wrap-up and thanks.</p>
+      <figure class="video">
+        <video controls controlslist="nodownload" disablepictureinpicture preload="none" playsinline oncontextmenu="return false">
+          <source src="../videos/session6/08_Alper_Kucukural_Whats_Next.mp4" type="video/mp4">
+          Your browser cannot play this video.
+        </video>
+        <figcaption>Alper Kucukural &middot; what is coming &middot; 7 minutes</figcaption>
+      </figure>
+  </section>
+
   <section class="band" id="data" aria-labelledby="data-h">
     <div class="band-head"><h2 id="data-h">The data</h2></div>
     <p>10x Genomics&rsquo; public <b>Xenium human lung, 2 fields of view</b> dataset (<code>Xenium_V1_human_Lung_2fov</code>, CC BY 4.0): a piece of a human lung section about 1.2 by 0.75 mm, measured with a 289 gene panel. The output bundle holds 11,898 segmented cells. It is small on purpose, so the run finishes during class.</p>
